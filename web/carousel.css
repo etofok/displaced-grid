@@ -61,16 +61,16 @@
 }
 
 .button-slide-thumbnail {
-    width: 95px;
-    height: 59px;
-    margin: 8px;
+    width: 85px;
+    height: 55px;
+    margin: 4px;
     background-size: 100% 100%;
     background-position: 0 90%;
     cursor: pointer;
     text-align: left;
     filter: brightness(75%);
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px, rgba(0, 0, 0, .3) 15px 1.5rem 25px -18px;
-    transition: all 235ms ease-in-out;
+    transition: all 200ms ease-in-out;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;

@@ -30,7 +30,7 @@ const modules = [
         'assets/modules/QuickCast Items.mp4', 
         'e_slideBig',
         'e_thumbnail',
-        'This module allows you to cast items instantly with a key press, eliminating the need for a mouse click.'
+        'This module allows you to cast items instantly with a key press, eliminating the need for a mouse click.<br>As a bonus, you can set up specific Quick Cast slots.'
         ),
     m_RapidFire                = new ModuleData(
         2, 
@@ -72,8 +72,18 @@ const modules = [
         'e_thumbnail',
         'Warcraft III didn`t have a "Cast on Yourself" feature. Now it does. <br> Doesnt work for items.'
         ),
-    m_QuickDropItems            = new ModuleData(
+    m_PreventAltFromTogglingHealthbars            = new ModuleData(
         6, 
+        'Block ALT key', 
+        'ALT no longer toggles off the healthbars.', 
+        'assets/modules/Block ALT key.png', 
+        'assets/modules/Block ALT key.mp4', 
+        'e_slideBig',
+        'e_thumbnail',
+        'This is great, because in Displaced Grid we press down ALT to activate Items. <br>This means, for example, you will not lose healthbars when trying to apply healing salves.'
+        ),    
+    m_QuickDropItems            = new ModuleData(
+        7, 
         'QuickDrop items', 
         'Quickly pass, sell, or drop items at the cursor!', 
         'assets/modules/QuickDrop Items.png', 
@@ -83,7 +93,7 @@ const modules = [
         'In Warcraft III, inventory management is done via drag-and-drop. <br> This module introduces a new modifier key for items: CTRL. <br> By holding CTRL and using an item, you can quickly Drop, Pass, or Sell it. <br> P.S. Please note that some initial setup is required for this module to function correctly.'
         ),
     m_CameraHotkeys             = new ModuleData(
-        7, 
+        8, 
         'Instant camera', 
         'Instantly move the camera to the location of your selected control groups!', 
         'assets/modules/Instant Camera.png', 
@@ -93,7 +103,7 @@ const modules = [
         'By default, double-tapping a control group key jumps the camera to that group. <br> This module enables you to change this behavior, allowing you to instantly jump to a control group with a single tap of its key.'
         ),
     m_ShiftQueueItems      = new ModuleData(
-        8, 
+        9, 
         'Shift-Queue items', 
         'Shift-Queue items while holding Shift!', 
         'assets/modules/Shift-Queue Items.png', 
