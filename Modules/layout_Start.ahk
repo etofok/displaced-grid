@@ -35,7 +35,13 @@ Global	Item4 				:= 	[]
 Global	Item5 				:= 	[]
 Global	Item6 				:= 	[]
 
-Global	MouseButtonRight 	:= 	[]
+Global	mouse1key 			:= 	[]
+Global	mouse2key 			:= 	[]
+Global	altkey 				:= 	[]
+Global	ctrlkey				:= 	[]
+Global	shiftkey			:= 	[]
+Global	capslockkey			:= 	[]
+Global	tabkey				:= 	[]
 
 ;-------------------------------------------
 ; Command Card.
@@ -45,6 +51,14 @@ Global	MouseButtonRight 	:= 	[]
 ; | 0,0 | 1,0 | 2,0 | 3,0 |
 ; | 0,1 | 1,1 | 2,1 | 3,1 |
 ; | 0,2 | 1,2 | 2,2 | 3,2 |
+
+altkey.logicalKey 			:= 	"{LAlt}"
+ctrlkey.logicalKey 			:= 	"{LCtrl}"
+shiftkey.logicalKey			:= 	"{LShift}"
+capslockkey.logicalKey		:= 	"{CapsLock}"
+mouse1key.logicalKey 		:= 	"{Lbutton}"
+mouse2key.logicalKey 		:= 	"{Rbutton}"
+tabkey.logicalKey 			:= 	"{Tab}"
 
 GRID_00.logicalKey 			:= 	"{q}"	; Parentheses are necessary, because otherwise the hotkeys won't work once you change the language in Windows
 GRID_10.logicalKey			:=	"{w}"
@@ -108,4 +122,3 @@ Item6.logicalKey 			:=	"{numpad2}"
 
 ;-------------------------------------------
 
-MouseButtonRight.logicalKey := "{Rbutton}"

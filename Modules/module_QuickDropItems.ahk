@@ -36,22 +36,13 @@ if (b_QuickDropItems == 1) {
 
 QuickDrop(objItem) {
 
-	if (b_QuickDropItems == 0) {
-
-		if (b_EventLog) {
-			UpdateEventLog("QuickDropItems module is off!")	
-		}
-
-		return
-	}
-
 	ItemX := objItem.x
 	ItemY := objItem.y+4 ; a few pixels below the coordinates specified in UserSettings.ahk
 
 	MouseGetPos, StartX, StartY			; remember where the mouse cursor is
 
 	; if Shift is pressed down...
-	if !(GetKeyState("Shift", "P")) {	
+	if !(keyPressed_LShift) {	
 		Send {Click Right}										; issue a right-click, so the unit starts to move towards the target immediately. 
 		Send {Click %ItemX% %ItemY% Right}						; grab the item on the interface
 		Send {Click %StartX% %StartY%}							; otherwise Mouse Left Click

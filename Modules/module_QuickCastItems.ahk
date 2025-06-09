@@ -48,11 +48,22 @@ if (b_QuickCastItems == 1) {
 ; QuickCastItems Module 
 ;-----------------------------------------
 
-QuickCast(objItem) {
+; The module assumes the item is quickcast-ables
+
+QuickCastItem(objItem) {
 
 	if (b_EventLog) {
-		UpdateEventLog("--- QuickCast Items --- ")
+		UpdateEventLog("--- QuickCast Item --- ")
 		UpdateEventLog("Slot: " objItem.slot "; x: " objItem.x "; y: " objItem.y)	
+	}
+
+	; ONLY QUICK CAST IF THE ITEM SLOT HAS BEEN SPECIFIED TO BE QUICKCAST-ABLE IN SETTINGS
+	if (objItem.quickcast == 0) {
+
+		if (b_EventLog) {
+			UpdateEventLog("Item " objItem.slot " is NOT QuickCast-able")
+		}
+		return
 	}
 
 	;-----------------------------------------
@@ -64,8 +75,9 @@ QuickCast(objItem) {
 
 	if !(image_cdX > 0) {
 			
-		if (b_EventLog)
+		if (b_EventLog) {
 			UpdateEventLog("Slot Item " objItem.slot " is Empty!")	
+		}
 
 		return
 	}
@@ -77,8 +89,9 @@ QuickCast(objItem) {
 
 	if (image_cdX > 0) {
 			
-		if (b_EventLog) 
+		if (b_EventLog) {
 			UpdateEventLog("Item " objItem.slot " is on Cooldown!")	
+		}
 
 		return
 	}
@@ -90,19 +103,25 @@ QuickCast(objItem) {
 	; if the item is a passive item, what will happen is you'll leftclick something.
 	; SOLUTION: just don't 'activate' your passive items.
 	
-	if (GetKeyState("Shift", "P")) {
+	if (keyPressed_LShift) {
 
 		Send {Shift Down}{Click}{Shift Up}
 
-		if (b_EventLog)
+		if (b_EventLog) {
 			UpdateEventLog("QuickCast: SHIFT CLICK!")
+		}
 
 	} else {
 
 		Send {Click}
 
-		if (b_EventLog)
+		if (b_EventLog) {
 			UpdateEventLog("QuickCast Items: CLICK!")
+		}
+	}
+
+	if (b_RapidFire == 1) {
+		RapidFire()
 	}
 }
 

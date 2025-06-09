@@ -4,25 +4,35 @@
 ;	Download Latest: https://github.com/etofok/Displaced-Grid-for-Warcraft-III
 
 ;	Development: 
-;	Dec 10th, 2023 - April 12th, 2025
+;	Dec 10th, 2023 - June 9th, 2025
 ;-----------------------------------------
 
 #SingleInstance force
 #NoEnv
 #Persistent
+#UseHook
+
+;SendMode Input
 
 if not A_IsAdmin
 	Run *RunAs "%A_ScriptFullPath%"
 
-Global currentVersion				:= "v1.4.1"
+Global currentVersion				:= "v1.5.0"
 Global winTitle 					:= "ahk_class OsWindow" ; Warcraft III class name, as seen in WindowSpy of AutoHotkey
 Global winName 						:= "Warcraft III"		; Warcraft III window name, as seen in WindowSpy of AutoHotkey
+
+Global keyPressed_LAlt 				:= 0
+Global keyPressed_LCtrl 			:= 0
+Global keyPressed_LShift 			:= 0
+Global keyPressed_CapsLock 			:= 0
+Global keyPressed_Mouse1 			:= 0
+Global keyPressed_Mouse2 			:= 0
 
 SetWorkingDir %A_ScriptDir%
 SetTitleMatchMode, 3
 
 ; miscellaneous
-Global FlashSplashTime 				:= 150
+Global FlashSplashTime 				:= 100
 Global PortraitUI 					:= []
 Global error_warcraftNotFound 		:= "Application has loaded correctly, but `n Warcraft III is NOT FOUND!`n`nPlease launch Warcraft III and restart the app!"
 
@@ -33,18 +43,20 @@ Global error_warcraftNotFound 		:= "Application has loaded correctly, but `n War
 #include *i %A_ScriptDir%\Modules\layout_DisplacedGrid.ahk
 #include *i %A_ScriptDir%\Modules\layout_SetHotkeys.ahk
 
+#Include *i %A_ScriptDir%\Modules\Hotkey_Modifiers.ahk
 #Include *i %A_ScriptDir%\Modules\Hotkey_CommandCard.ahk
-#Include *i %A_ScriptDir%\Modules\Hotkey_ControlGroup.ahk
+#Include *i %A_ScriptDir%\Modules\Hotkey_Bind.ahk
 #Include *i %A_ScriptDir%\Modules\Hotkey_Item.ahk
 
 
 Hotkey, %Hotkey_Toggle_DisplacedGrid%, 					Toggle_DisplacedGrid,		UseErrorLevel
 Hotkey, %Hotkey_ScriptReload%, 							ScriptReload,				UseErrorLevel
 
+Hotkey, IfWinActive, ahk_class OsWindow
+
 Hotkey, %Hotkey_Send_glhf%,								Send_glhf,					UseErrorLevel
 Hotkey, %Hotkey_Send_gg%, 								Send_gg,					UseErrorLevel
 
-Hotkey, IfWinActive, ahk_class OsWindow
 
 ;-----------------------------------------
 ; App control hotkeys
@@ -84,6 +96,7 @@ Menu, Tray, Add, 		MODULES, handler_blank
 Menu, Tray, Disable, 	MODULES
 
 ; ADDING MODULES ONE BY ONE...
+#Include 				*i %A_ScriptDir%\Modules\module_PreventAltfromTogglingHealthbars.ahk
 #Include 				*i %A_ScriptDir%\Modules\module_QuickCastItems.ahk
 #Include 				*i %A_ScriptDir%\Modules\module_RapidFire.ahk
 #Include 				*i %A_ScriptDir%\Modules\module_CommandMultipleGroups.ahk
@@ -134,6 +147,7 @@ if (b_DisplacedGrid == 1) {
 	Control_DisplacedGrid(0) ; otherwise don't enable the hotkeys on launch
 }
 
+
 ;--------------------
 ; --- E N D  O F  A U T O L A U N C H ---
 ;-----------------------------------------
@@ -143,8 +157,8 @@ return ; this return is the most important line of code
 ; all modules get added in the autorun section above
 
 
-
 #IfWinActive
+
 
 ;--------------------------------
 ; DisplacedGrid Control
@@ -317,36 +331,15 @@ return
 ;----------------------------------------------------------------
 
 ;--------------------------------
-; Get info whether the Shift and/or Ctrl keys are pressed down
-;--------------------------------
-
-GetModifiersState() {
-
-	if (GetKeyState("Shift", "P")) {
-		appendModifiers .= "+"
-	}
-
-	if (GetKeyState("Ctrl", "P")) {
-		appendModifiers .= "^"
-	}
-
-	if (GetKeyState("Alt", "P")) {
-		appendModifiers .= "!"
-	}
-
-	return appendModifiers
-}
-
-;--------------------------------
 ; Translate Tooltip Hotkeys to Human Language
 ;--------------------------------
 
 ReplaceModifiers(str) {
     ; Replace symbols with corresponding names
-    str := StrReplace(str, "+", "SHIFT + ")		; start with the "+"!
-    str := StrReplace(str, "!", "ALT + ")
-    str := StrReplace(str, "^", "CTRL + ")
-    str := StrReplace(str, "#", "WIN + ")
+    str := StrReplace(str, "+", "SHIFT+")		; start with the "+"!
+    str := StrReplace(str, "!", "ALT+")
+    str := StrReplace(str, "^", "CTRL+")
+    str := StrReplace(str, "#", "WIN+")
     return str
 }
 
@@ -402,5 +395,3 @@ handler_blank() {
 }
 
 #IfWinActive
-
-

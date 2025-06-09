@@ -3,6 +3,14 @@
 
 load_DisplacedGrid() {
 
+	altkey.physicalKey			:= 	"LAlt"
+	ctrlkey.physicalKey			:= 	"LCtrl"
+	shiftkey.physicalKey		:= 	"LShift"
+	capslockkey.physicalKey		:= 	"CapsLock"
+	mouse1key.physicalKey		:= 	"LButton"	; not used
+	mouse2key.physicalKey		:= 	"RButton"
+	tabkey.physicalKey			:= 	"Tab"
+
 	SelectHero1.physicalKey		:= 	"1"
 	SelectHero2.physicalKey		:= 	"2"
 	SelectHero3.physicalKey		:= 	"3"
@@ -40,12 +48,11 @@ load_DisplacedGrid() {
 	GRID_22.physicalKey 		:= 	"t"
 	GRID_32.physicalKey 		:= 	"4"
 
-	Item1.physicalKey			:=	"!q"
-	Item2.physicalKey			:=	"!w"
-	Item3.physicalKey			:=	"!a"
-	Item4.physicalKey			:=	"!s"
-	Item5.physicalKey			:=	"!z"
-	Item6.physicalKey			:=	"!x"
-
-	MouseButtonRight.physicalKey:=	"Rbutton"
+	; Items are hardcoded to use ALT, please be aware.
+	Item1.physicalKey			:=	"q"
+	Item2.physicalKey			:=	"w"
+	Item3.physicalKey			:=	"a"
+	Item4.physicalKey			:=	"s"
+	Item5.physicalKey			:=	"z"
+	Item6.physicalKey			:=	"x"
 }

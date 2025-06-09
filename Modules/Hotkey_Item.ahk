@@ -11,17 +11,13 @@
 
 Hotkey_Item(objCommand) {
 
-	UpdateEventLog("--- Hotkey_Item ----")
-
-	appendModifiers := GetModifiersState()
-
 	if (b_EventLog) {
-		mods := ReplaceModifiers(appendModifiers)
-		UpdateEventLog("Physical Key Pressed:`t" mods A_ThisHotkey "`nCorresponding GRID:`t" objCommand.logicalKey)	
+		UpdateEventLog("--- Hotkey_Item ----")
+		UpdateEventLog("Physical Key:`t" A_ThisHotkey "`nLogical key:`t" objCommand.logicalKey)	
 	}
 
 	; Shift-keyed Item Key Usage
-	if (GetKeyState("Shift", "P")) {
+	if (keyPressed_LShift) {
 
 		; By default, we cannot activate Item keys while Shift is pressed down: there's just no effect - the item hotkey is ignored.
 		; We must let go of the Shift key, activate the Item Hotkey, THEN hold down Shift and only then select the target.
@@ -29,30 +25,33 @@ Hotkey_Item(objCommand) {
 
 		if (b_ShiftQueueItems == 1) {
 
+			if (b_EventLog) {
+				UpdateEventLog("Module QuickCastItems is ON")
+			}
+
 			Send % "{Shift Down}"objCommand.logicalKey
 
-			if (b_EventLog)
+			if (b_EventLog) {
 				UpdateEventLog("Shift Queueing item...")
-
-			if (b_QuickCastItems == 1) {
-				QuickCast(objCommand)
-
-				if (b_RapidFire == 1) {
-					RapidFire_queue()
-				}
 			}
-		} 
 
-		if (b_ShiftQueueItems == 1) {
+			; ONLY QUICK CAST IF THE MODULE IS ENABLED
+			if (b_QuickCastItems == 1) {
+				
+				QuickCastItem(objCommand)
 
-			; By default, we cannot activate Item keys while Shift is pressed down: there's just no effect - the item hotkey is ignored.
+			}
+		}
 
-			if (b_EventLog)
+		; By default, we cannot activate Item keys while Shift is pressed down: there's just no effect - the item hotkey is ignored.
+		if (b_ShiftQueueItems == 0) {
+
+			if (b_EventLog) {
 				UpdateEventLog("Attempt to activate " objCommand.logicalKey "`n(Default behavior - no action)")
+			}
 		}
 
 	; No "Shift" Item Usage
-
 	} else { ; if (GetKeyState("Shift", "P")) {
 
 		; QuickCastItems is a module that fires a pseudo quick cast
@@ -60,21 +59,21 @@ Hotkey_Item(objCommand) {
 
 		Send % objCommand.logicalKey ; fire layout key to active item
 
+		; ONLY QUICK CAST IF THE MODULE IS ENABLED
 		if (b_QuickCastItems == 1) {
-			
-			if (b_EventLog)
-				UpdateEventLog("QuickCast Item: " objCommand.logicalKey)
 
-			QuickCast(objCommand)
+			if (b_EventLog) {
+				UpdateEventLog("Module QuickCastItems is ON")
+			}
 
-			if (b_RapidFire == 1) {
-				RapidFire()
-			}	
+			QuickCastItem(objCommand)
+
 		}
 
 		if (b_QuickCastItems == 0) {
-			if (b_EventLog)
-				UpdateEventLog("Cast Item: " objCommand.logicalKey)
+			if (b_EventLog) {
+				UpdateEventLog("Module QuickCast Items is OFF")
+			}
 		}
 	}
 }

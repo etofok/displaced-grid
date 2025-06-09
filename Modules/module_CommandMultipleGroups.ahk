@@ -26,13 +26,15 @@ Menu, Tray, Add, %menu_Toggle_CommandMultipleGroups%,	Toggle_CommandMultipleGrou
 ; Capslock Right Click to Order Right Click
 ;-----------------------------------------
 
+; hardcoded right click to this because I'm really tired of this already
+; this allows us to hold down capslock as a modifier and command groups with right click as well
 If (false) {
 
-	#If GetKeyState("CapsLock", "P")
+	#If keyPressed_CapsLock && b_CommandMultipleGroups
 		
 		*RButton:: 
 
-			CommandMultipleGroups(GetModifiersState(), MouseButtonRight)
+			CommandMultipleGroups(mouse2key)
 
 		return
 
@@ -54,20 +56,28 @@ if (b_CommandMultipleGroups == 1) {
 ;-----------------------------------------
 ; Module Control
 
-CommandMultipleGroups(modifiers, objCommand) {
+CommandMultipleGroups(objCommand) {
+
+	if (b_EventLog) {
+		UpdateEventLog("CommandMultipleGroups: " objCommand.logicalKey)
+	}
 
 	; The loop goes from the last group to the first, so that at the end of it we end up with the first group (which is most likely out 'main' group)
 	Loop, % ControlGroups.MaxIndex() {
 	    i := ControlGroups.MaxIndex() - A_Index + 1
-	    if (ControlGroups[i].commandThisGroup == 1) {
-	        Send % ControlGroups[i].logicalKey
-	        Send % modifiers objCommand.logicalKey
-	    }
-	}
 
-	if (b_EventLog) {
-		modifiers := ReplaceModifiers(modifiers)
-		UpdateEventLog("Command Multiple Groups:`n" modifiers objCommand.logicalKey)	
+	    if (ControlGroups[i].commandThisGroup == True) {
+
+	        Send % ControlGroups[i].logicalKey
+
+	        ; account for shift-queue
+	        if (keyPressed_LShift) {
+	        	Send % "+"objCommand.logicalKey
+	        ; otherwise just send the command
+        	} else {
+	        	Send % objCommand.logicalKey
+        	}
+	    }
 	}
 }
 

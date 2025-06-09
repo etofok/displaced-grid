@@ -13,11 +13,27 @@ SetHotkeys(activeOrNot) {
 	; 5 for Jump to Recent Event
 	; ----------------------------------------------------
 
-	set_SelectHero1									:= Func("Hotkey_CommandCard").bind(SelectHero1)
-	set_SelectHero2									:= Func("Hotkey_CommandCard").bind(SelectHero2)
-	set_SelectHero3									:= Func("Hotkey_CommandCard").bind(SelectHero3)
-	set_IdleWorker									:= Func("Hotkey_CommandCard").bind(IdleWorker)
-	set_JumpToEvent									:= Func("Hotkey_CommandCard").bind(JumpToEvent)
+	set_altkey										:= Func("Hotkey_LAlt").bind(altkey)
+	set_ctrlkey										:= Func("Hotkey_LCtrl").bind(ctrlkey)
+	set_shiftkey									:= Func("Hotkey_LShift").bind(shiftkey)
+	set_capslockkey									:= Func("Hotkey_CapsLock").bind(capslockkey)
+	set_tabkey										:= Func("Hotkey_Tab").bind(tabkey)
+
+	if (b_PreventAltfromTogglingHealthbars) {
+		Hotkey % "*"altkey.physicalKey,					% set_altkey, 		%activeOrNot% 
+	} else {
+		Hotkey % "~*"altkey.physicalKey,				% set_altkey, 		%activeOrNot% 
+	}
+	Hotkey % "~*"ctrlkey.physicalKey,				% set_ctrlkey, 		%activeOrNot%
+	Hotkey % "~*"shiftkey.physicalKey,				% set_shiftkey,		%activeOrNot%
+	Hotkey % "~*"tabkey.physicalKey,				% set_tabkey, 		%activeOrNot%
+	Hotkey % "~*"capslockkey.physicalKey,			% set_capslockkey, 	%activeOrNot%
+
+	set_SelectHero1									:= Func("Hotkey_bind").bind(SelectHero1)
+	set_SelectHero2									:= Func("Hotkey_bind").bind(SelectHero2)
+	set_SelectHero3									:= Func("Hotkey_bind").bind(SelectHero3)
+	set_IdleWorker									:= Func("Hotkey_bind").bind(IdleWorker)
+	set_JumpToEvent									:= Func("Hotkey_bind").bind(JumpToEvent)
 
 	Hotkey % "*"SelectHero1.physicalKey,			% set_SelectHero1, 	%activeOrNot%
 	Hotkey % "*"SelectHero2.physicalKey,			% set_SelectHero2, 	%activeOrNot%
@@ -28,34 +44,42 @@ SetHotkeys(activeOrNot) {
 	; ----------------------------------------------------
 	; Control Groups. 
 	;
-	; Defaults are f1 f2 f3 f4 qw as zx
+	; Defaults are qw as zx f1 f2 f3 f4 
 	; -------------
 
-	set_ControlGroup1								:= Func("Hotkey_ControlGroup").bind(ControlGroup1)
-	set_ControlGroup2								:= Func("Hotkey_ControlGroup").bind(ControlGroup2)
-	set_ControlGroup3								:= Func("Hotkey_ControlGroup").bind(ControlGroup3)
-	set_ControlGroup4								:= Func("Hotkey_ControlGroup").bind(ControlGroup4)
-	set_ControlGroup5								:= Func("Hotkey_ControlGroup").bind(ControlGroup5)
-	set_ControlGroup6								:= Func("Hotkey_ControlGroup").bind(ControlGroup6)
-	set_ControlGroup7								:= Func("Hotkey_ControlGroup").bind(ControlGroup7)
-	set_ControlGroup8								:= Func("Hotkey_ControlGroup").bind(ControlGroup8)
-	set_ControlGroup9								:= Func("Hotkey_ControlGroup").bind(ControlGroup9)
-	set_ControlGroup0								:= Func("Hotkey_ControlGroup").bind(ControlGroup0)
+	ControlGroup1_key								:= Func("Hotkey_bind").bind(ControlGroup1)
+	ControlGroup2_key								:= Func("Hotkey_bind").bind(ControlGroup2)
+	ControlGroup3_key								:= Func("Hotkey_bind").bind(ControlGroup3)
+	ControlGroup4_key								:= Func("Hotkey_bind").bind(ControlGroup4)
+	ControlGroup5_key								:= Func("Hotkey_bind").bind(ControlGroup5)
+	ControlGroup6_key								:= Func("Hotkey_bind").bind(ControlGroup6)
+	ControlGroup7_key								:= Func("Hotkey_bind").bind(ControlGroup7)
+	ControlGroup8_key								:= Func("Hotkey_bind").bind(ControlGroup8)
+	ControlGroup9_key								:= Func("Hotkey_bind").bind(ControlGroup9)
+	ControlGroup0_key								:= Func("Hotkey_bind").bind(ControlGroup0)
 
-	Hotkey % "*"ControlGroup1.physicalKey,			% set_ControlGroup1, %activeOrNot%
-	Hotkey % "*"ControlGroup2.physicalKey,			% set_ControlGroup2, %activeOrNot%
-	Hotkey % "*"ControlGroup3.physicalKey,			% set_ControlGroup3, %activeOrNot%
-	Hotkey % "*"ControlGroup4.physicalKey,			% set_ControlGroup4, %activeOrNot%
-	Hotkey % "*"ControlGroup5.physicalKey,			% set_ControlGroup5, %activeOrNot%
-	Hotkey % "*"ControlGroup6.physicalKey,			% set_ControlGroup6, %activeOrNot%
-	Hotkey % "*"ControlGroup7.physicalKey,			% set_ControlGroup7, %activeOrNot%
-	Hotkey % "*"ControlGroup8.physicalKey,			% set_ControlGroup8, %activeOrNot%
-	Hotkey % "*"ControlGroup9.physicalKey,			% set_ControlGroup9, %activeOrNot%
-	Hotkey % "*"ControlGroup0.physicalKey,			% set_ControlGroup0, %activeOrNot%
+	Hotkey % "*"ControlGroup1.physicalKey,			% ControlGroup1_key, %activeOrNot%
+	Hotkey % "*"ControlGroup2.physicalKey,			% ControlGroup2_key, %activeOrNot%
+	Hotkey % "*"ControlGroup3.physicalKey,			% ControlGroup3_key, %activeOrNot%
+	Hotkey % "*"ControlGroup4.physicalKey,			% ControlGroup4_key, %activeOrNot%
+	Hotkey % "*"ControlGroup5.physicalKey,			% ControlGroup5_key, %activeOrNot%
+	Hotkey % "*"ControlGroup6.physicalKey,			% ControlGroup6_key, %activeOrNot%
+	Hotkey % "*"ControlGroup7.physicalKey,			% ControlGroup7_key, %activeOrNot%
+	Hotkey % "*"ControlGroup8.physicalKey,			% ControlGroup8_key, %activeOrNot%
+	Hotkey % "*"ControlGroup9.physicalKey,			% ControlGroup9_key, %activeOrNot%
+	Hotkey % "*"ControlGroup0.physicalKey,			% ControlGroup0_key, %activeOrNot%
 
+
+	; Since Items are on the same hotkeys as some of the Control Groups, I have to handle the logic inside the Hotkey_bind function.
+	; Otherwise if I do bind 2 functions to the same key it won't understand it.
+	; or rather it would... BUT if I also BLOCK the Alt key (which I do), then AHK will never "see" Alt+Key as something that has been pressed by the user. Which means I can't bind a function explicitly to Alt+Key.
+	
 	; ----------------------------------------------------
 	; Command Card.
 	;
+
+	; We want this separate from the control groups
+
 	; 1rd Row: Move Stop Hold Attack / Build T1 / Train units
 	; D F G Space
 	
@@ -106,6 +130,14 @@ SetHotkeys(activeOrNot) {
 	; Defaults are Alt + q w a s z x
 	; -------------
 
+
+	/*
+	 the reason I can't do Hotkey % "!" Item1.physicalKey,			% set_Item1, %activeOrNot%
+	 is because I want to intercept ALT so it doesn't toggle the healthbars.
+	 which means this will NEVER fire.
+	*/
+
+	/*
     set_Item1 								:= Func("Hotkey_Item").bind(Item1)
     set_Item2 								:= Func("Hotkey_Item").bind(Item2)
     set_Item3 								:= Func("Hotkey_Item").bind(Item3)
@@ -113,36 +145,12 @@ SetHotkeys(activeOrNot) {
     set_Item5 								:= Func("Hotkey_Item").bind(Item5)
     set_Item6 								:= Func("Hotkey_Item").bind(Item6)
 
-	Hotkey % "*"Item1.physicalKey,			% set_Item1, %activeOrNot%
-	Hotkey % "*"Item2.physicalKey,			% set_Item2, %activeOrNot%
-	Hotkey % "*"Item3.physicalKey,			% set_Item3, %activeOrNot%
-	Hotkey % "*"Item4.physicalKey,			% set_Item4, %activeOrNot%
-	Hotkey % "*"Item5.physicalKey,			% set_Item5, %activeOrNot%
-	Hotkey % "*"Item6.physicalKey,			% set_Item6, %activeOrNot%
+	Hotkey % "!"Item1.physicalKey,			% set_Item1, %activeOrNot%
+	Hotkey % "!"Item2.physicalKey,			% set_Item2, %activeOrNot%
+	Hotkey % "!"Item3.physicalKey,			% set_Item3, %activeOrNot%
+	Hotkey % "!"Item4.physicalKey,			% set_Item4, %activeOrNot%
+	Hotkey % "!"Item5.physicalKey,			% set_Item5, %activeOrNot%
+	Hotkey % "!"Item6.physicalKey,			% set_Item6, %activeOrNot%
+	*/
 
-    ; ----------------------------------------------------
-    ; Quick Drop Module
-    ; ----------------------------------------------------
-
-    set_QuickDrop_Item1 			:= Func("QuickDrop").bind(Item1)
-    set_QuickDrop_Item2 			:= Func("QuickDrop").bind(Item2)
-    set_QuickDrop_Item3 			:= Func("QuickDrop").bind(Item3)
-    set_QuickDrop_Item4 			:= Func("QuickDrop").bind(Item4)
-    set_QuickDrop_Item5 			:= Func("QuickDrop").bind(Item5)
-    set_QuickDrop_Item6 			:= Func("QuickDrop").bind(Item6)
-
-    Hotkey % "^!"Item1.physicalKey, % set_QuickDrop_Item1, %activeOrNot%
-    Hotkey % "^!"Item2.physicalKey, % set_QuickDrop_Item2, %activeOrNot%
-    Hotkey % "^!"Item3.physicalKey, % set_QuickDrop_Item3, %activeOrNot%
-    Hotkey % "^!"Item4.physicalKey, % set_QuickDrop_Item4, %activeOrNot%
-    Hotkey % "^!"Item5.physicalKey, % set_QuickDrop_Item5, %activeOrNot%
-    Hotkey % "^!"Item6.physicalKey, % set_QuickDrop_Item6, %activeOrNot%
-
-    ; Shift-Queue
-    Hotkey % "^!+"Item1.physicalKey, % set_QuickDrop_Item1, %activeOrNot%
-    Hotkey % "^!+"Item2.physicalKey, % set_QuickDrop_Item2, %activeOrNot%
-    Hotkey % "^!+"Item3.physicalKey, % set_QuickDrop_Item3, %activeOrNot%
-    Hotkey % "^!+"Item4.physicalKey, % set_QuickDrop_Item4, %activeOrNot%
-    Hotkey % "^!+"Item5.physicalKey, % set_QuickDrop_Item5, %activeOrNot%
-    Hotkey % "^!+"Item6.physicalKey, % set_QuickDrop_Item6, %activeOrNot%
 }

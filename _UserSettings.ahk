@@ -67,11 +67,12 @@ Hotkey_ScriptReload 			= ^Numpad3 	; Reload the Script with CONTROL + NUMPAD3 (d
 ;
 ;-----------------------------------------
 
-Global b_SetSkillPoint			:= False 	; CTRL + Ability to quickly allocate a hero skill point.
-Global b_CommandMultipleGroups 	:= False 	; Command Multiple Groups (default control groups: 'A', 'S', 'Z' and 'X', see below).
-Global b_RapidFire				:= False 	; RapidFire Casting: Hold an action key to repeatedly fire.
-Global b_InstantCamera 			:= False 	; Instant camera for control groups (default control groups: none, see below).
-Global b_ShiftQueueItems		:= False 	; Ability to queue items when holding SHIFT and ALT. It's important for DGRID users because item activation requres pressing down ALT.
+Global b_PreventAltfromTogglingHealthbars 	:= True 	; This will prevent ALT from toggling healthbars.
+Global b_SetSkillPoint						:= True 	; CTRL + Ability to quickly allocate a hero skill point.
+Global b_CommandMultipleGroups 				:= True 	; Command Multiple Groups (default control groups: 'A', 'S', 'Z' and 'X', see below).
+Global b_RapidFire							:= True 	; RapidFire Casting: Hold an action key to repeatedly fire.
+Global b_InstantCamera 						:= False 	; Instant camera for control groups (default control groups: none, see below).
+Global b_ShiftQueueItems					:= True 	; Ability to queue items when holding SHIFT and ALT. It's important for DGRID users because item activation requres pressing down ALT.
 
 ; The following modules REQUIRE YOUR ATTENTION to work properly.
 ; These DO NOT work "out of the box".
@@ -132,7 +133,7 @@ ControlGroup0.commandThisGroup := False 	; f4
 ;
 ; Otherwise, these two modules will not work properly.
 ;
-; You can easily check the coordinates using the Windows Paint app, like so:
+; You can easily find the coordinates using the Windows Paint app, like so:
 ; https://etofok.github.io/Displaced-Grid-for-Warcraft-III/web/assets/images/pixelhuntsetup.mp4
 ;
 ; You are looking for the blue overlay on top of the item border — just one pixel! (!)
@@ -145,45 +146,74 @@ ControlGroup0.commandThisGroup := False 	; f4
 ; The following works for 1920x1080
 
 ; item slot #1 (top-left)
+; item slot #2 (top-right)
+; item slot #3 (middle-left)
+; item slot #4 (middle-right)
+; item slot #5 (bottom-left)
+; item slot #6 (bottom-right)
+
 Item1.x 					:= 	1197
 Item1.y 					:= 	880
 
-; item slot #2 (top-right)
 Item2.x 					:= 	1270
 Item2.y 					:= 	880
 
-; item slot #3 (middle-left)
 Item3.x 					:= 	1197
 Item3.y 					:= 	949
 
-; item slot #4 (middle-right)
 Item4.x 					:= 	1270
 Item4.y 					:= 	949
 
-; item slot #5 (bottom-left)
 Item5.x 					:= 	1197
 Item5.y 					:= 	1017
 
-; item slot #6 (bottom-right)
 Item6.x 					:= 	1270
 Item6.y 					:= 	1017
 
 ;-----------------------------------------
 
+; 7. What Item SLOTS do you want to have on Quick Casts?
+; This is useful because not every item benefits from Quick Casts.
 
+/*
+Generally speaking, things like Healing Salve, Human & Elf Staffs are great on Quick Cast.
+But the reason we don't want ALL item slots on Quick Cast is because of how it works in Displaced Grid:
+Since Displaced Grid doesn't read memory and IS NOT A PART of the game - it can't "see" what items are being cast.
+This means to achieve "Quick Cast" we send an extra left mouse click into the game. This is great when we do need it, but what if you just used a healing scroll? Or a potion?
+The left click will be sent regardless, which might lead to some unwanted unit select.
+So after playtesting for more than 500 hours I have not found a way to (easily) differentiate between the items, so I decided to differentiate between the slots.
+*/
+
+; item slot #1 (top-left)
+; item slot #2 (top-right)
+; item slot #3 (middle-left)
+; item slot #4 (middle-right)
+; item slot #5 (bottom-left)
+; item slot #6 (bottom-right)
+
+Item1.quickcast				:=	True
+Item2.quickcast				:=	True
+Item3.quickcast				:=	False
+Item4.quickcast				:=	False
+Item5.quickcast				:=	False
+Item6.quickcast				:=	False
+	
 
 ;-----------------------------------------
-; 7. Where is the Portrait UI element located on YOUR screen?
+; 8. Where is the Portrait UI element located on YOUR screen?
 ;
 ; This is required for the "Cast On Yourself" module.
+; Because Displaced Grid NEEDS to "know" where your Portait UI element is located on YOUR screen.
+;
+; The following works for 1920x1080
 ; 
-; You can easily check the coordinates using the Windows Paint app, like so:
+; You can easily find the coordinates using the Windows Paint app, like so:
 ; https://etofok.github.io/Displaced-Grid-for-Warcraft-III/web/assets/images/pixelhuntsetup.mp4
 ;
 ; Find one pixel of your portrait element, so the app knows where to click.
 ;-----------------------------------------
 
-; The following works for 1920x1080
+
 PortraitUI.x := 700
 PortraitUI.y := 900
 
@@ -195,15 +225,8 @@ PortraitUI.y := 900
 
 
 
+;-----------------------------------------
 
-
-
-
-
-
-
-
-
-Global b_EventLog	 		:= False 	
-; This is a debugging overlay used in development for troubleshooting. 
-; You can switch it on if you're curious but it's useless for gameplay.
+Global b_EventLog	 		:= True 	
+; This is a debugging overlay used for troubleshooting. 
+; You can switch it on if you're curious but it's not for gameplay.

@@ -1,8 +1,18 @@
 ;-------------------------------------------
-; In-Game Original Grid Hotkeys
-; The following in-game hotkeys will be called...
+; This is your in-game GRID layout
+; These MUST align with your in-game keybinds!
+
+; This is the standard English layout (Not German, not French, etc)
 
 load_BlizzardGrid() {
+
+	altkey.physicalKey			:= 	"LAlt"
+	ctrlkey.physicalKey			:= 	"LCtrl"
+	shiftkey.physicalKey		:= 	"LShift"	
+	capslockkey.physicalKey		:= 	"CapsLock"
+	mouse1key.physicalKey		:= 	"LButton"	; not used
+	mouse2key.physicalKey		:= 	"RButton"
+	tabkey.physicalKey			:= 	"Tab"
 
 	SelectHero1.physicalKey		:= 	"f1"
 	SelectHero2.physicalKey		:= 	"f2"
@@ -47,6 +57,4 @@ load_BlizzardGrid() {
 	Item4.physicalKey			:=	"numpad5"
 	Item5.physicalKey			:=	"numpad1"
 	Item6.physicalKey			:=	"numpad2"
-
-	MouseButtonRight.physicalKey:=	"Rbutton"
 }

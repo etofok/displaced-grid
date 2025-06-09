@@ -21,6 +21,11 @@ Global pAlert4 := ""
 Global pAlert5 := ""
 Global pAlert6 := ""
 Global pAlert7 := ""
+Global pAlert8 := ""
+Global pAlert9 := ""
+Global pAlert10 := ""
+Global pAlert11 := ""
+Global pAlert12 := ""
 
 	WinGet, windowHandle, ID, %winName%
 	WinGetPos, WarcraftIII_posX, WarcraftIII_posY, WarcraftIII_width, WarcraftIII_height, %winName%
@@ -38,7 +43,12 @@ Global pAlert7 := ""
 	Gui, gui_AlertBox:Add, Text, w220 h40 vAlert4
 	Gui, gui_AlertBox:Add, Text, w220 h40 vAlert5
 	Gui, gui_AlertBox:Add, Text, w220 h40 vAlert6
-	Gui, gui_AlertBox:Add, Text, w220 h60 vAlert7
+	Gui, gui_AlertBox:Add, Text, w220 h40 vAlert7
+	Gui, gui_AlertBox:Add, Text, w220 h40 vAlert8
+	Gui, gui_AlertBox:Add, Text, w220 h40 vAlert9
+	Gui, gui_AlertBox:Add, Text, w220 h40 vAlert10
+	Gui, gui_AlertBox:Add, Text, w220 h40 vAlert11
+	Gui, gui_AlertBox:Add, Text, w220 h40 vAlert12
 
 	WinSet, TransColor, %color% 222, % gui_AlertBox ; PNG transparency. 0 = fully transparent
 	WinSet, ExStyle, +0x20, % gui_AlertBox	; Click-through
@@ -62,6 +72,26 @@ if (b_EventLog == 1) {
 ;-----------------------------------------
 
 UpdateEventLog(message) {
+
+	if (pAlert11 != "") {
+		pAlert12 := pAlert11
+	}	
+
+	if (pAlert10 != "") {
+		pAlert11 := pAlert10
+	}
+
+	if (pAlert9 != "") {
+		pAlert10 := pAlert9
+	}
+
+	if (pAlert8 != "") {
+		pAlert9 := pAlert8
+	}
+
+	if (pAlert7 != "") {
+		pAlert8 := pAlert7
+	}
 
 	if (pAlert6 != "") {
 		pAlert7 := pAlert6
@@ -96,6 +126,11 @@ UpdateEventLog(message) {
 	GuiControl, gui_AlertBox:, Alert5, % pAlert5
 	GuiControl, gui_AlertBox:, Alert6, % pAlert6
 	GuiControl, gui_AlertBox:, Alert7, % pAlert7
+	GuiControl, gui_AlertBox:, Alert8, % pAlert8
+	GuiControl, gui_AlertBox:, Alert9, % pAlert9
+	GuiControl, gui_AlertBox:, Alert10, % pAlert10
+	GuiControl, gui_AlertBox:, Alert11, % pAlert11
+	GuiControl, gui_AlertBox:, Alert12, % pAlert12
 	
 }
 
