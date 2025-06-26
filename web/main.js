@@ -76,8 +76,8 @@ const modules = [
         6, 
         'Block ALT key', 
         'ALT no longer toggles off the healthbars.', 
-        'assets/modules/Block ALT key.png', 
-        'assets/modules/Block ALT key.mp4', 
+        'assets/modules/Block ALT.png', 
+        'assets/modules/Block ALT.mp4', 
         'e_slideBig',
         'e_thumbnail',
         'This is great, because in Displaced Grid we press down ALT to activate Items. <br>This means, for example, you will not lose healthbars when trying to apply healing salves.'
