@@ -97,12 +97,13 @@
 .moduleName {
     font-size: 1.5rem;
     font-weight: 600;
-    color: #000000;
+    color: var(--light-text);
+
 }
 
 .moduleDesc {
     font-size: 1.25rem;
-    color: #000000;
+    color: var(--light-text);
 }
 
 .moduleTooltip {
