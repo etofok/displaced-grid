@@ -1,5 +1,8 @@
 ;-------------------------------------------
 ; This is the Displaced Grid layout
+;
+;
+
 
 layout_DisplacedGrid() {
 
@@ -42,13 +45,13 @@ layout_DisplacedGrid() {
 	GRID_22.physicalKey 		:= 	"T"
 	GRID_32.physicalKey 		:= 	"4"
 
-	; Items are hardcoded to use ALT, please be aware.
 	Item1.physicalKey			:=	"q"
 	Item2.physicalKey			:=	"w"
 	Item3.physicalKey			:=	"a"
 	Item4.physicalKey			:=	"s"
 	Item5.physicalKey			:=	"z"
 	Item6.physicalKey			:=	"x"
+	ItemsRequireAlt				:=	1
 
 	; --- --- --- --- --- ---
 	laltkey.physicalKey			:= 	"LAlt"
@@ -56,10 +59,11 @@ layout_DisplacedGrid() {
 	ctrlkey.physicalKey			:= 	"LCtrl"
 	shiftkey.physicalKey		:= 	"LShift"
 	capslockkey.physicalKey		:= 	"CapsLock"
-	mouse1key.physicalKey		:= 	"LButton"	; not used
-	mouse2key.physicalKey		:= 	"RButton"
 	tabkey.physicalKey			:= 	"Tab"
 	enterkey.physicalKey		:= 	"Enter"
 	numpadenterkey.physicalKey	:= 	"NumpadEnter"
 	upkey.physicalKey			:= 	"Up"
+	
+	mouse1key.physicalKey		:= 	"LButton"	; not used
+	mouse2key.physicalKey		:= 	"RButton"
 }

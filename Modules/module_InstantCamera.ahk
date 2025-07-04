@@ -16,19 +16,43 @@
 ; Having said that, I do believe this functionality SHOULD be a part of the core experience
 ;-----------------------------------------
 
-; Yes I use Globals
-Global menu_Toggle_InstantCamera			:= "Instant Camera"
-Menu, Tray, Add, %menu_Toggle_InstantCamera%, Toggle_InstantCamera
-
-;-----------------------------------------
+;--------------------------------
 ; On program start...
 
-if (b_InstantCamera == 1) {
-	Control_InstantCamera(1)
-} else {
-	Control_InstantCamera(0)
-	Menu, Tray, Disable, 	%menu_Toggle_InstantCamera%
+Global m_InstantCamera_menuLabel := "< Instant Camera >"
+Global m_InstantCamera_menuLabel_extra := " "
+
+; Add this module to Tray only if it has been enabled in Settings
+if (m_InstantCamera.enabled == True) {
+
+	; turns out, in AHK v1.1 we can't use an object's property for Tray, so I have to hardcode another variable
+	;m_InstantCamera.menuLabel := m_InstantCamera_menuLabel ; but we can store it just in case
+
+	cnt := 0
+	
+	for index, gr in a_ControlGroups {
+
+	    if (gr.instantCamera == 1) {
+	    	cnt++
+	    	tmpup := gr.physicalKey
+
+	    	StringUpper, tmpup, tmpup
+	    	m_InstantCamera_menuLabel_extra := m_InstantCamera_menuLabel_extra . " [" . tmpup . "]"
+	    }
+	}
+
+
+	if (cnt = 0) {
+		m_InstantCamera_menuLabel := m_InstantCamera_menuLabel . m_InstantCamera_menuLabel_extra . "none"
+	} else {
+		m_InstantCamera_menuLabel := m_InstantCamera_menuLabel . m_InstantCamera_menuLabel_extra
+	}
+
+	Menu, Tray, Add, %m_InstantCamera_menuLabel%, Toggle_m_InstantCamera
+
+	Control_m_InstantCamera(1)
 }
+
 
 ;-----------------------------------------
 ; Module
@@ -36,7 +60,7 @@ if (b_InstantCamera == 1) {
 InstantCamera(objCommand) {
 
 	if (objCommand.instantCamera == 1) {
-		Send % objCommand.logicalKey, 1
+		Send % objCommand.ingameHotkey, 1
 	}	
 }
 
@@ -44,21 +68,18 @@ InstantCamera(objCommand) {
 ; InstantCamera Control
 ;-----------------------------------------
 
-Toggle_InstantCamera() {
-
-	if (b_InstantCamera == 1)
-		Control_InstantCamera(0)
-	else
-		Control_InstantCamera(1)
+Toggle_m_InstantCamera() {
+	Control_m_InstantCamera(not m_InstantCamera.active)
 } 
 
-Control_InstantCamera(switchTo) {
+Control_m_InstantCamera(switchTo) {
 
-	b_InstantCamera := switchTo
+	m_InstantCamera.active := switchTo
 	
-	ToggleCheckmark(menu_Toggle_InstantCamera, switchTo)
+	ToggleCheckmark(m_InstantCamera_menuLabel, switchTo)
 
-	if (b_EventLog) {
+	if (m_EventLog.active) {
 		UpdateEventLog("Instant Camera - " . switchTo)	
 	}
 }
+

@@ -18,29 +18,58 @@
   <link rel="stylesheet" href="gallery.css">
   <link rel="stylesheet" href="navbar.css">
   <link rel="stylesheet" href="element-scrolldown-arrow.css">
+  <link rel="stylesheet" href="panel-donate.css">
 
   <nav class="navbar">
-    <a href="https://github.com/etofok/Displaced-Grid-for-Warcraft-III/archive/refs/heads/main.zip" target="_blank">Download</a>
     <a href="https://discord.gg/grmNuB5cWc" target="_blank">Discord</a>
-    <a href="https://www.donationalerts.com/r/etofok" target="_blank">Donate</a>
-    <!-- <a href="https://www.youtube.com/user/etofok?sub_confirmation=1" target="_blank">YouTube</a> -->
+    <a href="#" onclick="toggleDonatePanel(event)">Donate</a>
   </nav>
 
   <span class="scroll-nagivation" id="scroll-to-top"></span>
+
+  <div id="donateOverlay" class="donate-overlay" onclick="toggleDonatePanel(event)">
+     <div class="donate-panel" onclick="event.stopPropagation()">
+       <a class="button" href="https://www.donationalerts.com/r/etofok" target="_blank">DonationAlerts</a>
+       <a href="https://www.donationalerts.com/r/etofok" target="_blank">
+         <img class="qr" src="assets/QR-code/QR-DonationAlerts-etofok.png" alt="DonationAlerts QR">
+       </a>
+
+       <a class="button" href="https://pay.cloudtips.ru/p/bcb15a55" target="_blank">CloudTips (Ru)</a>
+       <a href="https://pay.cloudtips.ru/p/bcb15a55" target="_blank">
+         <img class="qr" src="assets/QR-code/QR-CloudTips-etofok.png" alt="CloudTips QR">
+       </a>
+     </div>
+   </div>
 
   <!-- Above the fold -->
   <div class="section-read-abovethefold nocontextmenu"> 
 
     <h1>Displaced Grid</h1>
     <h4>by etofok</h4>
-    <h2>Advanced Hotkey For Warcraft III<br>
-      <span style="font-size: 60%; color: #f04040">+ 8 New UI modules that should be in the game</span></h2>
+    <h2>Advanced Hotkeys For Warcraft III<br>
+      <span style="font-size: 60%; color: #f04040">+ 9 New & Experimental UX Modules</span></h2>
     
     <img class="nocontextmenu centered" src="assets/images/DGridOnTop.png" alt="DGridOnTop"> 
-  
 
     <a href="https://github.com/etofok/Displaced-Grid-for-Warcraft-III/archive/refs/heads/main.zip" target="_blank" class="CTA-button-one centered">Download Now</a>
     
+  
+    <div class="video-container">
+      <div class="video-wrapper">
+        <iframe
+          src="https://www.youtube.com/embed/wzKUFRBawEs?si=j5VhuiRXCADIhpUC"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+
+
+
+
     <h3>or explore more below...</h3>
 
     <div class="scrolldown-arrow"></div>
@@ -49,10 +78,8 @@
 
   </div>
 
-  <!-- Slider Displaced vs Grid -->
-  
-
-  <div class="section-read-comparison nocontextmenu">
+    <!-- Slider Displaced vs Grid -->
+    <div class="section-read-comparison nocontextmenu">
     
     <div class="container-comparison">
 
@@ -107,33 +134,14 @@
   </div>
 
 
-
-  <!-- Showcase Gallery -->
-  <!--
-  <div class="section-gallery nocontextmenu"> 
-
-    <h2>Displaced Grid Gallery</h2>
-
-    <div class="container-main-image">
-      <img id="mainImage" class="main-image" alt="Main Image">
-      <button class="nav-button prev" onclick="changeImage(-1)">&#10094;</button>
-      <button class="nav-button next" onclick="changeImage(1)">&#10095;</button>
-    </div>
-
-    <p style="color: white">Visually the overlay looks much prettier now. These are old screenshots</p>
-  
-    <a href="https://github.com/etofok/Displaced-Grid-for-Warcraft-III/archive/refs/heads/main.zip" target="_blank" class="CTA-button-one centered">Download Now</a>
-
-  </div>
--->
-
   <!-- Modules -->
   <div class="section-read-modules nocontextmenu">
     
     <h2>Modules</h2>
     
     <h3>Modules provide an unfair advantage</h3>
-    <h3>Do NOT use versus players!</h>
+    <h3>For entertainment purposes only</h3>
+    <h3>Modules are macros</h3>
 
     <div id="container-thumbnails" class="container-thumbnails">
         <!-- Generated from data in main.js -->
@@ -226,22 +234,13 @@
 
     <div class="answer">
   
-      <p>The package comes with 8 extra modules.</p>
+      <p>The package comes with 9 extra modules.</p>
 
-      <div class="padded">
-        <img class="centered cuteborder" src="assets/images/overview.png" alt="overview"> 
-        <span class="textunderneath">
-        <i>'QuickCast Abilities'</i> is not a module. It actually a thing in Reforged.
-        </span>
-      </div>
+      <p>All modules are extras.</p>
 
-      <p>All modules are extras. Optional to use.</p>
+      <p>All modules are optional to use and can be disabled entirely.</p>
       
       <p>Modules follow the same logic of 'bridging the gap' explained earlier.</p>
-
-      <p>But...</p>
-
-      <p><b>Please understand:</b> using modules in a 'real' game <b>is technically cheating, </b>because it's such a massive improvement.</p>
       
     </div>
   </div>
@@ -319,10 +318,10 @@
       <ul>
         <li>Displaced Grid Hotkey Layout</li>
         <li>Displaced Grid Dynamic Overlay</li>
-        <li><a href="#anchor_quickcastability">QuickCast abilities*</a> guide</li>
+        <li>QuickCast abilities*</li>
         <li>Module - QuickCast items</li>
         <li>Module - Rapid Fire casting</b></li>
-        <li>Module - Command multiple groups</li>
+        <li>Module - Unified Orders</li>
         <li>Module - Set skill point</li>
         <li>Module - Cast on yourself</li>
         <li>Module - Block Alt key</li>
@@ -343,25 +342,114 @@
 
 
 
+
   <div class="faq-section nocontextmenu">
 
     <h2><b>How to install</b></h2>
 
     <div class="question">
 
-      <button class="question-button smaller" id="anchor_quickcastability">How to enable quick casts in Warcraft III</button>
+      <button class="question-button smaller">How to launch Displaced Grid</button>
+
+      <div class="answer">
+     
+        <p>Download <b>Autohotkey v1.1</b> (not v2) here: 
+        <a href="https://www.autohotkey.com/" target="_blank">https://www.autohotkey.com/</a></p>
+        
+        <p>Download Displaced GRID from Github:
+        <a href="https://github.com/etofok/Displaced-Grid-for-Warcraft-III/archive/refs/heads/main.zip" target="_blank">Click to Download now</a></p>
+        
+        <p>Run "_Displaced GRID.ahk" with Autohotkey v1.1</p>
+
+        <p>Displaced Grid will appear in your Tray menu</p>
+
+        <div class="padded">
+          <img class="centered cuteborder" src="assets/images/grid1.png">   
+          <span class="textunderneath">
+            Displaced Grid is On
+          </span>
+        </div>   
+
+      </div>
+    </div>
+
+    
+    <div class="question">
+      <button class="question-button smaller">How to use Displaced Grid keys</button>
+
+      <div class="answer">
+       
+        <p>The app overlays a set of keys (= layout) on top of the in-game keys:</p>
+        
+        <p>You press one button, but the game receives another.</p>
+
+        <img class="nocontextmenu centered" src="assets/images/DGridOnTop.png" alt="DGridOnTop"> 
+
+        <p>You <b>must</b> switch to GRID in game options.</p>
+
+        <video class="video-webm nocontextmenu centered cuteborder padded" autoplay muted preload="auto" loop playsinline poster="">
+        <source type="video/webm" src="assets/images/Input_OriginalGrid.webm">
+        </video>
+
+        <p>The app expects your in-game keys to be GRID.</p>
+
+        <p>This icon indicates whether hotkeys are currently remapped:</p>
+
+        <div class="padded">
+          <img class="centered cuteborder" src="assets/images/grid0.png">   
+          <span class="textunderneath">
+            Displaced Grid is Off
+          </span>
+        </div>   
+
+        <div class="padded">
+          <img class="centered cuteborder" src="assets/images/grid1.png">   
+          <span class="textunderneath">
+            Displaced Grid is On
+          </span>
+        </div>            
+
+        <p>When Warcraft III is not active (i.e., when you're tabbed out) your Displaced Grid has no effect.</p>
+    
+        <p>You can toggle the layout On or Off using a hotkey (or double-clicking the icon in tray).</p>
+
+        <p>Default key to toggle — <b>ScrollLock</b>.</p>
+
+        <p>p.s. Please note, when the layout is active you will struggle to type in chats because your keys are remapped.</p>
+
+      </div>
+    </div>
+
+
+    <div class="question">
+
+      <button class="question-button smaller" id="anchor_quickcastability">How to enable ability quickcasts in Warcraft III</button>
       
       <div class="answer">
 
         <a name="anchor_quickcastability" class="anchor-smooth"></a>
 
-        <p>Please note, this only works for Abilities.</p>
+        <p>You must use 'GRID' as your input keys to enable ability quickcasts in Warcraft III.</p>
+        
+        <p>(this feature has not been fully developed, but it technically exists)</p>
 
         <p>Step 1. Select 'GRID' as your input keys.</p>
 
         <video class="video-webm nocontextmenu centered cuteborder padded" autoplay muted preload="auto" loop playsinline poster="">
         <source type="video/webm" src="assets/images/Input_OriginalGrid.webm">
         </video>
+
+        <p>Step 2. Enable ability quickcasts in Settings in two clicks:</p>
+        <p>Step 3. Locate War3Preferences.txt in User/Documents/Warcraft III</p>
+        <p>Step 4. Write "Quickcast=1"</p>
+        
+        <div class="padded">
+          <img class="centered cuteborder" src="assets/images/Settings-Quickcast.jpg">   
+        </div>
+
+
+        <p>You may choose to do it by hand:</p>
+
 
         <p>Step 2. Go to your <i>%USERNAME%/Documents/Warcraft III folder</i></p>
 
@@ -385,124 +473,23 @@
     </div>
  
     <div class="question">
-
-      <button class="question-button smaller">How to launch Displaced Grid</button>
-
-      <div class="answer">
-     
-        <p>Download Autohotkey v1.1 (not v2!): 
-        <a href="https://www.autohotkey.com/" target="_blank">https://www.autohotkey.com/</a></p>
-        
-        <p>Download Displaced GRID from Github:
-        <a href="https://github.com/etofok/Displaced-Grid-for-Warcraft-III/archive/refs/heads/main.zip" target="_blank">Click to Download now</a></p>
-        
-        <p>Run "_Displaced GRID.ahk" with Autohotkey v1.1</p>
-
-        <p>"Displaced GRID" will appear in your Tray menu</p>
-
-        <div class="padded">
-          <img class="centered cuteborder" src="assets/images/grid1.png">   
-          <span class="textunderneath">
-            Displaced Grid is On
-          </span>
-        </div>   
-
-        <p>Right click on this icon to get access to Tray Menu:</p>
-
-        <div class="padded">
-          <img class="centered cuteborder" src="assets/images/overview.png">   
-          <span class="textunderneath">
-            Default tray menu
-          </span>
-        </div>     
-
-      </div>
-    </div>
-
-    <div class="question">
-      <button class="question-button smaller">How to use Displaced Grid keys</button>
-
-      <div class="answer">
-       
-        <p>You <b>must</b> switch to GRID in game options.</p>
-
-        <p>The layout will work out of the box.</p>
-
-        <p>The tray icon indicates whether it is <b>On</b> or <b>Off</b></p>
-
-        <div class="padded">
-          <img class="centered cuteborder" src="assets/images/grid0.png">   
-          <span class="textunderneath">
-            Displaced Grid is Off
-          </span>
-        </div>   
-
-        <div class="padded">
-          <img class="centered cuteborder" src="assets/images/grid1.png">   
-          <span class="textunderneath">
-            Displaced Grid is On
-          </span>
-        </div>   
-
-        <p>The layout is active ONLY when the Warcraft III window is active.</p>
-
-        <p>When Warcraft III is not active (i.e., when you're tabbed out), your normal hotkeys will be in effect.</p>
-
-        <p>Please note when the layout is active, you will struggle to type in chats because your keys are remapped.</p>
-   
-        <p>You can toggle the layout On or Off using a hotkey or double-clicking the icon in tray.</p>
-
-        <p>The default key is <b>ScrollLock</b>.</p>
-
-        <p>You can change the hotkey in 'UserSettings.ahk' (open it with Notepad).</p>
-
-      </div>
-    </div>
-
-    <div class="question">
     
       <button class="question-button smaller">How to turn modules on or off</button>
 
       <div class="answer">
 
-        <p>Disabled modules are grayed out in the tray menu.</p>
+        <p>Enable or disable modules in Settings.</p>
 
         <div class="padded">
-          <img class="centered cuteborder" src="assets/images/overview.png">   
-          <span class="textunderneath">
-            app tray menu
-          </span>
-        </div>
+          <img class="centered cuteborder" src="assets/images/Settings-General.jpg">   
+        </div>   
 
-        <p>You can enable (or disable) modules in 'UserSettings.ahk' (open in Notepad).</p>
-
-        <img class="centered padded cuteborder" src="assets/images/modulesdefault.png">
-
-        <p>Set "True" to enable a module.</p>
-        <p>Set "False" to disable a module.</p>
+        <p>Disabled modules will not be loaded and will not appear in the tray menu.</p>
 
       </div>
     </div>
 
-
-    <div class="question">
-
-      <button class="question-button smaller">Extra settings</button>
-
-      <div class="answer">
-
-        <p>Massive amount of work has been done to make modules work out of the box.</p>
-
-        <p>Early adopters remember.</p>
-
-        <p>Now everything is very simple.</p>
-
-        <p>In the Settings you will find a few extra options.</p>
-
-      </div>     
-    </div>
-
-  </div> 
+  </div>
 
 
   <div class="section-read-footer">
@@ -511,7 +498,7 @@
 
     <p>Displaced Grid is developed in my free time and in good faith.</p>
 
-    <p>Displaced Grid is not affiliated with or endorsed by Activision Blizzard, Inc. All relevant trademarks belong to their respective owners.</p>
+    <p style="text-align: left; margin-top: 2rem;">Disclaimer: DisplacedGrid is a free, open-source application created purely for entertainment within the Warcraft III community. It serves as a technical demonstration to explore and highlight innovative user experience (UX) design possibilities for game interaction. Neither DisplacedGrid nor its developer, etofok, are affiliated with, endorsed by, or sponsored by Activision Blizzard, Inc. This application is provided strictly "as is," without any warranties, express or implied. We make no guarantees regarding its performance, compatibility, or freedom from bugs. By using DisplacedGrid, you acknowledge and agree that the developer shall not be held liable for any direct, indirect, incidental, special, or consequential damages arising from its use or inability to use the application.</p>
 
   </div>
 
@@ -519,6 +506,7 @@
   <script src="gallery.js"></script>
   <script src="navbar.js"></script>
   <script src="element-scrolldown-arrow.js"></script>
+  <script src="panel-donate.js"></script>
 
 </body>
 </html>

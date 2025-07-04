@@ -28,7 +28,6 @@
     cursor: pointer;
     text-decoration: none;
     transition: all 235ms ease-in-out;
-    user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
 }

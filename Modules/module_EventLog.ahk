@@ -6,37 +6,49 @@
 ;
 ;-----------------------------------------
 
-; Yes I use Globals
-Hotkey, %Hotkey_Toggle_EventLog%, Toggle_EventLog,	UseErrorLevel
 
-Global Tooltip_Hotkey_Toggle_EventLog 	:= ReplaceModifiers(Hotkey_Toggle_EventLog)
-Global menu_Toggle_EventLog				:= "Event Log   <" . Tooltip_Hotkey_Toggle_EventLog . ">"
+;--------------------------------
+; On program start...
 
-Menu, Tray, Add, %menu_Toggle_EventLog%, Toggle_EventLog
+Global m_EventLog_menuLabel := "< EventLog >"
 
-Global pAlert1 := ""
-Global pAlert2 := ""
-Global pAlert3 := ""
-Global pAlert4 := ""
-Global pAlert5 := ""
-Global pAlert6 := ""
-Global pAlert7 := ""
-Global pAlert8 := ""
-Global pAlert9 := ""
-Global pAlert10 := ""
-Global pAlert11 := ""
-Global pAlert12 := ""
+; Add this module to Tray only if it has been enabled in Settings
+if (m_EventLog.enabled == True) {
 
-	WinGet, windowHandle, ID, %winName%
-	WinGetPos, WarcraftIII_posX, WarcraftIII_posY, WarcraftIII_width, WarcraftIII_height, %winName%
+	; turns out, in AHK v1.1 we can't use an object's property for Tray, so I have to hardcode another variable
+	;m_EventLog.menuLabel := m_EventLog_menuLabel ; but we can store it just in case
 
-	Gui, gui_AlertBox:+LastFound -Caption -Border +ToolWindow +Owner%windowHandle%
-	
+	Menu, Tray, Add, %m_EventLog_menuLabel%, Toggle_m_EventLog
+
+	m_EventLog.marginTop 		:= 60
+	m_EventLog.width 			:= 220
+	m_EventLog.lineHeight 		:= 40
+
+	Global pAlert1 := ""
+	Global pAlert2 := ""
+	Global pAlert3 := ""
+	Global pAlert4 := ""
+	Global pAlert5 := ""
+	Global pAlert6 := ""
+	Global pAlert7 := ""
+	Global pAlert8 := ""
+	Global pAlert9 := ""
+	Global pAlert10 := ""
+	Global pAlert11 := ""
+	Global pAlert12 := ""
+
+	Gui, gui_AlertBox:+LastFound -Caption -Border +ToolWindow +Owner%winID%
+
 	Gui, gui_AlertBox:Color, 0xFFFFFF
 	Gui, gui_AlertBox:Color, %color%
 	Gui, gui_AlertBox:margin, 10, 10
 
-	Gui, gui_AlertBox:Add, Text,, Event Log:
+	Gui, gui_AlertBox: Add, Text,, Event Log:
+
+
+	; couldn't figure this out
+	; Gui, gui_AlertBox: Add, Text, % "w"m_EventLog.width "h"m_EventLog.lineHeight, % vAlert1
+
 	Gui, gui_AlertBox:Add, Text, w220 h40 vAlert1
 	Gui, gui_AlertBox:Add, Text, w220 h40 vAlert2
 	Gui, gui_AlertBox:Add, Text, w220 h40 vAlert3
@@ -53,17 +65,10 @@ Global pAlert12 := ""
 	WinSet, TransColor, %color% 222, % gui_AlertBox ; PNG transparency. 0 = fully transparent
 	WinSet, ExStyle, +0x20, % gui_AlertBox	; Click-through
 
-;--------------------------------
-; On program start...
-
-if (b_EventLog == 1) {
-
-	; only toggle on if the Warcraft III window exists
-	if WinExist(winTitle) {
-		Control_EventLog(1)
+	if WinExist(winClass) {
+		Control_m_EventLog(1)
 	} else {
-		b_EventLog = 0
-		MsgBox, Warcraft III is not found:`nCannot display the Event Log panel!	
+		Control_m_EventLog(0)
 	}
 }
 
@@ -138,38 +143,37 @@ UpdateEventLog(message) {
 ; EventLog Control
 ;-----------------------------------------
 
-Toggle_EventLog() {
+Toggle_m_EventLog() {
 
-	if (b_EventLog == 1) {
+	if (m_EventLog.active == 1) {
 
-		Control_EventLog(0)
+		Control_m_EventLog(0)
 
 	} else {
-
 		; only toggle on if the Warcraft III window exists
-		if WinExist(winTitle) {
-			Control_EventLog(1)
+		if WinExist(winClass) {
+			Control_m_EventLog(1)
 		} else {
-			b_EventLog = 0
-			MsgBox, Warcraft III is not found:`nCannot display the Event Log panel!	
+			Control_m_EventLog(0)
+			;MsgBox, % error_warcraftNotFound ;"`n`n (Attempt to activate Event Log)"
 		}
 	}
 } 
 
 
-Control_EventLog(switchTo) {
+Control_m_EventLog(switchTo) {
 
 	if (switchTo == 1) {
-		Gui, gui_AlertBox:Show, % "x" (1920-220) " y" (0+60) 
+		Gui, gui_AlertBox:Show, % "x" (A_ScreenWidth-m_EventLog.width) " y" (50) 
 	} else {
 		Gui, gui_AlertBox:Hide
 	}
 
-	b_EventLog := switchTo
+	m_EventLog.active := switchTo
 	
-	ToggleCheckmark(menu_Toggle_EventLog, switchTo)
+	ToggleCheckmark(m_EventLog_menuLabel, switchTo)
 
-	if (b_EventLog) {
-		UpdateEventLog("Control_EventLog - " . switchTo)	
+	if (m_EventLog.active) {
+		UpdateEventLog("EventLog - " . switchTo)	
 	}
 }

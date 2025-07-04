@@ -1,8 +1,8 @@
 ; ------------------------------------------
-; This file contains the list of hotkeys AS THEY APPEAR IN-GAME
+; This file contains the list of hotkeys AS THEY APPEAR TO YOU IN-GAME
 
-; this file assumes you are using Blizzard GRID,
-; however there are regional differences i.e. QWERTY (English) vs AZERTY (French)
+; this file assumes you are using Blizzard GRID.
+; There are regional differences i.e. QWERTY (English) vs AZERTY (French)
 
 ; For example, 
 ; if your GRID_00 (Move) is "Q" then GRID_00.ingameHotkey must be "{q}"
@@ -18,7 +18,7 @@
 ; | 0,1 | 1,1 | 2,1 | 3,1 |
 ; | 0,2 | 1,2 | 2,2 | 3,2 |
 
-layoutName	 					:= ""
+layoutName	 					:= 	""
 
 GRID_00.ingameHotkey 			:= 	"{q}"	; Move
 GRID_10.ingameHotkey			:=	"{w}"	; Stop
@@ -61,6 +61,10 @@ ControlGroup0.ingameHotkey		:=	"{0}"
 ;-------------------------------------------
 ; Items.
 ;-------------------------------------------
+; Slots are as follows:
+; 1 | 2
+; 3 | 4
+; 5 | 6
 
 Item1.slot						:= 	1
 Item1.ingameHotkey 				:=	"{numpad7}"

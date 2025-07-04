@@ -14,19 +14,22 @@
 ; Having said that, I do believe this functionality SHOULD be a part of the core experience
 ;-----------------------------------------
 
-; Yes I use Globals
-Global menu_Toggle_ShiftQueueItems				:= "Shift-Queue Items"
-Menu, Tray, Add, %menu_Toggle_ShiftQueueItems%, Toggle_ShiftQueueItems
-
-;-----------------------------------------
+;--------------------------------
 ; On program start...
 
-if (b_ShiftQueueItems == 1) {
-	Control_ShiftQueueItems(1)
-} else {
-	Control_ShiftQueueItems(0)
-	Menu, Tray, Disable, 	%menu_Toggle_ShiftQueueItems%
+Global m_ShiftQueueItems_menuLabel := "< Item Shift-Queue >"
+
+; Add this module to Tray only if it has been enabled in Settings
+if (m_ShiftQueueItems.enabled == True) {
+
+	; turns out, in AHK v1.1 we can't use an object's property for Tray, so I have to hardcode another variable
+	;m_ShiftQueueItems.menuLabel := m_ShiftQueueItems_menuLabel ; but we can store it just in case
+
+	Menu, Tray, Add, %m_ShiftQueueItems_menuLabel%, Toggle_m_ShiftQueueItems
+
+	Control_m_ShiftQueueItems(1)
 }
+
 ;-----------------------------------------
 ; ShiftQueueItems Module
 ;-----------------------------------------
@@ -37,22 +40,18 @@ if (b_ShiftQueueItems == 1) {
 ; ShiftQueueItems Control
 ;--------------------------------
 
-Toggle_ShiftQueueItems() {
-
-	if (b_ShiftQueueItems == 1)
-		Control_ShiftQueueItems(0)
-	else
-		Control_ShiftQueueItems(1)
+Toggle_m_ShiftQueueItems() {
+	Control_m_ShiftQueueItems(not m_ShiftQueueItems.active)
 } 
 
 
-Control_ShiftQueueItems(switchTo) {
+Control_m_ShiftQueueItems(switchTo) {
 
-	b_ShiftQueueItems := switchTo
+	m_ShiftQueueItems.active := switchTo
 	
-	ToggleCheckmark(menu_Toggle_ShiftQueueItems, switchTo)
+	ToggleCheckmark(m_ShiftQueueItems_menuLabel, switchTo)
 
-	if (b_EventLog) {
-		UpdateEventLog("Shift-Queue Items - " . switchTo)	
+	if (m_EventLog.active) {
+		UpdateEventLog("Item Shift-Queue - " . switchTo)	
 	}
 }

@@ -1,12 +1,12 @@
 ﻿Hotkey_bind(objCommand) {
 
 	; QuickDrop
-	if (b_QuickDropItems) {
+	if (m_QuickDropItems.active) {
 
 		; ALT + CTRL pressed down...
-		if (keyPressed_LAlt and keyPressed_LCtrl) {
+		if ((keyPressed_LAlt || keyPressed_RAlt) and keyPressed_LCtrl) {
 
-			if (b_EventLog) {
+			if (m_EventLog.active) {
 				UpdateEventLog("QuickDrop...")
 			}
 
@@ -37,7 +37,7 @@
 		}
 	} else {
 
-		if (b_EventLog) {
+		if (m_EventLog.active) {
 			UpdateEventLog("Quick Drop is OFF")	
 		}
 
@@ -49,42 +49,47 @@
 	; Maybe in future updates if/when I get to update this to a higher level of enlightment the layout will be more flexible.
 	; The reason the block is nested within the "Control Group" logic is because they share the same keys: qwaszx.
 	; So ALT is the differentiator between control groups and items.
-	if (keyPressed_LAlt) {
 
-		if (b_EventLog) {
-			UpdateEventLog("ITEM USED`nPhysical Key:`t" objCommand.physicalKey "`nLogical Key:  " objCommand.logicalKey "`nA_ThisHotkey: " A_ThisHotkey)	
-		}
+	if (ItemsRequireAlt) {
 
-		if (objCommand.physicalKey == Item1.physicalKey) {
-			Hotkey_Item(Item1)
-			return
-		}
+		if (keyPressed_LAlt || keyPressed_RAlt) {
 
-		if (objCommand.physicalKey == Item2.physicalKey) {
-			Hotkey_Item(Item2)
-			return
-		}
-		
-		if (objCommand.physicalKey == Item3.physicalKey) {
-			Hotkey_Item(Item3)
-			return
-		}
-		
-		if (objCommand.physicalKey == Item4.physicalKey) {
-			Hotkey_Item(Item4)
-			return
-		}
-		
-		if (objCommand.physicalKey == Item5.physicalKey) {
-			Hotkey_Item(Item5)
-			return
-		}
-		
-		if (objCommand.physicalKey == Item6.physicalKey) {
-			Hotkey_Item(Item6)
-			return
+			if (m_EventLog.active) {
+				UpdateEventLog("ITEM USED`nKeyboard Key:`t" objCommand.physicalKey "`ningameHotkey:  " objCommand.ingameHotkey)	
+			}
+
+			if (objCommand.physicalKey == Item1.physicalKey) {
+				Hotkey_Item(Item1)
+				return
+			}
+
+			if (objCommand.physicalKey == Item2.physicalKey) {
+				Hotkey_Item(Item2)
+				return
+			}
+			
+			if (objCommand.physicalKey == Item3.physicalKey) {
+				Hotkey_Item(Item3)
+				return
+			}
+			
+			if (objCommand.physicalKey == Item4.physicalKey) {
+				Hotkey_Item(Item4)
+				return
+			}
+			
+			if (objCommand.physicalKey == Item5.physicalKey) {
+				Hotkey_Item(Item5)
+				return
+			}
+			
+			if (objCommand.physicalKey == Item6.physicalKey) {
+				Hotkey_Item(Item6)
+				return
+			}
 		}
 	}
+
 
 
 	; -------------------
@@ -93,35 +98,35 @@
 	; Set control group
 	if (keyPressed_LCtrl) {
 
-		if (b_EventLog) {
-			UpdateEventLog("CONTROL GROUP SET`nPhysical Key:`t" objCommand.physicalKey "`nLogical Key:  " objCommand.logicalKey "`nA_ThisHotkey: " A_ThisHotkey)	
+		if (m_EventLog.active) {
+			UpdateEventLog("Control Group Set: `nKeyboard Key:`t" objCommand.physicalKey "`ningameHotkey:  " objCommand.ingameHotkey)	
 		}	
 
-		Send % "^" objCommand.logicalKey
+		Send % "^" objCommand.ingameHotkey
 		return
 	}
 
 	; Add to control group
 	if (keyPressed_LShift) {
 		
-		if (b_EventLog) {
-			UpdateEventLog("CONTROL GROUP ADD`nPhysical Key:`t" objCommand.physicalKey "`nLogical Key:  " objCommand.logicalKey "`nA_ThisHotkey: " A_ThisHotkey)	
+		if (m_EventLog.active) {
+			UpdateEventLog("Control Group Add `nKeyboard Key:`t" objCommand.physicalKey "`ningameHotkey Key:  " objCommand.ingameHotkey)	
 		}
 
-		Send % "+" objCommand.logicalKey
+		Send % "+" objCommand.ingameHotkey
 		return
 	}
 
 
 	; Select control group
-	if (b_EventLog) {
-		UpdateEventLog("CONTROL GROUP SELECT`nPhysical Key:`t" objCommand.physicalKey "`nLogical Key:  " objCommand.logicalKey "`nA_ThisHotkey: " A_ThisHotkey)	
+	if (m_EventLog.active) {
+		UpdateEventLog("Control Group Select `nKeyboard Key:`t" objCommand.physicalKey "`ningameHotkey Key:  " objCommand.ingameHotkey)	
 	}
 
-	Send % objCommand.logicalKey
+	Send % objCommand.ingameHotkey
 
 	; See module_InstantCamera.ahk
-	if (b_InstantCamera == 1) {
+	if (m_InstantCamera.active == 1) {
 		InstantCamera(objCommand)	
 	}
 }

@@ -11,20 +11,22 @@
 ; Having said that, I do believe this functionality SHOULD be a part of the core experience
 ;-----------------------------------------
 
-; Yes I use Globals
-Global menu_Toggle_SetSkillPoint				:= "[CTRL] Ability to Set Skill Point"
-Menu, Tray, Add, %menu_Toggle_SetSkillPoint%,	Toggle_SetSkillPoint
 
-;-----------------------------------------
+;--------------------------------
 ; On program start...
 
-if (b_SetSkillPoint == 1) {
-	Control_SetSkillPoint(1)
-} else {
-	Control_SetSkillPoint(0)
-	Menu, Tray, Disable, 	%menu_Toggle_SetSkillPoint%
-}
+Global m_SetSkillPoint_menuLabel := "< Set Skill Point >"
 
+; Add this module to Tray only if it has been enabled in Settings
+if (m_SetSkillPoint.enabled == True) {
+
+	; turns out, in AHK v1.1 we can't use an object's property for Tray, so I have to hardcode another variable
+	;m_SetSkillPoint.menuLabel := m_SetSkillPoint_menuLabel ; but we can store it just in case
+
+	Menu, Tray, Add, %m_SetSkillPoint_menuLabel%, Toggle_m_SetSkillPoint
+
+	Control_m_SetSkillPoint(1)
+}
 
 
 ;-----------------------------------------
@@ -33,53 +35,58 @@ if (b_SetSkillPoint == 1) {
 ; Set Skill Point with CTRL + Ability Key
 SetSkillPoint(objCommand) {
 
-	if (b_EventLog)
-		UpdateEventLog("SetSkillPoint..." . objCommand.logicalKey)
+	if (m_EventLog.enabled)
+		UpdateEventLog("SetSkillPoint..." . objCommand.ingameHotkey)
 
+		;CTRL ability has to work for the bottom row and the top row
 	; Ability 1
-	if (objCommand.logicalKey == GRID_02.logicalKey) {
-		Send % GRID_31.logicalKey ; Hero Abilities Menu
-		Sleep, % Rand(50, 100)
-		Send % GRID_00.logicalKey ; Ability 1 in Hero Abilities Menu
+	if (objCommand.ingameHotkey == GRID_02.ingameHotkey || objCommand.ingameHotkey == GRID_00.ingameHotkey) {
+		Send % GRID_31.ingameHotkey ; Hero Abilities Menu
+		Sleep, 100
+		Send % GRID_00.ingameHotkey ; Ability 1 in Hero Abilities Menu
 
-		if (b_EventLog)
+		if (m_EventLog.active) {
 			UpdateEventLog("CTRL + Ability 4")
+		}
 
 		return	
 	}
 
 	; Ability 2
-	if (objCommand.logicalKey == GRID_12.logicalKey) {
-		Send % GRID_31.logicalKey ; Hero Abilities Menu
-		Sleep, % Rand(50, 100)
-		Send % GRID_10.logicalKey ; Ability 2 in Hero Abilities Menu
+	if (objCommand.ingameHotkey == GRID_12.ingameHotkey || objCommand.ingameHotkey == GRID_10.ingameHotkey) {
+		Send % GRID_31.ingameHotkey ; Hero Abilities Menu
+		Sleep, 100
+		Send % GRID_10.ingameHotkey ; Ability 2 in Hero Abilities Menu
 
-		if (b_EventLog)
+		if (m_EventLog.active) {
 			UpdateEventLog("CTRL + Ability 4")
+		}
 
 		return	
 	}
 
 	; Ability 3
-	if (objCommand.logicalKey == GRID_22.logicalKey) {
-		Send % GRID_31.logicalKey ; Hero Abilities Menu
-		Sleep, % Rand(50, 100)
-		Send % GRID_20.logicalKey ; Ability 3 in Hero Abilities Menu
+	if (objCommand.ingameHotkey == GRID_22.ingameHotkey || objCommand.ingameHotkey == GRID_20.ingameHotkey) {
+		Send % GRID_31.ingameHotkey ; Hero Abilities Menu
+		Sleep, 100
+		Send % GRID_20.ingameHotkey ; Ability 3 in Hero Abilities Menu
 
-		if (b_EventLog)
+		if (m_EventLog.active) {
 			UpdateEventLog("CTRL + Ability 4")
+		}
 
 		return	
 	}
 
 	; Ability 4
-	if (objCommand.logicalKey == GRID_32.logicalKey) {
-		Send % GRID_31.logicalKey ; Hero Abilities Menu
-		Sleep, % Rand(50, 100)
-		Send % GRID_30.logicalKey ; Ability 4 in Hero Abilities Menu
+	if (objCommand.ingameHotkey == GRID_32.ingameHotkey || objCommand.ingameHotkey == GRID_30.ingameHotkey) {
+		Send % GRID_31.ingameHotkey ; Hero Abilities Menu
+		Sleep, 100
+		Send % GRID_30.ingameHotkey ; Ability 4 in Hero Abilities Menu
 
-		if (b_EventLog)
+		if (m_EventLog.active) {
 			UpdateEventLog("CTRL + Ability 4")
+		}
 
 		return	
 	}
@@ -91,21 +98,17 @@ SetSkillPoint(objCommand) {
 ; SetSkillPoint Control
 ;-----------------------------------------
 
-Toggle_SetSkillPoint() {
-
-	if (b_SetSkillPoint == 1) 
-		Control_SetSkillPoint(0)
-	else 
-		Control_SetSkillPoint(1)
+Toggle_m_SetSkillPoint() {
+	Control_m_SetSkillPoint(not m_SetSkillPoint.active)
 }
 
-Control_SetSkillPoint(switchTo) {
+Control_m_SetSkillPoint(switchTo) {
 
-	b_SetSkillPoint := switchTo
+	m_SetSkillPoint.active := switchTo
 	
-	ToggleCheckmark(menu_Toggle_SetSkillPoint, switchTo)
+	ToggleCheckmark(m_SetSkillPoint_menuLabel, switchTo)
 
-	if (b_EventLog) {
-		UpdateEventLog("SetSkillPoint - " . switchTo)
+	if (m_EventLog.active) {
+		UpdateEventLog("Set Skill Point - " . switchTo)
 	}
 }

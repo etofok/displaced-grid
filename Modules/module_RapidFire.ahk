@@ -19,63 +19,55 @@
 ; Having said that, I do believe this functionality SHOULD be a part of the core experience
 ;-----------------------------------------
 
-; Yes I use Globals
-Global menu_Toggle_RapidFire				:= "RapidFire Casting"
-Global initialState_RapidFire				:= False
 
-Menu, Tray, Add, %menu_Toggle_RapidFire%,	Toggle_RapidFire
-
-;-----------------------------------------
+;--------------------------------
 ; On program start...
 
-if (b_RapidFire == 1) {
-	Control_RapidFire(1)
-	initialState_RapidFire = True
-} else {
-	Control_RapidFire(0)
-	initialState_RapidFire = False ; yea yeah don't care
+Global m_RapidFire_menuLabel 			:= "< RapidFire Casting >"
 
-	Menu, Tray, Disable, 	%menu_Toggle_RapidFire%
+; Add this module to Tray only if it has been enabled in Settings
+if (m_RapidFire.enabled == True) {
+
+	; turns out, in AHK v1.1 we can't use an object's property for Tray, so I have to hardcode another variable
+	;m_RapidFire.menuLabel := m_RapidFire_menuLabel ; but we can store it just in case
+
+	Menu, Tray, Add, %m_RapidFire_menuLabel%, Toggle_m_RapidFire
+
+	Control_m_RapidFire(1)
 }
-
-
 
 ;-----------------------------------------
 ; Module Control
 
 RapidFire() {
 	Send, {Escape}
-
-	if (b_EventLog)
-		UpdateEventLog("Deselect")	
+	if (m_EventLog.active) {
+		UpdateEventLog("RapidFire - Deselect")	
+	}
 }
 
 RapidFire_queue() {
 	Send, {Shift Down}{Escape}
-
-	if (b_EventLog)
-		UpdateEventLog("Deselect")
+	if (m_EventLog.active) {
+		UpdateEventLog("RapidFire - Deselect")
+	}
 }
 
 ;-----------------------------------------
 ; RapidFire Control
 ;-----------------------------------------
 
-Toggle_RapidFire() {
-
-	if (b_RapidFire == 1) 
-		Control_RapidFire(0)
-	else 
-		Control_RapidFire(1)
+Toggle_m_RapidFire() {
+	Control_m_RapidFire(not m_RapidFire.active)
 }
 
-Control_RapidFire(switchTo) {
+Control_m_RapidFire(switchTo) {
 
-	b_RapidFire := switchTo
+	m_RapidFire.active := switchTo
 	
-	ToggleCheckmark(menu_Toggle_RapidFire, switchTo)
+	ToggleCheckmark(m_RapidFire_menuLabel, switchTo)
 
-	if (b_EventLog) {
-		UpdateEventLog("Hold RapidFire - " . switchTo)
+	if (m_EventLog.active) {
+		UpdateEventLog("RapidFire - " . switchTo)
 	}
 }

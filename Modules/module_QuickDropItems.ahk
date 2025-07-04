@@ -16,18 +16,20 @@
 ; Having said that, I do believe this functionality SHOULD be a part of the core experience
 ;-----------------------------------------
 
-; Yes I use Globals
-Global menu_Toggle_QuickDropItems				:= "[CTRL] Item to QuickDrop"
-Menu, Tray, Add, %menu_Toggle_QuickDropItems%, Toggle_QuickDropItems
-
-;-----------------------------------------
+;--------------------------------
 ; On program start...
 
-if (b_QuickDropItems == 1) {
-	Control_QuickDropItems(1)
-} else {
-	Control_QuickDropItems(0)
-	Menu, Tray, Disable, 	%menu_Toggle_QuickDropItems%
+Global m_QuickDropItems_menuLabel := "< Item QuickDrop >"
+
+; Add this module to Tray only if it has been enabled in Settings
+if (m_QuickDropItems.enabled == True) {
+
+	; turns out, in AHK v1.1 we can't use an object's property for Tray, so I have to hardcode another variable
+	;m_QuickDropItems.menuLabel := m_QuickDropItems_menuLabel ; but we can store it just in case
+
+	Menu, Tray, Add, %m_QuickDropItems_menuLabel%, Toggle_m_QuickDropItems
+
+	Control_m_QuickDropItems(1)
 }
 
 ;-----------------------------------------
@@ -36,21 +38,28 @@ if (b_QuickDropItems == 1) {
 
 QuickDrop(objItem) {
 
+	;MsgBox, % "objItem.x: " objItem.x "`nobjItem.y: " objItem.y 
+
+	;CoordMode, Mouse, Client ; this is important because otherwise the war3 window in window mode will account for the window border
 	ItemX := objItem.x
-	ItemY := objItem.y+4 ; a few pixels below the coordinates specified in UserSettings.ahk
+	ItemY := objItem.y+20 ; somewhat below the coordinates so it clicks somewhere in the middle of the Item icon
 
-	MouseGetPos, StartX, StartY			; remember where the mouse cursor is
+	MouseGetPos, StartX, StartY	; remember where the mouse cursor is
 
-	; if Shift is pressed down...
-	if !(keyPressed_LShift) {	
-		Send {Click Right}										; issue a right-click, so the unit starts to move towards the target immediately. 
-		Send {Click %ItemX% %ItemY% Right}						; grab the item on the interface
-		Send {Click %StartX% %StartY%}							; otherwise Mouse Left Click
 
+	; if Shift is not pressed down...
+	if (keyPressed_LShift) {	
+		Send {Shift Down}{Click Right}{Shift Up}
+		MouseMove, ItemX, ItemY, 1
+		Send {Click Right}
+		MouseMove, StartX, StartY, 1
+		Send {Shift Down}{Click}{Shift Up}
 	} else {
-		;Send {Shift Down}{Click Right}{Shift Up}				; This is an important difference that's necessary to comment out, because otherwise it'll shift-queue the 'follow' order.
-		Send {Click %ItemX% %ItemY% Right}						; grab the item on the interface
-		Send {Shift Down}{Click %StartX% %StartY%}{Shift Up}	; then Shift Mouse Left Click
+		Send {Click Right}
+		MouseMove, ItemX, ItemY, 1
+		Send {Click Right}
+		MouseMove, StartX, StartY, 1
+		Send {Click}
 	}
 }
 
@@ -58,22 +67,18 @@ QuickDrop(objItem) {
 ; QuickDropItems Control
 ;--------------------------------
 
-Toggle_QuickDropItems() {
 
-	if (b_QuickDropItems == 1)
-		Control_QuickDropItems(0)
-	else
-		Control_QuickDropItems(1)
-} 
+Toggle_m_QuickDropItems() {
+	Control_m_QuickDropItems(not m_QuickDropItems.active)
+}
 
+Control_m_QuickDropItems(switchTo) {
 
-Control_QuickDropItems(switchTo) {
+	m_QuickDropItems.active := switchTo
 
-	b_QuickDropItems := switchTo
+	ToggleCheckmark(m_QuickDropItems_menuLabel, switchTo)
 
-	ToggleCheckmark(menu_Toggle_QuickDropItems, switchTo)
-
-	if (b_EventLog) {
-		UpdateEventLog("QuickDrop Items - " . switchTo)
+	if (m_EventLog.active) {
+		UpdateEventLog("Item QuickDrop  - " . switchTo)
 	}
 }

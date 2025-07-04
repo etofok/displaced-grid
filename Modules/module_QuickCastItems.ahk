@@ -30,18 +30,40 @@
 ; Having said that, I do believe this functionality SHOULD be a part of the core experience
 ;-----------------------------------------
 
-; Yes I use Globals
-Global menu_Toggle_QuickCastItems				:= "QuickCast Items"
-Menu, Tray, Add, %menu_Toggle_QuickCastItems%, Toggle_QuickCastItems
-
 ;--------------------------------
 ; On program start...
 
-if (b_QuickCastItems == 1) {
-	Control_QuickCastItems(1)
-} else {
-	Control_QuickCastItems(0)
-	Menu, Tray, Disable, 	%menu_Toggle_QuickCastItems%
+Global m_QuickCastItems_menuLabel := "< Item Quickcast >"
+Global m_QuickCastItems_menuLabel_extra := " "
+
+; Add this module to Tray only if it has been enabled in Settings
+if (m_QuickCastItems.enabled == True) {
+
+	; turns out, in AHK v1.1 we can't use an object's property for Tray, so I have to hardcode another variable
+	;m_QuickCastItems.menuLabel := m_QuickCastItems_menuLabel ; but we can store it just in case
+
+	cnt := 0
+
+	for index, gr in a_Items {
+	    if (gr.quickcast == 1) {
+	    	cnt++
+	    	tmpup := gr.physicalKey
+
+	    	StringUpper, tmpup, tmpup
+	    	m_QuickCastItems_menuLabel_extra := m_QuickCastItems_menuLabel_extra . " [" . tmpup . "]"
+	    }
+	}
+
+
+	if (cnt = 0) {
+		m_QuickCastItems_menuLabel := m_QuickCastItems_menuLabel . m_QuickCastItems_menuLabel_extra . "none"
+	} else {
+		m_QuickCastItems_menuLabel := m_QuickCastItems_menuLabel . m_QuickCastItems_menuLabel_extra
+	}
+
+	Menu, Tray, Add, %m_QuickCastItems_menuLabel%, Toggle_m_QuickCastItems
+
+	Control_m_QuickCastItems(1)
 }
 
 ;-----------------------------------------
@@ -52,31 +74,47 @@ if (b_QuickCastItems == 1) {
 
 QuickCastItem(objItem) {
 
-	if (b_EventLog) {
+	if (m_EventLog.active) {
 		UpdateEventLog("--- QuickCast Item --- ")
 		UpdateEventLog("Slot: " objItem.slot "; x: " objItem.x "; y: " objItem.y)	
 	}
+	
+	; only proceed if the item slot has been set to be quickcast-able (Settings)
+	if !(clientArea.height == 1080) {
 
-	; ONLY QUICK CAST IF THE ITEM SLOT HAS BEEN SPECIFIED TO BE QUICKCAST-ABLE IN SETTINGS
+		if (m_EventLog.active) {
+			UpdateEventLog("Client area is not 1920x1080. Quickcast will not proceed.")
+		}
+		return
+	}	
+
+	; only proceed if the item slot has been set to be quickcast-able (Settings)
 	if (objItem.quickcast == 0) {
 
-		if (b_EventLog) {
-			UpdateEventLog("Item " objItem.slot " is NOT QuickCast-able")
+		if (m_EventLog.active) {
+			UpdateEventLog("Item slot " objItem.slot " is NOT QuickCast-able")
 		}
 		return
 	}
 
 	;-----------------------------------------
 	; check if the Item slot is NOT empty to continue...
+	;msgbox, % "objItem.slot: " objItem.slot
+
 	ImageSearch, image_cdX, image_cdY, objItem.x-2, objItem.y-2, objItem.x+2, objItem.y+2, *30 %A_ScriptDir%\Modules\pixelhunt\PixelHunt_NonEmptySlot.png
-	
-	; image_cdX, image_cdY setup in 
+/*
+	if (objItem.slot == 3 || objItem.slot == 4 || objItem.slot == 5 || objItem.slot == 6) {
+		ImageSearch, image_cdX, image_cdY, objItem.x, objItem.y-1, objItem.x+5, objItem.y+2, *50 %A_ScriptDir%\Modules\pixelhunt\PixelHunt_NonEmptySlot.png
+	} else {
+
+	}
+	*/
 	; PixelHunt_NonEmptySlot is a gray pixel indicating an item's border
 
 	if !(image_cdX > 0) {
 			
-		if (b_EventLog) {
-			UpdateEventLog("Slot Item " objItem.slot " is Empty!")	
+		if (m_EventLog.active) {
+			UpdateEventLog("Item slot " objItem.slot " is Empty!")	
 		}
 
 		return
@@ -89,8 +127,8 @@ QuickCastItem(objItem) {
 
 	if (image_cdX > 0) {
 			
-		if (b_EventLog) {
-			UpdateEventLog("Item " objItem.slot " is on Cooldown!")	
+		if (m_EventLog.active) {
+			UpdateEventLog("Item slot " objItem.slot " is on Cooldown!")	
 		}
 
 		return
@@ -107,20 +145,20 @@ QuickCastItem(objItem) {
 
 		Send {Shift Down}{Click}{Shift Up}
 
-		if (b_EventLog) {
-			UpdateEventLog("QuickCast: SHIFT CLICK!")
+		if (m_EventLog.active) {
+			UpdateEventLog("Item QuickCast: Shift-Click!")
 		}
 
 	} else {
 
 		Send {Click}
 
-		if (b_EventLog) {
-			UpdateEventLog("QuickCast Items: CLICK!")
+		if (m_EventLog.active) {
+			UpdateEventLog("Item QuickCast: Click!")
 		}
 	}
 
-	if (b_RapidFire == 1) {
+	if (m_RapidFire.active == 1) {
 		RapidFire()
 	}
 }
@@ -130,22 +168,18 @@ QuickCastItem(objItem) {
 ; QuickCastItems Control
 ;--------------------------------
 
-Toggle_QuickCastItems() {
-
-	if (b_QuickCastItems == 1)
-		Control_QuickCastItems(0)
-	else
-		Control_QuickCastItems(1)
+Toggle_m_QuickCastItems() {
+	Control_m_QuickCastItems(not m_QuickCastItems.active)
 } 
 
 
-Control_QuickCastItems(switchTo) {
+Control_m_QuickCastItems(switchTo) {
 
-	b_QuickCastItems := switchTo
+	m_QuickCastItems.active := switchTo
 	
-	ToggleCheckmark(menu_Toggle_QuickCastItems, switchTo)
+	ToggleCheckmark(m_QuickCastItems_menuLabel, switchTo)
 
-	if (b_EventLog) {
-		UpdateEventLog("QuickCast Items - " . switchTo)	
+	if (m_EventLog.active) {
+		UpdateEventLog("Item QuickCast - " . switchTo)	
 	}
 } 
