@@ -52,7 +52,7 @@ layout_YourCustomGrid() {
 	Item4.physicalKey			:=	"Numpad5"
 	Item5.physicalKey			:=	"Numpad1"
 	Item6.physicalKey			:=	"Numpad2"
-	ItemsRequireAlt				:=	0
+	ItemsRequireAlt				:=	0 		; <--------- notice this
 
 	; --- --- --- --- --- ---
 	laltkey.physicalKey			:= 	"LAlt"

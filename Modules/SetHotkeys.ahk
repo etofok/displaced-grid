@@ -21,7 +21,11 @@ SetHotkeys(activateHotkeys) {
 	set_enterkey									:= Func("Hotkey_Enter").bind(enterkey)
 	set_numpadenterkey								:= Func("Hotkey_NumpadEnter").bind(numpadenterkey)
 	set_upkey										:= Func("Hotkey_Up").bind(upkey)
-	set_mouse2key									:= Func("Hotkey_Mouse").bind(mouse2key)
+
+	if (m_RepeatMouse.active) {
+		set_mouse2key									:= Func("Hotkey_Mouse2").bind(mouse2key)
+		Hotkey % "*"mouse2key.physicalKey,				% set_mouse2key,		%activateHotkeys%	
+	}
 
 	if (m_HealthbarsAlwaysStay.active) {
 		; intercept
@@ -32,6 +36,7 @@ SetHotkeys(activateHotkeys) {
 		Hotkey % "~*"laltkey.physicalKey,			% set_laltkey, 			%activateHotkeys% 
 		Hotkey % "~*"raltkey.physicalKey,			% set_raltkey, 			%activateHotkeys% 
 	}
+
 	Hotkey % "~*"ctrlkey.physicalKey,				% set_ctrlkey, 			%activateHotkeys%
 	Hotkey % "~*"shiftkey.physicalKey,				% set_shiftkey,			%activateHotkeys%
 	Hotkey % "*"capslockkey.physicalKey,			% set_capslockkey, 		%activateHotkeys%
@@ -42,16 +47,10 @@ SetHotkeys(activateHotkeys) {
 
 	Hotkey % "~*"upkey.physicalKey,					% set_upkey, 			%activateHotkeys%
 
-	Hotkey % "*"mouse2key.physicalKey,				% set_mouse2key,		%activateHotkeys%
 	
 
 	; ----------------------------------------------------
 	; Select.
-	;
-	; Defaults are 1 2 3 for Heroes, 
-	; 4 for Idle Worker
-	; 5 for Jump to Recent Event
-	; ----------------------------------------------------
 
 	set_SelectHero1									:= Func("Hotkey_bind").bind(SelectHero1)
 	set_SelectHero2									:= Func("Hotkey_bind").bind(SelectHero2)
@@ -179,7 +178,6 @@ SetHotkeys(activateHotkeys) {
 		Hotkey % "*"Item4.physicalKey,			% set_Item4, %activateHotkeys%
 		Hotkey % "*"Item5.physicalKey,			% set_Item5, %activateHotkeys%
 		Hotkey % "*"Item6.physicalKey,			% set_Item6, %activateHotkeys%
-
 	}
 
 }

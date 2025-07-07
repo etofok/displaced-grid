@@ -1,9 +1,8 @@
-Global HotkeyPicker_TargetGuiVar := "" ; Variable to store the GUI control's v-name
-Global HotkeyPrompt_GuiId ; To store the ID of the prompt GUI for easy reference
+Global DynamicHotkey_TargetGuiVar := "" ; store GUI control
 
 DynamicHotkey_Prompt(gLabel) {
-    global HotkeyPicker_TargetGuiVar
-    HotkeyPicker_TargetGuiVar := gLabel
+    global DynamicHotkey_TargetGuiVar
+    DynamicHotkey_TargetGuiVar := gLabel
 
     Suspend, On
     Gui, HotkeyPrompt:New, +ToolWindow -Caption +AlwaysOnTop
@@ -11,14 +10,11 @@ DynamicHotkey_Prompt(gLabel) {
     Gui, HotkeyPrompt:Add, Text,, Press any key...
     Gui, HotkeyPrompt:Show, Center AutoSize
 
-    ;Gui, gui_Settings:+Disabled
-
-    ; Use a low-level key detection loop
     SetTimer, _WatchForKeyPress, 10
 }
 
 DynamicHotkey_Capture(capturedKey) {
-    global HotkeyPicker_TargetGuiVar
+    global DynamicHotkey_TargetGuiVar
     global SettingsIniFile
        
     ; ---
@@ -52,7 +48,7 @@ DynamicHotkey_Capture(capturedKey) {
         FinalHotkey .= capturedKey
 
 
-    Switch HotkeyPicker_TargetGuiVar {
+    Switch DynamicHotkey_TargetGuiVar {
         Case "GUI_Hotkey_Toggle_CurrentLayout":
             GUI_Hotkey_Toggle_CurrentLayout := FinalHotkey
         Case "GUI_Hotkey_ScriptReload":
@@ -81,14 +77,14 @@ DynamicHotkey_Capture(capturedKey) {
 
     ; Update GUI
     FinalHotkey := ReplaceModifiers(FinalHotkey) ; this affects only the label
-    GuiControl, gui_Settings:, %HotkeyPicker_TargetGuiVar%, %FinalHotkey%
+    GuiControl, gui_Settings:, %DynamicHotkey_TargetGuiVar%, %FinalHotkey%
     Gui, HotkeyPrompt:Destroy
 
 
     Suspend, Off
     Gui, gui_Settings: Show, w450 h570, Displaced Grid %DisplacedGridVersion% by etofok
 
-    HotkeyPicker_TargetGuiVar := ""
+    DynamicHotkey_TargetGuiVar := ""
 }
 
 
@@ -96,7 +92,7 @@ DynamicHotkey_Cancel() {
     global DynamicHotkey_GUI_ID
     Gui, HotkeyPrompt:Destroy
     Suspend, Off
-    HotkeyPicker_TargetGuiVar := ""
+    DynamicHotkey_TargetGuiVar := ""
     DynamicHotkey_GUI_ID := ""
 }
 

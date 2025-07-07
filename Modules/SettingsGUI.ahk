@@ -31,6 +31,9 @@ ReadSettingsFromIni() {
     IniRead, temp, %SettingsIniFile%, Modules, m_RapidFire.enabled
     m_RapidFire.enabled := temp
 
+    IniRead, temp, %SettingsIniFile%, Modules, m_RepeatMouse.enabled
+    m_RepeatMouse.enabled := temp
+
     IniRead, temp, %SettingsIniFile%, Modules, m_QuickCastItems.enabled
     m_QuickCastItems.enabled := temp
 
@@ -42,29 +45,6 @@ ReadSettingsFromIni() {
 
     IniRead, temp, %SettingsIniFile%, Modules, m_ShiftQueueItems.enabled
     m_ShiftQueueItems.enabled := temp
-
-    ; ------------------------------------------------------------------
-    ; [InstantCamera]
-    IniRead, temp, %SettingsIniFile%, InstantCamera, ControlGroup1.instantCamera
-    ControlGroup1.instantCamera := temp
-    IniRead, temp, %SettingsIniFile%, InstantCamera, ControlGroup2.instantCamera
-    ControlGroup2.instantCamera := temp
-    IniRead, temp, %SettingsIniFile%, InstantCamera, ControlGroup3.instantCamera
-    ControlGroup3.instantCamera := temp
-    IniRead, temp, %SettingsIniFile%, InstantCamera, ControlGroup4.instantCamera
-    ControlGroup4.instantCamera := temp
-    IniRead, temp, %SettingsIniFile%, InstantCamera, ControlGroup5.instantCamera
-    ControlGroup5.instantCamera := temp
-    IniRead, temp, %SettingsIniFile%, InstantCamera, ControlGroup6.instantCamera
-    ControlGroup6.instantCamera := temp
-    IniRead, temp, %SettingsIniFile%, InstantCamera, ControlGroup7.instantCamera
-    ControlGroup7.instantCamera := temp
-    IniRead, temp, %SettingsIniFile%, InstantCamera, ControlGroup8.instantCamera
-    ControlGroup8.instantCamera := temp
-    IniRead, temp, %SettingsIniFile%, InstantCamera, ControlGroup9.instantCamera
-    ControlGroup9.instantCamera := temp
-    IniRead, temp, %SettingsIniFile%, InstantCamera, ControlGroup0.instantCamera
-    ControlGroup0.instantCamera := temp
 
     ; ------------------------------------------------------------------
     ; [UnifiedOrders]
@@ -88,6 +68,36 @@ ReadSettingsFromIni() {
     ControlGroup9.unifiedOrders := temp
     IniRead, temp, %SettingsIniFile%, UnifiedOrders, ControlGroup0.unifiedOrders
     ControlGroup0.unifiedOrders := temp
+
+    ; ------------------------------------------------------------------
+    ; [InstantCamera]
+    IniRead, temp, %SettingsIniFile%, InstantCamera, SelectHero1.instantCamera
+    SelectHero1.instantCamera := temp
+    IniRead, temp, %SettingsIniFile%, InstantCamera, SelectHero2.instantCamera
+    SelectHero2.instantCamera := temp
+    IniRead, temp, %SettingsIniFile%, InstantCamera, SelectHero3.instantCamera
+    SelectHero3.instantCamera := temp
+
+    IniRead, temp, %SettingsIniFile%, InstantCamera, ControlGroup1.instantCamera
+    ControlGroup1.instantCamera := temp
+    IniRead, temp, %SettingsIniFile%, InstantCamera, ControlGroup2.instantCamera
+    ControlGroup2.instantCamera := temp
+    IniRead, temp, %SettingsIniFile%, InstantCamera, ControlGroup3.instantCamera
+    ControlGroup3.instantCamera := temp
+    IniRead, temp, %SettingsIniFile%, InstantCamera, ControlGroup4.instantCamera
+    ControlGroup4.instantCamera := temp
+    IniRead, temp, %SettingsIniFile%, InstantCamera, ControlGroup5.instantCamera
+    ControlGroup5.instantCamera := temp
+    IniRead, temp, %SettingsIniFile%, InstantCamera, ControlGroup6.instantCamera
+    ControlGroup6.instantCamera := temp
+    IniRead, temp, %SettingsIniFile%, InstantCamera, ControlGroup7.instantCamera
+    ControlGroup7.instantCamera := temp
+    IniRead, temp, %SettingsIniFile%, InstantCamera, ControlGroup8.instantCamera
+    ControlGroup8.instantCamera := temp
+    IniRead, temp, %SettingsIniFile%, InstantCamera, ControlGroup9.instantCamera
+    ControlGroup9.instantCamera := temp
+    IniRead, temp, %SettingsIniFile%, InstantCamera, ControlGroup0.instantCamera
+    ControlGroup0.instantCamera := temp
 
     ; ------------------------------------------------------------------
     ; [ItemQuickcast]
@@ -145,25 +155,29 @@ SettingsGUI() {
     Global GUI_m_CastOnYourself_enabled         := m_CastOnYourself.enabled
     Global GUI_m_SetSkillPoint_enabled          := m_SetSkillPoint.enabled
     Global GUI_m_RapidFire_enabled              := m_RapidFire.enabled
+    Global GUI_m_RepeatMouse_enabled            := m_RepeatMouse.enabled
     Global GUI_m_QuickCastItems_enabled         := m_QuickCastItems.enabled
     Global GUI_m_QuickDropItems_enabled         := m_QuickDropItems.enabled
     Global GUI_m_InstantCamera_enabled          := m_InstantCamera.enabled
     Global GUI_m_ShiftQueueItems_enabled        := m_ShiftQueueItems.enabled
 
-    Gui, gui_Settings: Add, Text, x90 y210, %m_HealthbarsAlwaysStay_menuLabel%
-    Gui, gui_Settings: Add, Checkbox, x340 y210 vGUI_m_HealthbarsAlwaysStay_enabled Checked%GUI_m_HealthbarsAlwaysStay_enabled%
+    Gui, gui_Settings: Add, Text, x90 y180, %m_HealthbarsAlwaysStay_menuLabel%
+    Gui, gui_Settings: Add, Checkbox, x340 y180 vGUI_m_HealthbarsAlwaysStay_enabled Checked%GUI_m_HealthbarsAlwaysStay_enabled%
 
-    Gui, gui_Settings: Add, Text, x90 y240, %m_UnifiedOrders_menuLabel%
-    Gui, gui_Settings: Add, Checkbox, x340 y240 vGUI_m_UnifiedOrders_enabled Checked%GUI_m_UnifiedOrders_enabled%
+    Gui, gui_Settings: Add, Text, x90 y210, %m_UnifiedOrders_menuLabel%
+    Gui, gui_Settings: Add, Checkbox, x340 y210 vGUI_m_UnifiedOrders_enabled Checked%GUI_m_UnifiedOrders_enabled%
 
-    Gui, gui_Settings: Add, Text, x90 y270, %m_CastOnYourself_menuLabel%
-    Gui, gui_Settings: Add, Checkbox, x340 y270 vGUI_m_CastOnYourself_enabled Checked%GUI_m_CastOnYourself_enabled%
+    Gui, gui_Settings: Add, Text, x90 y240, %m_CastOnYourself_menuLabel%
+    Gui, gui_Settings: Add, Checkbox, x340 y240 vGUI_m_CastOnYourself_enabled Checked%GUI_m_CastOnYourself_enabled%
 
-    Gui, gui_Settings: Add, Text, x90 y300, %m_SetSkillPoint_menuLabel%
-    Gui, gui_Settings: Add, Checkbox, x340 y300 vGUI_m_SetSkillPoint_enabled Checked%GUI_m_SetSkillPoint_enabled%
+    Gui, gui_Settings: Add, Text, x90 y270, %m_SetSkillPoint_menuLabel%
+    Gui, gui_Settings: Add, Checkbox, x340 y270 vGUI_m_SetSkillPoint_enabled Checked%GUI_m_SetSkillPoint_enabled%
 
-    Gui, gui_Settings: Add, Text, x90 y330, %m_RapidFire_menuLabel%
-    Gui, gui_Settings: Add, Checkbox, x340 y330 vGUI_m_RapidFire_enabled Checked%GUI_m_RapidFire_enabled%
+    Gui, gui_Settings: Add, Text, x90 y300, %m_RapidFire_menuLabel%
+    Gui, gui_Settings: Add, Checkbox, x340 y300 vGUI_m_RapidFire_enabled Checked%GUI_m_RapidFire_enabled%    
+
+    Gui, gui_Settings: Add, Text, x90 y330, %m_RepeatMouse_menuLabel%
+    Gui, gui_Settings: Add, Checkbox, x340 y330 vGUI_m_RepeatMouse_enabled Checked%GUI_m_RepeatMouse_enabled%
 
     Gui, gui_Settings: Add, Text, x90 y360, %m_InstantCamera_menuLabel%
     Gui, gui_Settings: Add, Checkbox, x340 y360 vGUI_m_InstantCamera_enabled Checked%GUI_m_InstantCamera_enabled%
@@ -237,9 +251,12 @@ SettingsGUI() {
     ; --- Tab 3 InstantCamera ---
     Gui, gui_Settings: Tab, 3
     Gui, gui_Settings: Add, Text, x90 y80, Check control groups for Instant Camera
-    Gui, gui_Settings: Add, Text, x90 y110, Double-taps the control group
+    ;Gui, gui_Settings: Add, Text, x90 y110, Double-taps the control group
 
     ; [InstantCamera]
+    Global GUI_SelectHero1_instantCamera := SelectHero1.instantCamera
+    Global GUI_SelectHero2_instantCamera := SelectHero2.instantCamera
+    Global GUI_SelectHero3_instantCamera := SelectHero3.instantCamera
     Global GUI_ControlGroup1_instantCamera := ControlGroup1.instantCamera
     Global GUI_ControlGroup2_instantCamera := ControlGroup2.instantCamera
     Global GUI_ControlGroup3_instantCamera := ControlGroup3.instantCamera
@@ -250,6 +267,15 @@ SettingsGUI() {
     Global GUI_ControlGroup8_instantCamera := ControlGroup8.instantCamera
     Global GUI_ControlGroup9_instantCamera := ControlGroup9.instantCamera
     Global GUI_ControlGroup0_instantCamera := ControlGroup0.instantCamera
+
+    Gui, gui_Settings: Add, Text, x90 y110, % "Select Hero 1 [" SelectHero1.physicalKey "]"
+    Gui, gui_Settings: Add, Checkbox, x340 y110 vGUI_SelectHero1_instantCamera Checked%GUI_SelectHero1_instantCamera%
+
+    Gui, gui_Settings: Add, Text, x90 y130, % "Select Hero 2 [" SelectHero2.physicalKey "]"
+    Gui, gui_Settings: Add, Checkbox, x340 y130 vGUI_SelectHero2_instantCamera Checked%GUI_SelectHero2_instantCamera%
+
+    Gui, gui_Settings: Add, Text, x90 y150, % "Select Hero 3 [" SelectHero3.physicalKey "]"
+    Gui, gui_Settings: Add, Checkbox, x340 y150 vGUI_SelectHero3_instantCamera Checked%GUI_SelectHero3_instantCamera%
 
     Gui, gui_Settings: Add, Text, x90 y180, % "Control Group 1 [" ControlGroup1.physicalKey "]"
     Gui, gui_Settings: Add, Checkbox, x340 y180 vGUI_ControlGroup1_instantCamera Checked%GUI_ControlGroup1_instantCamera%
@@ -414,6 +440,7 @@ ButtonSave() {
     Global GUI_m_CastOnYourself_enabled
     Global GUI_m_SetSkillPoint_enabled
     Global GUI_m_RapidFire_enabled
+    Global GUI_m_RepeatMouse_enabled
     Global GUI_m_QuickCastItems_enabled
     Global GUI_m_QuickDropItems_enabled
     Global GUI_m_InstantCamera_enabled
@@ -424,6 +451,7 @@ ButtonSave() {
     Global m_CastOnYourself_enabled
     Global m_SetSkillPoint_enabled
     Global m_RapidFire_enabled
+    Global m_RepeatMouse_enabled
     Global m_QuickCastItems_enabled
     Global m_QuickDropItems_enabled
     Global m_InstantCamera_enabled
@@ -434,6 +462,7 @@ ButtonSave() {
     m_CastOnYourself_enabled                            := GUI_m_CastOnYourself_enabled
     m_SetSkillPoint_enabled                             := GUI_m_SetSkillPoint_enabled
     m_RapidFire_enabled                                 := GUI_m_RapidFire_enabled
+    m_RepeatMouse_enabled                               := GUI_m_RepeatMouse_enabled
     m_QuickCastItems_enabled                            := GUI_m_QuickCastItems_enabled
     m_QuickDropItems_enabled                            := GUI_m_QuickDropItems_enabled
     m_InstantCamera_enabled                             := GUI_m_InstantCamera_enabled
@@ -445,6 +474,7 @@ ButtonSave() {
     IniWrite, %GUI_m_CastOnYourself_enabled%,           %SettingsIniFile%, Modules, m_CastOnYourself.enabled
     IniWrite, %GUI_m_SetSkillPoint_enabled%,            %SettingsIniFile%, Modules, m_SetSkillPoint.enabled
     IniWrite, %GUI_m_RapidFire_enabled%,                %SettingsIniFile%, Modules, m_RapidFire.enabled
+    IniWrite, %GUI_m_RepeatMouse_enabled%,                %SettingsIniFile%, Modules, m_RepeatMouse.enabled
     IniWrite, %GUI_m_QuickCastItems_enabled%,           %SettingsIniFile%, Modules, m_QuickCastItems.enabled
     IniWrite, %GUI_m_QuickDropItems_enabled%,           %SettingsIniFile%, Modules, m_QuickDropItems.enabled
     IniWrite, %GUI_m_InstantCamera_enabled%,            %SettingsIniFile%, Modules, m_InstantCamera.enabled
@@ -456,6 +486,7 @@ ButtonSave() {
     m_CastOnYourself.enabled            := m_CastOnYourself_enabled
     m_SetSkillPoint.enabled             := m_SetSkillPoint_enabled
     m_RapidFire.enabled                 := m_RapidFire_enabled
+    m_RepeatMouse.enabled               := m_RepeatMouse_enabled
     m_QuickCastItems.enabled            := m_QuickCastItems_enabled
     m_QuickDropItems.enabled            := m_QuickDropItems_enabled
     m_InstantCamera.enabled             := m_InstantCamera_enabled
@@ -513,6 +544,9 @@ ButtonSave() {
     ; ----------------------------------
     ; - tab 3 instantCamera
 
+    Global GUI_SelectHero1_instantCamera
+    Global GUI_SelectHero2_instantCamera
+    Global GUI_SelectHero3_instantCamera
     Global GUI_ControlGroup1_instantCamera
     Global GUI_ControlGroup2_instantCamera
     Global GUI_ControlGroup3_instantCamera
@@ -524,6 +558,9 @@ ButtonSave() {
     Global GUI_ControlGroup9_instantCamera
     Global GUI_ControlGroup0_instantCamera
 
+    Global SelectHero1_instantCamera                      := GUI_SelectHero1_instantCamera
+    Global SelectHero2_instantCamera                      := GUI_SelectHero2_instantCamera
+    Global SelectHero3_instantCamera                      := GUI_SelectHero3_instantCamera
     Global ControlGroup1_instantCamera                      := GUI_ControlGroup1_instantCamera
     Global ControlGroup2_instantCamera                      := GUI_ControlGroup2_instantCamera
     Global ControlGroup3_instantCamera                      := GUI_ControlGroup3_instantCamera
@@ -536,6 +573,9 @@ ButtonSave() {
     Global ControlGroup0_instantCamera                      := GUI_ControlGroup0_instantCamera 
 
     ; write to Settings.ini
+    IniWrite, %GUI_SelectHero1_instantCamera%,            %SettingsIniFile%, InstantCamera, SelectHero1.instantCamera
+    IniWrite, %GUI_SelectHero2_instantCamera%,            %SettingsIniFile%, InstantCamera, SelectHero2.instantCamera
+    IniWrite, %GUI_SelectHero3_instantCamera%,            %SettingsIniFile%, InstantCamera, SelectHero3.instantCamera
     IniWrite, %GUI_ControlGroup1_instantCamera%,            %SettingsIniFile%, InstantCamera, ControlGroup1.instantCamera
     IniWrite, %GUI_ControlGroup2_instantCamera%,            %SettingsIniFile%, InstantCamera, ControlGroup2.instantCamera
     IniWrite, %GUI_ControlGroup3_instantCamera%,            %SettingsIniFile%, InstantCamera, ControlGroup3.instantCamera
@@ -548,6 +588,9 @@ ButtonSave() {
     IniWrite, %GUI_ControlGroup0_instantCamera%,            %SettingsIniFile%, InstantCamera, ControlGroup0.instantCamera
 
     ; assign the actual value
+    SelectHero1.instantCamera := SelectHero1_instantCamera
+    SelectHero2.instantCamera := SelectHero2_instantCamera
+    SelectHero3.instantCamera := SelectHero3_instantCamera
     ControlGroup1.instantCamera := ControlGroup1_instantCamera
     ControlGroup2.instantCamera := ControlGroup2_instantCamera
     ControlGroup3.instantCamera := ControlGroup3_instantCamera

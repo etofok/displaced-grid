@@ -51,7 +51,7 @@ layout_BlizzardGrid() {
 	Item4.physicalKey			:=	"Numpad5"
 	Item5.physicalKey			:=	"Numpad1"
 	Item6.physicalKey			:=	"Numpad2"
-	ItemsRequireAlt				:=	0
+	ItemsRequireAlt				:=	0 		; <--------- notice this
 
 	; --- --- --- --- --- ---
 	laltkey.physicalKey			:= 	"LAlt"
@@ -65,5 +65,5 @@ layout_BlizzardGrid() {
 	upkey.physicalKey			:= 	"Up"
 
 	mouse1key.physicalKey		:= 	"LButton"	; not used
-	mouse2key.physicalKey		:= 	"RButton" 	; used for command all units
+	mouse2key.physicalKey		:= 	"RButton" 	; used for UnifiedOrders and RepeatMouse
 }

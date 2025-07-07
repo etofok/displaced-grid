@@ -236,42 +236,9 @@ Hotkey_NumpadEnter() {
 	if (m_EventLog.active) {
 		UpdateEventLog("NumpadEnter Released")
 	}
-
 }
 
 
-
-Hotkey_Mouse(objCommand) {
-	global keyPressed_Mouse2, m_EventLog, m_RapidFire
-
-	keyPressed_Mouse2 := 1
-
-	if (m_EventLog.active) {
-		UpdateEventLog("Mouse:`t" objCommand.physicalKey "`ningameHotkey:  " objCommand.ingameHotkey)
-	}
-
-	temp_physicalKey := objCommand.physicalKey
-	temp_ingameHotkey := objCommand.ingameHotkey
-
-	Loop {
-		if (!GetKeyState(temp_physicalKey, "P"))
-			break
-
-		if (GetKeyState(keyPressed_LShift, "P")) {
-			Send {Blind}{Shift Down}%temp_ingameHotkey%{Shift Up}
-		} else {
-			Send {Blind}%temp_ingameHotkey%
-		}
-
-		; Only RapidFire if enabled
-		if (m_RapidFire.active != 1)
-			break
-
-		Sleep, 50
-	}
-
-	keyPressed_Mouse2 := 0
-}
 
 
 ; test

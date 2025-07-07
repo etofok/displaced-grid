@@ -35,7 +35,7 @@ if (m_RapidFire.enabled == True) {
 
 	Control_m_RapidFire(1)
 }
-
+ 
 ;-----------------------------------------
 ; Module Control
 

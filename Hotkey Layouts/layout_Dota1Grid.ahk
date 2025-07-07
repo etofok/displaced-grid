@@ -48,7 +48,7 @@ layout_Dota1Grid() {
 	Item4.physicalKey			:=	"X"
 	Item5.physicalKey			:=	"D"
 	Item6.physicalKey			:=	"C"
-	ItemsRequireAlt				:=	0
+	ItemsRequireAlt				:=	0 		; <--------- notice this
 
 	; --- --- --- --- --- ---
 	laltkey.physicalKey			:= 	"LAlt"
@@ -60,7 +60,7 @@ layout_Dota1Grid() {
 	enterkey.physicalKey		:= 	"Enter"
 	numpadenterkey.physicalKey	:= 	"NumpadEnter"
 	upkey.physicalKey			:= 	"Up"
-	
+
 	mouse1key.physicalKey		:= 	"LButton"	; not used
 	mouse2key.physicalKey		:= 	"RButton" 	; used for command all units
 }

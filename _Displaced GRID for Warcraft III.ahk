@@ -4,7 +4,7 @@
 ;	Download Latest: https://github.com/etofok/Displaced-Grid-for-Warcraft-III
 
 ;	Development: 
-;	Dec 10th, 2023 - July 4th, 2025
+;	Dec 10th, 2023 - July 7th, 2025
 
 #SingleInstance force
 #NoEnv
@@ -21,7 +21,6 @@ if not A_IsAdmin
 
 
 SetTitleMatchMode, 3
-;SetMouseDelay, 50
 CoordMode, Mouse, Client ; otherwise the war3 window in window mode will account for the window border
 
 #Include *i %A_ScriptDir%\Modules\Initialize.ahk
@@ -47,7 +46,7 @@ ReadSettingsFromIni()
 #Include *i %A_ScriptDir%\Modules\Hotkey_CommandCard.ahk
 #Include *i %A_ScriptDir%\Modules\Hotkey_Bind.ahk
 #Include *i %A_ScriptDir%\Modules\Hotkey_Item.ahk
-#Include *i %A_ScriptDir%\Modules\setHotkey.ahk
+#Include *i %A_ScriptDir%\Modules\DynamicHotkey.ahk
 
 Hotkey, %Hotkey_Toggle_CurrentLayout%, 					Toggle_CurrentLayout,		UseErrorLevel
 Hotkey, %Hotkey_ScriptReload%, 							ScriptReload,				UseErrorLevel
@@ -112,6 +111,7 @@ Menu, Tray, Disable, 	Modules in use:
 #Include 				*i %A_ScriptDir%\Modules\module_SetSkillPoint.ahk
 #Include 				*i %A_ScriptDir%\Modules\module_CastOnYourself.ahk
 #Include 				*i %A_ScriptDir%\Modules\module_RapidFire.ahk
+#Include 				*i %A_ScriptDir%\Modules\module_RepeatMouse.ahk
 #Include 				*i %A_ScriptDir%\Modules\module_InstantCamera.ahk
 #Include 				*i %A_ScriptDir%\Modules\module_QuickCastItems.ahk
 #Include 				*i %A_ScriptDir%\Modules\module_QuickDropItems.ahk
@@ -206,10 +206,7 @@ Toggle_CurrentLayout() {
 
 loadLayout(layout) {
 
-	; this loads the layout
-	; app architecture is almost ready to support multiple layouts, not just one
-	; although I'm not exactly sure why
-
+	; load the layout
 	; all this is hardcoded for now. expanding this to be user friendly will take a lot of my brainpower for no audience
 
 	if (layout == "DisplacedGrid") {
@@ -276,7 +273,7 @@ Send_gg() {
 ;--------------------------------
 ScriptReload:
 	;Suspend, Permit
-	UnhookAllEvents()
+	UnhookAllEvents() ; important because we set hooks for Overlay to work; hooks must be unhooked manually
 	Reload
 return
 
@@ -284,11 +281,9 @@ return
 ; Reload This Script
 ;--------------------------------
 RestartApp() {
-	UnhookAllEvents()
+	UnhookAllEvents() ; important because we set hooks for Overlay to work; hooks must be unhooked manually
 	Reload
 }
-
-
 
 ;--------------------------------
 ; Locate This Script
@@ -298,7 +293,9 @@ ScriptFolder:
 	Run, %a_scriptdir%
 return
 
-
+;--------------------------------
+; OpenSettings
+;--------------------------------
 OpenSettings:
 	SettingsGUI()
 return
@@ -308,7 +305,7 @@ return
 ;--------------------------------
 ScriptExit:
 	Suspend, Permit
-	UnhookAllEvents()
+	UnhookAllEvents() ; important because we set hooks for Overlay to work; hooks must be unhooked manually
 	ExitApp
 return
 
@@ -369,9 +366,16 @@ Rand(min, max) {
 handler_blank() {
 }
 
+
+;-----------------------------------------
+; Labes that I can't include into modules, because modules are loaded in the autorun section
+; it's not elegant and I'm aware
+
+; this is to capture Press Any Key... for setting up user hotkeys
+; in AHK v1 SetTimer only works with labels, so this needs to be a label
+; and I can't put a label into SettingsGUI.ahk because it loads in the autolaunch section
 _WatchForKeyPress:
     Loop {
-        ; Check all keys from the key list
         KeyList := "A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|" ; letters
                  . "0|1|2|3|4|5|6|7|8|9|"
                  . "F1|F2|F3|F4|F5|F6|F7|F8|F9|F10|F11|F12|"
@@ -391,6 +395,36 @@ _WatchForKeyPress:
     }
 return
 
+RepeatHotkeyLoop:
+	if (!repeatTimerActive || !repeatDelayTimerFired)
+		return
+
+	if (!GetKeyState(repeatKey, "P")) {
+		SetTimer, RepeatHotkeyLoop, Off
+		repeatTimerActive := false
+		return
+	}
+
+	MouseGetPos, mx, my
+	if (mx >= InventoryStartX && mx <= InventoryEndX && my >= InventoryStartY && my <= InventoryEndY) {
+		SetTimer, RepeatHotkeyLoop, Off
+		repeatTimerActive := false
+		return
+	}
+
+	if (keyPressed_LShift)
+		Send {Blind}{Shift Down}%repeatHotkey%{Shift Up}
+	else
+		Send {Blind}%repeatHotkey%
+return
+
+
+StartRepeatLoop:
+	if (!repeatTimerActive)
+		return
+	repeatDelayTimerFired := true
+	SetTimer, RepeatHotkeyLoop, 100
+return
 
 
 #IfWinActive

@@ -1,4 +1,4 @@
-Global 	DisplacedGridVersion			:= "v2.0.0"
+Global 	DisplacedGridVersion			:= "v2.0.1"
 
 Global 	winName 						:= "Warcraft III"				; Warcraft III window name
 Global 	winClass 						:= "ahk_class OsWindow" 		; Warcraft III class name, as seen in WindowSpy of AutoHotkey
@@ -33,6 +33,7 @@ Global 	Hotkey_OpenSettings				:=
 Global 	m_HealthbarsAlwaysStay 			:= {}
 Global 	m_QuickCastItems 				:= {}
 Global 	m_RapidFire 					:= {}
+Global 	m_RepeatMouse 					:= {}
 Global 	m_UnifiedOrders 				:= {}
 Global 	m_SetSkillPoint 				:= {}
 Global 	m_CastOnYourself 				:= {}
@@ -42,7 +43,7 @@ Global 	m_InstantCamera 				:= {}
 Global 	m_EventLog	 					:= {} 	
 	 	m_EventLog.enabled				:= 0 	
 
-Global 	a_Modules						:= [m_HealthbarsAlwaysStay, m_CastOnYourself, m_SetSkillPoint, m_QuickCastItems, m_QuickDropItems, m_UnifiedOrders, m_RapidFire, m_InstantCamera, m_EventLog]
+Global 	a_Modules						:= [m_HealthbarsAlwaysStay, m_CastOnYourself, m_SetSkillPoint, m_QuickCastItems, m_QuickDropItems, m_UnifiedOrders, m_RapidFire, m_RepeatMouse, m_InstantCamera, m_EventLog]
 
 ; unfortunately in v1.1 you have to use flat variables for many things
 
@@ -86,6 +87,12 @@ Global	Item4 				:= 	[]
 Global	Item5 				:= 	[]
 Global	Item6 				:= 	[]
 Global	ItemsRequireAlt 	:= 	[]
+Global	InventoryStartX 	:= 	[]
+Global	InventoryStartY 	:= 	[]
+Global	InventoryEndX 		:= 	[]
+Global	InventoryEndY 		:= 	[]
+Global	InventoryWidth 		:= 	[]
+Global	InventoryHeight		:= 	[]
 Global 	a_Items 			:= 	[Item1, Item2, Item3, Item4, Item5, Item6]
 
 Global	mouse1key 			:= 	[]
@@ -123,3 +130,10 @@ Global 	keyPressed_NumpadEnter		:= 0
 Global 	keyPressed_Up				:= 0
 Global 	keyPressed_Mouse1 			:= 0
 Global 	keyPressed_Mouse2 			:= 0
+
+Global repeatHotkey 				:= ""
+Global repeatKey 					:= ""
+Global repeatRunning 				:= false
+Global repeatTimerStarted 			:= false
+
+

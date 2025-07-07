@@ -223,13 +223,21 @@ UpdateOverlayCoordinates() {
 
     ; linear interpolation between height 600px and height 1080px to align hotkey overlay for item block for every resolution
     ; offset is for the labels
-    Coordinates_Items_offset_x := Floor(-12 + ( ((clientArea.height - 600) / -37) ))  ; -12 @600px -> -25 @1080px
-    Coordinates_Items_offset_y := Floor(-3 + ( ((clientArea.height - 600) / -69) )) ; -3 @600px -> -10 @1080px
+    global Coordinates_Items_offset_x := Floor(-12 + ( ((clientArea.height - 600) / -37) ))  ; -12 @600px -> -25 @1080px
+    global Coordinates_Items_offset_y := Floor(-3 + ( ((clientArea.height - 600) / -69) )) ; -3 @600px -> -10 @1080px
 
     ; voodoo
     itemSizeMultiplier := 1 + ( (clientArea.height - 600) * (1.8 / 1080) ) 
+    ; 1 + 480 * 0.0016666666666667 => 1.8 for fullhd
+    ; 1280x720 => 1.2
+    ; 800x600 => 1.0
+
 
     ; it was a long night
+    ; the math is wrong actually but at this point who cares
+    ; this DOES work for fullHD which is good enough for me. no one plays on smaller resolutions and I don't even have a bigger monitor to figure out the higher resolutions.
+
+    ; this block is the way to make Item QuickCast work (if corrected)
     Item1.x                     :=  Floor((clientArea.width / 2) + (131.6666666666667 * itemSizeMultiplier)) ; fullHD 1197
     Item1.y                     :=  Floor(clientArea.height * 0.8148148148148148) ; fullHD 880
 
@@ -247,6 +255,27 @@ UpdateOverlayCoordinates() {
 
     Item6.x                     :=  Floor((clientArea.width / 2) + (172.2222222222222 * itemSizeMultiplier)) ; fullHD 1270
     Item6.y                     :=  Floor(clientArea.height * 0.9416666666666667) ; fullHD 1017
+
+    ;------------------------------------
+    ; inventory area
+    ; so that the RepeatMouse module doesn't repeatedly clicks on items
+
+    InventoryStartX     := clientArea.x + Item1.x - Floor(20 + (clientArea.height - 600) / 40)
+    InventoryStartY     := clientArea.y + Item1.y - Floor(0 +  (clientArea.height - 600) / 100)
+
+    InventoryWidth      := Item6.x - Item1.x + Floor(40 + (clientArea.height - 600) / 20)
+    InventoryHeight     := Item6.y - Item1.y + Floor(35 + (clientArea.height - 600) / 15)
+
+    InventoryEndX       := InventoryStartX + InventoryWidth
+    InventoryEndY       := InventoryStartY + InventoryHeight
+
+/*
+    Gui, gui_tempBox: Destroy
+    Gui, gui_tempBox: +AlwaysOnTop -Caption +ToolWindow +E0x20 +Owner%winID%
+    Gui, gui_tempBox: Color, White
+    Gui, gui_tempBox: Show, x%InventoryStartX% y%InventoryStartY% w%InventoryWidth% h%InventoryHeight%, InventoryBox
+    WinSet, Transparent, 128, InventoryBox
+    */
 }
 
 
@@ -274,9 +303,12 @@ SetupHotkeyOverlay() {
     fontColorNormal     := "FFFFFF"
     fontColorQuickcast  := "F69420"
 
+    ;------------------------------------
+
     Gui, gui_HotkeyOverlay: Destroy
     Gui, gui_HotkeyOverlay: -Caption +LastFound -Border +Owner%winID%
     Gui, gui_HotkeyOverlay: Color, 0x000001 ; set GUI background to this color
+
     WinSet, TransColor, 0x000001 255 ; make that color transparent
     WinSet, ExStyle, +0x20, % gui_HotkeyOverlay ; make the overlay click-through
 

@@ -1,9 +1,6 @@
 ﻿;-----------------------------------------
 ; ----- QuickDrop Items
 ;-----------------------------------------
-; Ctrl + Alt + Item1 / Item2 / Item3 / Item4 / Item5 / Item6 
-;(+ Shift)
-;
 ; Drop/Pass/Sell an item from your inventory to the target at mouse cursor: 
 ; a. place on the ground
 ; b. pass to a hero
@@ -40,27 +37,31 @@ QuickDrop(objItem) {
 
 	;MsgBox, % "objItem.x: " objItem.x "`nobjItem.y: " objItem.y 
 
-	;CoordMode, Mouse, Client ; this is important because otherwise the war3 window in window mode will account for the window border
 	ItemX := objItem.x
-	ItemY := objItem.y+20 ; somewhat below the coordinates so it clicks somewhere in the middle of the Item icon
+	ItemY := objItem.y+15 ; somewhat below the coordinates so it clicks somewhere in the middle of the Item icon
 
 	MouseGetPos, StartX, StartY	; remember where the mouse cursor is
 
-
-	; if Shift is not pressed down...
+	; if Shift
 	if (keyPressed_LShift) {	
-		Send {Shift Down}{Click Right}{Shift Up}
 		MouseMove, ItemX, ItemY, 1
-		Send {Click Right}
+		Send {Blind}{Click Right}
+		Sleep 50
 		MouseMove, StartX, StartY, 1
-		Send {Shift Down}{Click}{Shift Up}
+		Sleep 50
+		Send {Blind}{Shift Down}{Click}{Shift Up}
+
+	; if No Shift
 	} else {
 		Send {Click Right}
 		MouseMove, ItemX, ItemY, 1
 		Send {Click Right}
+		Sleep 30
 		MouseMove, StartX, StartY, 1
 		Send {Click}
 	}
+
+	Return
 }
 
 ;--------------------------------
