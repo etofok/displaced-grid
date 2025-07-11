@@ -17,7 +17,7 @@
 	; redirect to the SetSkillPoint module if Ctrl is held
 	if (m_SetSkillPoint.active == 1) {
 
-		if (keyPressed_LCtrl) {
+		if (keyPressed_LCtrl || keyPressed_RCtrl) {
 			SetSkillPoint(objCommand)
 			return
 		}
@@ -49,7 +49,7 @@
 		}
 	}
 
-	if (keyPressed_LShift) {
+	if (keyPressed_LShift || keyPressed_RShift) {
 		Send % "+" objCommand.ingameHotkey
 		return
 	}

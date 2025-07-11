@@ -4,7 +4,7 @@
 	if (m_QuickDropItems.active) {
 
 		; ALT + CTRL pressed down...
-		if ((keyPressed_LAlt || keyPressed_RAlt) and keyPressed_LCtrl) {
+		if ((keyPressed_LAlt || keyPressed_RAlt) and (keyPressed_LCtrl || keyPressed_RCtrl)) {
 
 			if (m_EventLog.active) {
 				UpdateEventLog("QuickDrop...")
@@ -96,7 +96,7 @@
 	; Control Group logic
 	
 	; Set control group
-	if (keyPressed_LCtrl) {
+	if (keyPressed_LCtrl || keyPressed_RCtrl) {
 
 		if (m_EventLog.active) {
 			UpdateEventLog("Control Group Set: `nKeyboard Key:`t" objCommand.physicalKey "`ningameHotkey:  " objCommand.ingameHotkey)	
@@ -107,7 +107,7 @@
 	}
 
 	; Add to control group
-	if (keyPressed_LShift) {
+	if (keyPressed_LShift || keyPressed_RShift) {
 		
 		if (m_EventLog.active) {
 			UpdateEventLog("Control Group Add `nKeyboard Key:`t" objCommand.physicalKey "`ningameHotkey Key:  " objCommand.ingameHotkey)	

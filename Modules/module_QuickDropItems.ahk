@@ -43,7 +43,7 @@ QuickDrop(objItem) {
 	MouseGetPos, StartX, StartY	; remember where the mouse cursor is
 
 	; if Shift
-	if (keyPressed_LShift) {	
+	if (keyPressed_LShift || keyPressed_RShift) {	
 		MouseMove, ItemX, ItemY, 1
 		Send {Blind}{Click Right}
 		Sleep 50

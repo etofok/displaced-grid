@@ -14,7 +14,9 @@ Hotkey_LAlt() {
 	; here we intercept and BLOCK the Alt key so that it doesn't toggle off healthbars.
 
 	; on LAlt key resease...
-	KeyWait, LAlt
+	;KeyWait, LAlt
+	KeyWait, % laltkey.physicalKey
+
 
 	; this is very much needed because we intercept and block Alt.
 	; this means while Warcraft 3 is active the Alt cannot be activated
@@ -49,7 +51,8 @@ Hotkey_RAlt() {
 	; here we intercept and BLOCK the Alt key so that it doesn't toggle off healthbars.
 
 	; on RAlt key resease...
-	KeyWait, RAlt
+	;KeyWait, RAlt
+	KeyWait, % raltkey.physicalKey
 
 	; this is very much needed because we intercept and block Alt.
 	; this means while Warcraft 3 is active the Alt cannot be activated
@@ -83,11 +86,12 @@ Hotkey_LCtrl() {
 		UpdateEventLog("LCtrl Pressed")
 	}
 
-	KeyWait, LCtrl
+	;KeyWait, LCtrl
+	KeyWait, % lctrltkey.physicalKey
 
 	keyPressed_LCtrl = 0
 	if (m_EventLog.active) {
-		UpdateEventLog("LCTRL Released")
+		UpdateEventLog("LCtrl Released")
 	}
 }
 
@@ -99,7 +103,9 @@ Hotkey_LShift() {
 		UpdateEventLog("LShift Pressed")
 	}
 
-	KeyWait, LShift
+	;KeyWait, LShift
+
+	KeyWait, % lshiftkey.physicalKey
 
 	keyPressed_LShift = 0
 	if (m_EventLog.active) {
@@ -107,17 +113,53 @@ Hotkey_LShift() {
 	}
 }
 
+; this does nothing but allows us to flag RCtrl and log it
+Hotkey_RCtrl() {
+
+	keyPressed_RCtrl = 1
+	if (m_EventLog.active) {
+		UpdateEventLog("RCtrl Pressed")
+	}
+
+	;KeyWait, RCtrl
+	KeyWait, % rctrlkey.physicalKey
+
+	keyPressed_RCtrl = 0
+	if (m_EventLog.active) {
+		UpdateEventLog("RCtrl Released")
+	}
+}
+
+; this does  nothing but allows us to flag RShift and log it
+Hotkey_RShift() {
+
+	keyPressed_RShift = 1
+	if (m_EventLog.active) {
+		UpdateEventLog("RShift Pressed")
+	}
+
+	;KeyWait, RShift
+	KeyWait, % rshiftkey.physicalKey
+
+	keyPressed_RShift = 0
+	if (m_EventLog.active) {
+		UpdateEventLog("RShift Released")
+	}
+}
+
 ; this does nothing but allows us to flag CapsLock and log it
 ; I also desided to "block" the key entirely, so that Capslock has no effect while Warcraft3 is in focus
 ; CapsLock is "listenned to" so that we can use it as a modifier for UnifiedOrders
 Hotkey_CapsLock() {
-
 	keyPressed_CapsLock = 1
 	if (m_EventLog.active) {
 		UpdateEventLog("CapsLock Pressed")
 	}
 
-	KeyWait, CapsLock
+	;capslockkey_physicalKey := capslockkey.physicalKey
+	;KeyWait, %capslockkey_physicalKey%
+	
+	KeyWait, % capslockkey.physicalKey
 
 	keyPressed_CapsLock = 0
 	if (m_EventLog.active) {
@@ -165,10 +207,12 @@ Hotkey_Tab() {
     }
 
     ; Repeat while Tab is held down
-    while GetKeyState("Tab", "P") {
+    while GetKeyState(tabkey.physicalKey, "P") {
         Send {Blind}{Tab}
         Sleep 50
     }
+
+	KeyWait, % tabkey.physicalKey
 
     keyPressed_Tab := false
 
@@ -198,7 +242,8 @@ Hotkey_Enter() {
 	Send {Blind}{Enter Down}
 
 	; for the release
-	KeyWait, Enter
+	;KeyWait, Enter
+	KeyWait, % enterkey.physicalKey
 
 	Send {Blind}{Enter Up}
 
@@ -228,7 +273,8 @@ Hotkey_NumpadEnter() {
 	Send {Blind}{NumpadEnter Down}
 
 	; for the release
-	KeyWait, NumpadEnter
+	;KeyWait, NumpadEnter
+	KeyWait, % numpadenterkey.physicalKey
 
 	Send {Blind}{NumpadEnter Up}
 
@@ -241,7 +287,6 @@ Hotkey_NumpadEnter() {
 
 
 
-; test
 Hotkey_Up() {
 
 	keyPressed_Up = 1
@@ -249,7 +294,9 @@ Hotkey_Up() {
 		UpdateEventLog("Up Pressed")
 	}
 	
-	KeyWait, Up
+	;KeyWait, Up
+	KeyWait, % upkey.physicalKey
+
 
 	keyPressed_Up = 0
 	if (m_EventLog.active) {

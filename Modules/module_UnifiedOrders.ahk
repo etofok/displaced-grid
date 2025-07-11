@@ -120,7 +120,7 @@ UnifiedOrders(objCommand) {
         Send % UnifiedGroups[A_Index].ingameHotkey
 
         ; account for shift-queue
-        if (keyPressed_LShift) {
+        if (keyPressed_LShift || keyPressed_RShift) {
         	Send % "{Shift Down}"objCommand.ingameHotkey
     	} else {
 	        Send % objCommand.ingameHotkey

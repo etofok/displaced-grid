@@ -45,7 +45,7 @@ CastOnYourself(objCommand) {
 	MouseGetPos, StartX, StartY			
 
 	; if Shift is pressed down...
-	if (keyPressed_LShift) {
+	if (keyPressed_LShift || keyPressed_RShift) {
 
 		if (m_EventLog.active) {
 			UpdateEventLog("Shift + Cast on Yourself! (" objCommand.ingameHotkey ")")	
@@ -58,10 +58,10 @@ CastOnYourself(objCommand) {
 		Click % PortraitUI.x " " PortraitUI.y
 
 		; this is a crutch that I think makes it less buggy. otherwise the Alt being pressed stays pressed for some reason. no idea.
-		if (keyPressed_LAlt) {
+		if (keyPressed_LAlt || keyPressed_RAlt) {
 			Send {Blind}{LAlt Up}
 		}
-		
+
 		; if RapidFire is ON, we need to issue the Escape command to not break the Shift-Queue
 		if (m_RapidFire.active == 1) {
 			RapidFire_queue()
@@ -89,7 +89,7 @@ CastOnYourself(objCommand) {
 		Click % PortraitUI.x " " PortraitUI.y
 
 		; this is a crutch that I think makes it less buggy. otherwise the Alt being pressed stays pressed for some reason. no idea.
-		if (keyPressed_LAlt) {
+		if (keyPressed_LAlt || keyPressed_RAlt) {
 			Send {Blind}{LAlt Up}
 		}
 	}

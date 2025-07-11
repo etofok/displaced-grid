@@ -5,6 +5,7 @@
 
 ; loadLayout(layout) in the core file will read this. The name is hardcoded.
 
+
 layout_YourCustomGrid() {
 
 	layoutName	 				:= 	"YourCustomGrid"
@@ -57,8 +58,10 @@ layout_YourCustomGrid() {
 	; --- --- --- --- --- ---
 	laltkey.physicalKey			:= 	"LAlt"
 	raltkey.physicalKey			:= 	"RAlt"
-	ctrlkey.physicalKey			:= 	"LCtrl"
-	shiftkey.physicalKey		:= 	"LShift"	
+	lctrlkey.physicalKey		:= 	"LCtrl"
+	rctrlkey.physicalKey		:= 	"RCtrl"
+	lshiftkey.physicalKey		:= 	"LShift"
+	rshiftkey.physicalKey		:= 	"RShift"
 	capslockkey.physicalKey		:= 	"CapsLock"
 	tabkey.physicalKey			:= 	"Tab"
 	enterkey.physicalKey		:= 	"Enter"
@@ -66,5 +69,5 @@ layout_YourCustomGrid() {
 	upkey.physicalKey			:= 	"Up"
 
 	mouse1key.physicalKey		:= 	"LButton"	; not used
-	mouse2key.physicalKey		:= 	"RButton" 	; used for command all units
+	mouse2key.physicalKey		:= 	"RButton" 	; used for UnifiedOrders and RepeatMouse
 }

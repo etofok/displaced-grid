@@ -30,7 +30,7 @@ layout_Dota1Grid() {
 	GRID_00.physicalKey 		:= 	"M" 	; move
 	GRID_10.physicalKey 		:= 	"F" 	; stop
 	GRID_20.physicalKey 		:= 	"H"		; hold
-	GRID_30.physicalKey 		:= 	"Space" 	; attack
+	GRID_30.physicalKey 		:= 	"Space" ; attack
 
 	GRID_01.physicalKey 		:= 	"P" 	; patrol
 	GRID_11.physicalKey 		:= 	"T" 	;
@@ -53,8 +53,10 @@ layout_Dota1Grid() {
 	; --- --- --- --- --- ---
 	laltkey.physicalKey			:= 	"LAlt"
 	raltkey.physicalKey			:= 	"RAlt"
-	ctrlkey.physicalKey			:= 	"LCtrl"
-	shiftkey.physicalKey		:= 	"LShift"	
+	lctrlkey.physicalKey		:= 	"LCtrl"
+	rctrlkey.physicalKey		:= 	"RCtrl"
+	lshiftkey.physicalKey		:= 	"LShift"
+	rshiftkey.physicalKey		:= 	"RShift"
 	capslockkey.physicalKey		:= 	"CapsLock"
 	tabkey.physicalKey			:= 	"Tab"
 	enterkey.physicalKey		:= 	"Enter"
@@ -62,5 +64,5 @@ layout_Dota1Grid() {
 	upkey.physicalKey			:= 	"Up"
 
 	mouse1key.physicalKey		:= 	"LButton"	; not used
-	mouse2key.physicalKey		:= 	"RButton" 	; used for command all units
+	mouse2key.physicalKey		:= 	"RButton" 	; used for UnifiedOrders and RepeatMouse
 }

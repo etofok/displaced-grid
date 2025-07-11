@@ -56,8 +56,10 @@ layout_BlizzardGrid() {
 	; --- --- --- --- --- ---
 	laltkey.physicalKey			:= 	"LAlt"
 	raltkey.physicalKey			:= 	"RAlt"
-	ctrlkey.physicalKey			:= 	"LCtrl"
-	shiftkey.physicalKey		:= 	"LShift"	
+	lctrlkey.physicalKey		:= 	"LCtrl"
+	rctrlkey.physicalKey		:= 	"RCtrl"
+	lshiftkey.physicalKey		:= 	"LShift"	
+	rshiftkey.physicalKey		:= 	"RShift"	
 	capslockkey.physicalKey		:= 	"CapsLock"
 	tabkey.physicalKey			:= 	"Tab"
 	enterkey.physicalKey		:= 	"Enter"

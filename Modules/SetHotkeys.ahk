@@ -14,8 +14,10 @@ SetHotkeys(activateHotkeys) {
 
 	set_laltkey										:= Func("Hotkey_LAlt").bind(laltkey)
 	set_raltkey										:= Func("Hotkey_RAlt").bind(raltkey)
-	set_ctrlkey										:= Func("Hotkey_LCtrl").bind(ctrlkey)
-	set_shiftkey									:= Func("Hotkey_LShift").bind(shiftkey)
+	set_lctrlkey									:= Func("Hotkey_LCtrl").bind(lctrlkey)
+	set_rctrlkey									:= Func("Hotkey_RCtrl").bind(rctrlkey)
+	set_lshiftkey									:= Func("Hotkey_LShift").bind(lshiftkey)
+	set_rshiftkey									:= Func("Hotkey_RShift").bind(rshiftkey)
 	set_capslockkey									:= Func("Hotkey_CapsLock").bind(capslockkey)
 	set_tabkey										:= Func("Hotkey_Tab").bind(tabkey)
 	set_enterkey									:= Func("Hotkey_Enter").bind(enterkey)
@@ -37,8 +39,10 @@ SetHotkeys(activateHotkeys) {
 		Hotkey % "~*"raltkey.physicalKey,			% set_raltkey, 			%activateHotkeys% 
 	}
 
-	Hotkey % "~*"ctrlkey.physicalKey,				% set_ctrlkey, 			%activateHotkeys%
-	Hotkey % "~*"shiftkey.physicalKey,				% set_shiftkey,			%activateHotkeys%
+	Hotkey % "~*"lctrlkey.physicalKey,				% set_lctrlkey, 		%activateHotkeys%
+	Hotkey % "~*"rctrlkey.physicalKey,				% set_rctrlkey, 		%activateHotkeys%
+	Hotkey % "~*"lshiftkey.physicalKey,				% set_lshiftkey,		%activateHotkeys%
+	Hotkey % "~*"rshiftkey.physicalKey,				% set_rshiftkey,		%activateHotkeys%
 	Hotkey % "*"capslockkey.physicalKey,			% set_capslockkey, 		%activateHotkeys%
 
 	Hotkey % "*"tabkey.physicalKey,					% set_tabkey, 			%activateHotkeys%

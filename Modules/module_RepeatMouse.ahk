@@ -50,9 +50,9 @@ Control_m_RepeatMouse(switchTo) {
 
 
 Hotkey_Mouse2(objCommand) {
-	global keyPressed_Mouse2, m_EventLog, m_RapidFire
-	global InventoryStartX, InventoryStartY, InventoryEndX, InventoryEndY
-	global keyPressed_LShift
+	;global keyPressed_Mouse2, m_EventLog, m_RapidFire
+	;global InventoryStartX, InventoryStartY, InventoryEndX, InventoryEndY
+	;global keyPressed_LShift, keyPressed_RShift
 
 	keyPressed_Mouse2 := 1
 
@@ -61,7 +61,7 @@ Hotkey_Mouse2(objCommand) {
 	temp_physicalKey := objCommand.physicalKey
 	temp_ingameHotkey := objCommand.ingameHotkey
 
-	if (keyPressed_LShift) {
+	if (keyPressed_LShift || keyPressed_RShift) {
 		Send {Blind}{Shift Down}%temp_ingameHotkey%{Shift Up}
 	} else {
 		Send {Blind}%temp_ingameHotkey%
@@ -81,7 +81,7 @@ Hotkey_Mouse2(objCommand) {
 			Sleep, 100
 
 			if ((GetKeyState(temp_physicalKey, "P"))) {
-				if (keyPressed_LShift) {
+				if (keyPressed_LShift || keyPressed_RShift) {
 					Send {Blind}{Shift Down}%temp_ingameHotkey%{Shift Up}
 				} else {
 					Send {Blind}%temp_ingameHotkey%

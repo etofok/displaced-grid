@@ -14,7 +14,7 @@ Hotkey_Item(objCommand) {
 	}
 
 	; Shift-keyed Item Key Usage
-	if (keyPressed_LShift) {
+	if (keyPressed_LShift || keyPressed_RShift) {
 
 		; By default, we cannot activate Item keys while Shift is pressed down: there's just no effect - the item hotkey is ignored.
 		; We must let go of the Shift key, activate the Item Hotkey, THEN hold down Shift and only then select the target.

@@ -4,7 +4,7 @@
 ;	Download Latest: https://github.com/etofok/Displaced-Grid-for-Warcraft-III
 
 ;	Development: 
-;	Dec 10th, 2023 - July 7th, 2025
+;	Dec 10th, 2023 - July 11th, 2025
 
 #SingleInstance force
 #NoEnv
@@ -34,6 +34,7 @@ UpdateWindowData()
 #include *i %A_ScriptDir%\Hotkey Layouts\layout_DisplacedGrid.ahk
 #include *i %A_ScriptDir%\Hotkey Layouts\layout_BlizzardGrid.ahk
 #include *i %A_ScriptDir%\Hotkey Layouts\layout_Dota1Grid.ahk
+#include *i %A_ScriptDir%\Hotkey Layouts\layout_TheCore.ahk
 #include *i %A_ScriptDir%\Hotkey Layouts\layout_YourCustomGrid.ahk
 
 #include *i %A_ScriptDir%\Modules\SetHotkeys.ahk
@@ -221,6 +222,11 @@ loadLayout(layout) {
 
 	if (layout == "Dota1Grid") {
 		layout_Dota1Grid()
+		currentLayout := layoutName
+	}
+
+	if (layout == "TheCore") {
+		layout_TheCore()
 		currentLayout := layoutName
 	}
 

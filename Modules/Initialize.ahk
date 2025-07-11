@@ -1,4 +1,4 @@
-Global 	DisplacedGridVersion			:= "v2.0.1"
+Global 	DisplacedGridVersion			:= "v2.0.2"
 
 Global 	winName 						:= "Warcraft III"				; Warcraft III window name
 Global 	winClass 						:= "ahk_class OsWindow" 		; Warcraft III class name, as seen in WindowSpy of AutoHotkey
@@ -12,7 +12,7 @@ Global 	error_warcraftNotFound 			:= "Warcraft III NOT FOUND!"
 ; ----------------------------------------------
 ; Initialize variables...
 
-Global 	a_Layouts 						:= ["DisplacedGrid", "BlizzardGrid", "Dota1Grid", "YourCustomGrid"]
+Global 	a_Layouts 						:= ["DisplacedGrid", "BlizzardGrid", "Dota1Grid", "TheCore", "YourCustomGrid"]
 Global 	currentLayout					:= "DisplacedGrid"
 Global 	layoutName						:=
 Global 	hotkeysRemapped					:=
@@ -41,7 +41,7 @@ Global 	m_QuickDropItems 				:= {}
 Global 	m_ShiftQueueItems 				:= {}
 Global 	m_InstantCamera 				:= {}
 Global 	m_EventLog	 					:= {} 	
-	 	m_EventLog.enabled				:= 0 	
+	 	m_EventLog.enabled				:= 1 	
 
 Global 	a_Modules						:= [m_HealthbarsAlwaysStay, m_CastOnYourself, m_SetSkillPoint, m_QuickCastItems, m_QuickDropItems, m_UnifiedOrders, m_RapidFire, m_RepeatMouse, m_InstantCamera, m_EventLog]
 
@@ -100,8 +100,10 @@ Global	mouse2key 			:= 	[]
 Global	altkey 				:= 	[]
 Global	laltkey 			:= 	[]
 Global	raltkey 			:= 	[]
-Global	ctrlkey				:= 	[]
-Global	shiftkey			:= 	[]
+Global	lctrlkey			:= 	[]
+Global	rctrlkey			:= 	[]
+Global	lshiftkey			:= 	[]
+Global	rshiftkey			:= 	[]
 Global	capslockkey			:= 	[]
 Global	tabkey				:= 	[]
 Global	enterkey			:= 	[]
@@ -122,7 +124,9 @@ Global 	LastKeyPressTime 			:= 0
 Global 	keyPressed_LAlt 			:= 0
 Global 	keyPressed_RAlt 			:= 0
 Global 	keyPressed_LCtrl 			:= 0
+Global 	keyPressed_RCtrl 			:= 0
 Global 	keyPressed_LShift 			:= 0
+Global 	keyPressed_RShift 			:= 0
 Global 	keyPressed_CapsLock 		:= 0
 Global 	keyPressed_Tab 				:= 0
 Global 	keyPressed_Enter 			:= 0
