@@ -1,11 +1,13 @@
 ; ------------------------------------------
-; This file contains the list of hotkeys AS THEY APPEAR TO YOU IN-GAME
+; This file contains the list of hotkeys = in-game actions
+; This file assumes you are using Blizzard GRID set in your Warcraft 3 Input Options.
 
-; this file assumes you are using Blizzard GRID.
 ; There are regional differences i.e. QWERTY (English) vs AZERTY (French)
 
 ; For example, 
 ; if your GRID_00 (Move) is "Q" then GRID_00.ingameHotkey must be "{q}"
+; if your GRID_00 (Move) is "A" then GRID_00.ingameHotkey must be "{a}"
+; if your GRID_00 (Move) is "Z" then GRID_00.ingameHotkey must be "{z}"
 
 ; Parentheses are necessary. Please adhere to this format.
 
@@ -17,8 +19,6 @@
 ; | 0,0 | 1,0 | 2,0 | 3,0 |
 ; | 0,1 | 1,1 | 2,1 | 3,1 |
 ; | 0,2 | 1,2 | 2,2 | 3,2 |
-
-layoutName	 					:= 	""
 
 GRID_00.ingameHotkey 			:= 	"{q}"	; Move
 GRID_10.ingameHotkey			:=	"{w}"	; Stop
@@ -85,19 +85,22 @@ Item6.slot						:= 	6
 Item6.ingameHotkey 				:=	"{numpad2}"
 
 ;-------------------------------------------
-; Modifiers and other keys
+
+object_Capslock.ingameHotkey		:= 	"{CapsLock}"
+object_RButton.ingameHotkey 		:= 	"{Rbutton}"
+object_Tab.ingameHotkey 			:= 	"{Tab}"
+object_Enter.ingameHotkey			:= 	"{Enter}"
+object_NumpadEnter.ingameHotkey		:= 	"{NumpadEnter}"
+
+;-------------------------------------------
+; Modifiers (CTRL / ALT / SHIFT) can not be rebound
 ;-------------------------------------------
 
-laltkey.ingameHotkey 			:= 	"{LAlt}"
-raltkey.ingameHotkey 			:= 	"{RAlt}"
-lctrlkey.ingameHotkey 			:= 	"{LCtrl}"
-rctrlkey.ingameHotkey 			:= 	"{RCtrl}"
-lshiftkey.ingameHotkey			:= 	"{LShift}"
-rshiftkey.ingameHotkey			:= 	"{RShift}"
-capslockkey.ingameHotkey		:= 	"{CapsLock}"
-mouse1key.ingameHotkey 			:= 	"{Lbutton}"
-mouse2key.ingameHotkey 			:= 	"{Rbutton}"
-tabkey.ingameHotkey 			:= 	"{Tab}"
-enterkey.ingameHotkey			:= 	"{Enter}"
-numpadenterkey.ingameHotkey		:= 	"{NumpadEnter}"
-upkey.ingameHotkey				:= 	"{Up}"
+object_LShift.ingameHotkey			:= 	"{LShift}"
+object_LCtrl.ingameHotkey 			:= 	"{LCtrl}"
+object_LAlt.ingameHotkey 			:= 	"{LAlt}"
+
+object_RShift.ingameHotkey			:= 	"{RShift}"
+object_RCtrl.ingameHotkey 			:= 	"{RCtrl}"
+object_RAlt.ingameHotkey 			:= 	"{RAlt}"
+object_Menu.ingameHotkey 			:= 	"{AppsKey}"

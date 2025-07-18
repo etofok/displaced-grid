@@ -233,9 +233,12 @@ UpdateOverlayCoordinates() {
     ; 800x600 => 1.0
 
 
-    ; it was a long night
+    ; REQUIRES AN UPDATE →
+
     ; the math is wrong actually but at this point who cares
-    ; this DOES work for fullHD which is good enough for me. no one plays on smaller resolutions and I don't even have a bigger monitor to figure out the higher resolutions.
+    ; this DOES work for fullHD
+    ; I doubt someone plays on a smaller resolution and I don't even have a bigger monitor to figure out the higher resolutions.
+    ; so currently this is half-implemented, and probably not very optimized
 
     ; this block is the way to make Item QuickCast work (if corrected)
     Item1.x                     :=  Floor((clientArea.width / 2) + (131.6666666666667 * itemSizeMultiplier)) ; fullHD 1197

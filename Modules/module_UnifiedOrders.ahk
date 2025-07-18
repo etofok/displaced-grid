@@ -73,7 +73,7 @@ If (false) {
 		
 		*RButton:: 
 
-			UnifiedOrders(mouse2key)
+			UnifiedOrders(object_RButton)
 
 		return
 

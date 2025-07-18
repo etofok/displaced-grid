@@ -3,8 +3,6 @@
 
 layout_Dota1Grid() {
 
-	layoutName	 				:= 	"Dota1Grid"
-	
 	SelectHero1.physicalKey		:= 	"f1"
 	SelectHero2.physicalKey		:= 	"f2"
 	SelectHero3.physicalKey		:= 	"f3"
@@ -50,19 +48,32 @@ layout_Dota1Grid() {
 	Item6.physicalKey			:=	"C"
 	ItemsRequireAlt				:=	0 		; <--------- notice this
 
-	; --- --- --- --- --- ---
-	laltkey.physicalKey			:= 	"LAlt"
-	raltkey.physicalKey			:= 	"RAlt"
-	lctrlkey.physicalKey		:= 	"LCtrl"
-	rctrlkey.physicalKey		:= 	"RCtrl"
-	lshiftkey.physicalKey		:= 	"LShift"
-	rshiftkey.physicalKey		:= 	"RShift"
-	capslockkey.physicalKey		:= 	"CapsLock"
-	tabkey.physicalKey			:= 	"Tab"
-	enterkey.physicalKey		:= 	"Enter"
-	numpadenterkey.physicalKey	:= 	"NumpadEnter"
-	upkey.physicalKey			:= 	"Up"
+	;-------------------------------------------
 
-	mouse1key.physicalKey		:= 	"LButton"	; not used
-	mouse2key.physicalKey		:= 	"RButton" 	; used for UnifiedOrders and RepeatMouse
+	object_Capslock.physicalKey			:= 	"CapsLock"
+	object_RButton.physicalKey 			:= 	"Rbutton"
+	object_Tab.physicalKey 				:= 	"Tab"
+	object_Enter.physicalKey			:= 	"Enter"
+	object_NumpadEnter.physicalKey		:= 	"NumpadEnter"
+
+
+
+
+
+
+
+
+
+	;-------------------------------------------
+	; Modifiers (CTRL / ALT / SHIFT) can not be rebound
+	;-------------------------------------------
+	; not supported
+	object_LShift.physicalKey			:= 	"LShift"
+	object_LCtrl.physicalKey 			:= 	"LCtrl"
+	object_LAlt.physicalKey 			:= 	"LAlt"
+
+	object_RShift.physicalKey			:= 	"RShift"
+	object_RCtrl.physicalKey 			:= 	"RCtrl"
+	object_RAlt.physicalKey 			:= 	"RAlt"
+	object_Menu.physicalKey 			:= 	"AppsKey"
 }

@@ -12,7 +12,8 @@ Global 	error_warcraftNotFound 			:= "Warcraft III NOT FOUND!"
 ; ----------------------------------------------
 ; Initialize variables...
 
-Global 	a_Layouts 						:= ["DisplacedGrid", "BlizzardGrid", "Dota1Grid", "TheCore", "YourCustomGrid"]
+Global 	a_Layouts 						:= {}
+Global 	LayoutMap 						:= {}
 Global 	currentLayout					:= "DisplacedGrid"
 Global 	layoutName						:=
 Global 	hotkeysRemapped					:=
@@ -25,6 +26,7 @@ DisplacedGrid_logoOff = %A_ScriptDir%\Modules\icons\icon_Hotkeys0.ico
 ; --- settings  ---
 
 Global 	ActivateHotkeysOnLaunch 		:=
+Global 	activateHotkeys 				:=
 Global 	Hotkey_Toggle_CurrentLayout		:=
 Global 	Hotkey_ScriptReload				:=
 Global 	Hotkey_OpenSettings				:=
@@ -41,7 +43,7 @@ Global 	m_QuickDropItems 				:= {}
 Global 	m_ShiftQueueItems 				:= {}
 Global 	m_InstantCamera 				:= {}
 Global 	m_EventLog	 					:= {} 	
-	 	m_EventLog.enabled				:= 1 	
+	 	m_EventLog.enabled				:= 0	
 
 Global 	a_Modules						:= [m_HealthbarsAlwaysStay, m_CastOnYourself, m_SetSkillPoint, m_QuickCastItems, m_QuickDropItems, m_UnifiedOrders, m_RapidFire, m_RepeatMouse, m_InstantCamera, m_EventLog]
 
@@ -95,20 +97,20 @@ Global	InventoryWidth 		:= 	[]
 Global	InventoryHeight		:= 	[]
 Global 	a_Items 			:= 	[Item1, Item2, Item3, Item4, Item5, Item6]
 
-Global	mouse1key 			:= 	[]
-Global	mouse2key 			:= 	[]
-Global	altkey 				:= 	[]
-Global	laltkey 			:= 	[]
-Global	raltkey 			:= 	[]
-Global	lctrlkey			:= 	[]
-Global	rctrlkey			:= 	[]
-Global	lshiftkey			:= 	[]
-Global	rshiftkey			:= 	[]
-Global	capslockkey			:= 	[]
-Global	tabkey				:= 	[]
-Global	enterkey			:= 	[]
-Global	numpadenterkey		:= 	[]
-Global	upkey				:= 	[]
+Global	object_LButton 			:= 	[]
+Global	object_RButton 			:= 	[]
+Global	object_LShift			:= 	[]
+Global	object_LCtrl			:= 	[]
+Global	object_LAlt 			:= 	[]
+Global	object_RShift			:= 	[]
+Global	object_RCtrl			:= 	[]
+Global	object_RAlt 			:= 	[]
+Global	object_Menu				:= 	[]
+Global	object_Capslock			:= 	[]
+Global	object_Tab				:= 	[]
+Global	object_Enter			:= 	[]
+Global	object_NumpadEnter		:= 	[]
+Global	object_Up				:= 	[]
 
 ; --- overlay things ---
 Global 	clientArea			:= 	[]
@@ -121,23 +123,25 @@ Global 	LastKeyPressTime 			:= 0
 ;-----------------------------------------
 
 ; --- intercept keys ---
-Global 	keyPressed_LAlt 			:= 0
-Global 	keyPressed_RAlt 			:= 0
-Global 	keyPressed_LCtrl 			:= 0
-Global 	keyPressed_RCtrl 			:= 0
 Global 	keyPressed_LShift 			:= 0
+Global 	keyPressed_LCtrl 			:= 0
+Global 	keyPressed_LAlt 			:= 0
 Global 	keyPressed_RShift 			:= 0
+Global 	keyPressed_RCtrl 			:= 0
+Global 	keyPressed_RAlt 			:= 0
+Global 	keyPressed_Menu 			:= 0
 Global 	keyPressed_CapsLock 		:= 0
 Global 	keyPressed_Tab 				:= 0
 Global 	keyPressed_Enter 			:= 0
 Global 	keyPressed_NumpadEnter		:= 0
 Global 	keyPressed_Up				:= 0
-Global 	keyPressed_Mouse1 			:= 0
-Global 	keyPressed_Mouse2 			:= 0
+Global 	keyPressed_LButton 			:= 0
+Global 	keyPressed_RButton 			:= 0
 
 Global repeatHotkey 				:= ""
 Global repeatKey 					:= ""
 Global repeatRunning 				:= false
 Global repeatTimerStarted 			:= false
+
 
 

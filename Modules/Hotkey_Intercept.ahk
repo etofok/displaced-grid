@@ -4,6 +4,7 @@
 
 ; these functions fire ONLY when a layout is loaded
 
+
 Hotkey_LAlt() {
 
 	keyPressed_LAlt = 1
@@ -15,7 +16,7 @@ Hotkey_LAlt() {
 
 	; on LAlt key resease...
 	;KeyWait, LAlt
-	KeyWait, % laltkey.physicalKey
+	KeyWait, % object_LAlt.physicalKey
 
 
 	; this is very much needed because we intercept and block Alt.
@@ -41,6 +42,7 @@ Hotkey_LAlt() {
 	}
 }
 
+
 Hotkey_RAlt() {
 
 	keyPressed_RAlt = 1
@@ -52,7 +54,7 @@ Hotkey_RAlt() {
 
 	; on RAlt key resease...
 	;KeyWait, RAlt
-	KeyWait, % raltkey.physicalKey
+	KeyWait, % object_RAlt.physicalKey
 
 	; this is very much needed because we intercept and block Alt.
 	; this means while Warcraft 3 is active the Alt cannot be activated
@@ -78,7 +80,6 @@ Hotkey_RAlt() {
 }
 
 
-; this does nothing but allows us to flag LCtrl and log it
 Hotkey_LCtrl() {
 
 	keyPressed_LCtrl = 1
@@ -86,8 +87,7 @@ Hotkey_LCtrl() {
 		UpdateEventLog("LCtrl Pressed")
 	}
 
-	;KeyWait, LCtrl
-	KeyWait, % lctrltkey.physicalKey
+	KeyWait, % object_LCtrl.physicalKey
 
 	keyPressed_LCtrl = 0
 	if (m_EventLog.active) {
@@ -95,25 +95,6 @@ Hotkey_LCtrl() {
 	}
 }
 
-; this does  nothing but allows us to flag LShift and log it
-Hotkey_LShift() {
-
-	keyPressed_LShift = 1
-	if (m_EventLog.active) {
-		UpdateEventLog("LShift Pressed")
-	}
-
-	;KeyWait, LShift
-
-	KeyWait, % lshiftkey.physicalKey
-
-	keyPressed_LShift = 0
-	if (m_EventLog.active) {
-		UpdateEventLog("LShift Released")
-	}
-}
-
-; this does nothing but allows us to flag RCtrl and log it
 Hotkey_RCtrl() {
 
 	keyPressed_RCtrl = 1
@@ -121,8 +102,7 @@ Hotkey_RCtrl() {
 		UpdateEventLog("RCtrl Pressed")
 	}
 
-	;KeyWait, RCtrl
-	KeyWait, % rctrlkey.physicalKey
+	KeyWait, % object_RCtrl.physicalKey
 
 	keyPressed_RCtrl = 0
 	if (m_EventLog.active) {
@@ -130,7 +110,23 @@ Hotkey_RCtrl() {
 	}
 }
 
-; this does  nothing but allows us to flag RShift and log it
+
+
+Hotkey_LShift() {
+
+	keyPressed_LShift = 1
+	if (m_EventLog.active) {
+		UpdateEventLog("LShift Pressed")
+	}
+
+	KeyWait, % object_LShift.physicalKey
+
+	keyPressed_LShift = 0
+	if (m_EventLog.active) {
+		UpdateEventLog("LShift Released")
+	}
+}
+
 Hotkey_RShift() {
 
 	keyPressed_RShift = 1
@@ -138,35 +134,13 @@ Hotkey_RShift() {
 		UpdateEventLog("RShift Pressed")
 	}
 
-	;KeyWait, RShift
-	KeyWait, % rshiftkey.physicalKey
+	KeyWait, % object_RShift.physicalKey
 
 	keyPressed_RShift = 0
 	if (m_EventLog.active) {
 		UpdateEventLog("RShift Released")
 	}
 }
-
-; this does nothing but allows us to flag CapsLock and log it
-; I also desided to "block" the key entirely, so that Capslock has no effect while Warcraft3 is in focus
-; CapsLock is "listenned to" so that we can use it as a modifier for UnifiedOrders
-Hotkey_CapsLock() {
-	keyPressed_CapsLock = 1
-	if (m_EventLog.active) {
-		UpdateEventLog("CapsLock Pressed")
-	}
-
-	;capslockkey_physicalKey := capslockkey.physicalKey
-	;KeyWait, %capslockkey_physicalKey%
-	
-	KeyWait, % capslockkey.physicalKey
-
-	keyPressed_CapsLock = 0
-	if (m_EventLog.active) {
-		UpdateEventLog("CapsLock Released")
-	}
-}
-
 
 
 Hotkey_Tab() {
@@ -207,12 +181,12 @@ Hotkey_Tab() {
     }
 
     ; Repeat while Tab is held down
-    while GetKeyState(tabkey.physicalKey, "P") {
+    while GetKeyState(object_Tab.physicalKey, "P") {
         Send {Blind}{Tab}
         Sleep 50
     }
 
-	KeyWait, % tabkey.physicalKey
+	KeyWait, % object_Tab.physicalKey
 
     keyPressed_Tab := false
 
@@ -220,7 +194,43 @@ Hotkey_Tab() {
         UpdateEventLog("Tab Released after repeat")
     }
 }
+
+
+Hotkey_Menu() {
+
+	keyPressed_Menu = 1
+	if (m_EventLog.active) {
+		UpdateEventLog("Menu Pressed")
+	}
 	
+	KeyWait, % object_Menu.physicalKey
+
+	keyPressed_Menu = 0
+	if (m_EventLog.active) {
+		UpdateEventLog("Menu Released")
+	}
+}
+
+	
+
+
+; this does nothing but allows us to flag CapsLock and log it
+; I also desided to "block" the key entirely, so that Capslock has no effect while Warcraft3 is in focus
+; CapsLock is "listenned to" so that we can use it as a modifier for UnifiedOrders
+Hotkey_CapsLock() {
+	keyPressed_CapsLock = 1
+	if (m_EventLog.active) {
+		UpdateEventLog("CapsLock Pressed")
+	}
+
+	KeyWait, % object_Capslock.physicalKey
+
+	keyPressed_CapsLock = 0
+	if (m_EventLog.active) {
+		UpdateEventLog("CapsLock Released")
+	}
+}
+
 
 Hotkey_Enter() {
 
@@ -242,8 +252,7 @@ Hotkey_Enter() {
 	Send {Blind}{Enter Down}
 
 	; for the release
-	;KeyWait, Enter
-	KeyWait, % enterkey.physicalKey
+	KeyWait, % object_Enter.physicalKey
 
 	Send {Blind}{Enter Up}
 
@@ -272,9 +281,8 @@ Hotkey_NumpadEnter() {
 	; emulate the key
 	Send {Blind}{NumpadEnter Down}
 
-	; for the release
-	;KeyWait, NumpadEnter
-	KeyWait, % numpadenterkey.physicalKey
+	; wait for the release
+	KeyWait, % object_NumpadEnter.physicalKey
 
 	Send {Blind}{NumpadEnter Up}
 
@@ -285,8 +293,6 @@ Hotkey_NumpadEnter() {
 }
 
 
-
-
 Hotkey_Up() {
 
 	keyPressed_Up = 1
@@ -294,13 +300,10 @@ Hotkey_Up() {
 		UpdateEventLog("Up Pressed")
 	}
 	
-	;KeyWait, Up
-	KeyWait, % upkey.physicalKey
-
+	KeyWait, % object_Up.physicalKey
 
 	keyPressed_Up = 0
 	if (m_EventLog.active) {
 		UpdateEventLog("Up Released")
 	}
 }
-

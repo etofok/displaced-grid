@@ -1,5 +1,7 @@
 SetHotkeys(activateHotkeys) {
 
+	; after many weeks of trying I gave up on trying to rebind modifiers (cascading issues, ahk v1 limitations, intercept.dll requires admin rights and a kernel-lvl install)
+
 	hotkeysRemapped := activateHotkeys
 
 	if (activateHotkeys == 1)
@@ -7,51 +9,54 @@ SetHotkeys(activateHotkeys) {
 	else
 		activateHotkeys := "Off"
 
-
 	; ----------------------------------------------------
 	; Various keys.
 	; ----------------------------------------------------
 
-	set_laltkey										:= Func("Hotkey_LAlt").bind(laltkey)
-	set_raltkey										:= Func("Hotkey_RAlt").bind(raltkey)
-	set_lctrlkey									:= Func("Hotkey_LCtrl").bind(lctrlkey)
-	set_rctrlkey									:= Func("Hotkey_RCtrl").bind(rctrlkey)
-	set_lshiftkey									:= Func("Hotkey_LShift").bind(lshiftkey)
-	set_rshiftkey									:= Func("Hotkey_RShift").bind(rshiftkey)
-	set_capslockkey									:= Func("Hotkey_CapsLock").bind(capslockkey)
-	set_tabkey										:= Func("Hotkey_Tab").bind(tabkey)
-	set_enterkey									:= Func("Hotkey_Enter").bind(enterkey)
-	set_numpadenterkey								:= Func("Hotkey_NumpadEnter").bind(numpadenterkey)
-	set_upkey										:= Func("Hotkey_Up").bind(upkey)
+	set_object_LShift									:= Func("Hotkey_LShift")
+	set_object_LCtrl									:= Func("Hotkey_LCtrl")
+	set_object_LAlt										:= Func("Hotkey_LAlt")
+
+	set_object_Capslock									:= Func("Hotkey_CapsLock")
+	set_object_Tab										:= Func("Hotkey_Tab")
+
+	set_object_Enter									:= Func("Hotkey_Enter")
+	set_object_NumpadEnter								:= Func("Hotkey_NumpadEnter")
+
+	set_object_RShift									:= Func("Hotkey_RShift")
+	set_object_RCtrl									:= Func("Hotkey_RCtrl")
+	set_object_RAlt										:= Func("Hotkey_RAlt")
+	set_object_Menu										:= Func("Hotkey_Menu")
+
 
 	if (m_RepeatMouse.active) {
-		set_mouse2key									:= Func("Hotkey_Mouse2").bind(mouse2key)
-		Hotkey % "*"mouse2key.physicalKey,				% set_mouse2key,		%activateHotkeys%	
+		set_object_RButton									:= Func("Hotkey_RButton").bind(object_RButton)
+		Hotkey % "*"object_RButton.physicalKey,				% set_object_RButton,		%activateHotkeys%	
 	}
 
 	if (m_HealthbarsAlwaysStay.active) {
 		; intercept
-		Hotkey % "*"laltkey.physicalKey,			% set_laltkey, 			%activateHotkeys% 
-		Hotkey % "*"raltkey.physicalKey,			% set_raltkey, 			%activateHotkeys% 
+		Hotkey % "*"object_LAlt.physicalKey,			% set_object_LAlt, 			%activateHotkeys% 
+		Hotkey % "*"object_RAlt.physicalKey,			% set_object_RAlt, 			%activateHotkeys% 
 	} else {
 		; pass through
-		Hotkey % "~*"laltkey.physicalKey,			% set_laltkey, 			%activateHotkeys% 
-		Hotkey % "~*"raltkey.physicalKey,			% set_raltkey, 			%activateHotkeys% 
+		Hotkey % "~*"object_LAlt.physicalKey,			% set_object_LAlt, 			%activateHotkeys% 
+		Hotkey % "~*"object_RAlt.physicalKey,			% set_object_RAlt, 			%activateHotkeys% 
 	}
 
-	Hotkey % "~*"lctrlkey.physicalKey,				% set_lctrlkey, 		%activateHotkeys%
-	Hotkey % "~*"rctrlkey.physicalKey,				% set_rctrlkey, 		%activateHotkeys%
-	Hotkey % "~*"lshiftkey.physicalKey,				% set_lshiftkey,		%activateHotkeys%
-	Hotkey % "~*"rshiftkey.physicalKey,				% set_rshiftkey,		%activateHotkeys%
-	Hotkey % "*"capslockkey.physicalKey,			% set_capslockkey, 		%activateHotkeys%
+	Hotkey % "~*"object_LShift.physicalKey,				% set_object_LShift, 		%activateHotkeys%
+	Hotkey % "~*"object_LCtrl.physicalKey,				% set_object_LCtrl, 		%activateHotkeys%
 
-	Hotkey % "*"tabkey.physicalKey,					% set_tabkey, 			%activateHotkeys%
-	Hotkey % "*"enterkey.physicalKey,				% set_enterkey, 		%activateHotkeys%
-	Hotkey % "*"numpadenterkey.physicalKey,			% set_numpadenterkey, 	%activateHotkeys%
-
-	Hotkey % "~*"upkey.physicalKey,					% set_upkey, 			%activateHotkeys%
-
+	Hotkey % "*"object_Capslock.physicalKey,			% set_object_Capslock, 		%activateHotkeys%
+	Hotkey % "*"object_Tab.physicalKey,					% set_object_Tab, 			%activateHotkeys%
 	
+	Hotkey % "*"object_Enter.physicalKey,				% set_object_Enter, 		%activateHotkeys%
+	Hotkey % "*"object_NumpadEnter.physicalKey,			% set_object_NumpadEnter, 	%activateHotkeys%
+	
+	Hotkey % "~*"object_RShift.physicalKey,				% set_object_RShift,		%activateHotkeys%
+	Hotkey % "~*"object_RCtrl.physicalKey,				% set_object_RCtrl, 		%activateHotkeys%
+	Hotkey % "~*"object_Menu.physicalKey,				% set_object_Menu, 			%activateHotkeys%
+	;Hotkey % "~*"upkey.physicalKey,					% set_upkey, 			%activateHotkeys%
 
 	; ----------------------------------------------------
 	; Select.

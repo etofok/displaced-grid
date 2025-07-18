@@ -49,15 +49,11 @@ Control_m_RepeatMouse(switchTo) {
 
 
 
-Hotkey_Mouse2(objCommand) {
-	;global keyPressed_Mouse2, m_EventLog, m_RapidFire
-	;global InventoryStartX, InventoryStartY, InventoryEndX, InventoryEndY
-	;global keyPressed_LShift, keyPressed_RShift
+Hotkey_RButton(objCommand) {
 
-	keyPressed_Mouse2 := 1
+	keyPressed_RButton := 1
 
 	; send immediately
-	
 	temp_physicalKey := objCommand.physicalKey
 	temp_ingameHotkey := objCommand.ingameHotkey
 
@@ -65,6 +61,10 @@ Hotkey_Mouse2(objCommand) {
 		Send {Blind}{Shift Down}%temp_ingameHotkey%{Shift Up}
 	} else {
 		Send {Blind}%temp_ingameHotkey%
+	}
+
+	if (m_EventLog.active) {
+		UpdateEventLog("RButton Pressed")
 	}
 
 	MouseGetPos, mx, my
@@ -75,7 +75,6 @@ Hotkey_Mouse2(objCommand) {
 		; already sent
 	} else {
 		; Outside: repeat
-
 		while (GetKeyState(temp_physicalKey, "P")) {
 
 			Sleep, 100
@@ -93,9 +92,9 @@ Hotkey_Mouse2(objCommand) {
 	KeyWait, % temp_physicalKey
 
 	if (m_EventLog.active) {
-		UpdateEventLog("Mouse 2 Released")
+		UpdateEventLog("RButton Released")
 	}
 
-	keyPressed_Mouse2 := 0
+	keyPressed_RButton := 0
 }
 

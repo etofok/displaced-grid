@@ -4,7 +4,7 @@
 ;	Download Latest: https://github.com/etofok/Displaced-Grid-for-Warcraft-III
 
 ;	Development: 
-;	Dec 10th, 2023 - July 11th, 2025
+;	Dec 10th, 2023 - July 18th, 2025
 
 #SingleInstance force
 #NoEnv
@@ -25,30 +25,28 @@ CoordMode, Mouse, Client ; otherwise the war3 window in window mode will account
 
 #Include *i %A_ScriptDir%\Modules\Initialize.ahk
 
-; ---- get window info ----
+; get window info
 UpdateWindowData()
+; dynamically load all layouts in the Hotkey Layouts folder
+loadLayouts()
+#Include *i %A_ScriptDir%\Modules\layoutLoader.ahk
 
 ; --------------------------------
-
 #Include *i %A_ScriptDir%\Hotkey Layouts\INGAME_HOTKEYS.ahk
-#include *i %A_ScriptDir%\Hotkey Layouts\layout_DisplacedGrid.ahk
-#include *i %A_ScriptDir%\Hotkey Layouts\layout_BlizzardGrid.ahk
-#include *i %A_ScriptDir%\Hotkey Layouts\layout_Dota1Grid.ahk
-#include *i %A_ScriptDir%\Hotkey Layouts\layout_TheCore.ahk
-#include *i %A_ScriptDir%\Hotkey Layouts\layout_YourCustomGrid.ahk
-
 #include *i %A_ScriptDir%\Modules\SetHotkeys.ahk
 
+; --------------------------------
 #Include *i %A_ScriptDir%\Modules\SettingsGUI.ahk
 ReadSettingsFromIni()
 
-
+; --------------------------------
 #Include *i %A_ScriptDir%\Modules\Hotkey_Intercept.ahk
 #Include *i %A_ScriptDir%\Modules\Hotkey_CommandCard.ahk
 #Include *i %A_ScriptDir%\Modules\Hotkey_Bind.ahk
 #Include *i %A_ScriptDir%\Modules\Hotkey_Item.ahk
 #Include *i %A_ScriptDir%\Modules\DynamicHotkey.ahk
 
+; --------------------------------
 Hotkey, %Hotkey_Toggle_CurrentLayout%, 					Toggle_CurrentLayout,		UseErrorLevel
 Hotkey, %Hotkey_ScriptReload%, 							ScriptReload,				UseErrorLevel
 Hotkey, %Hotkey_OpenSettings%, 							OpenSettings,				UseErrorLevel
@@ -93,6 +91,7 @@ Menu, Tray, Add, 		%menu_Toggle_CurrentLayout%,							Toggle_CurrentLayout
 Menu, Tray, Default, 	%menu_Toggle_CurrentLayout%,
 
 #Include *i %A_ScriptDir%\Modules\module_EventLog.ahk
+
 
 ; activate hotkeys on app start?
 if (ActivateHotkeysOnLaunch == 1) {
@@ -141,11 +140,9 @@ SplashTextOn, 300, 120, , %displaySplash%
 Sleep, 1000
 SplashTextOff
 
-
-
-
 ; load Overlay at the very end
 #Include *i %A_ScriptDir%\Modules\module_HotkeyOverlay.ahk
+
 
 
 ;--------------------
@@ -154,6 +151,7 @@ SplashTextOff
 ;-----------------------------------------
 return ; this return is the most important line of code
 ; all modules are added in the autorun section above
+
 
 
 #IfWinActive
@@ -200,47 +198,77 @@ Switch_CurrentLayout(switchTo) {
 	}
 }
 
-
 Toggle_CurrentLayout() {
 	Switch_CurrentLayout(not hotkeysRemapped)
 }
 
-loadLayout(layout) {
 
-	; load the layout
-	; all this is hardcoded for now. expanding this to be user friendly will take a lot of my brainpower for no audience
+;--------------------------------
+; Load all layouts dynamically
+;--------------------------------
+loadLayouts() {
+    global LayoutMap, a_Layouts
 
-	if (layout == "DisplacedGrid") {
-		layout_DisplacedGrid()
-		currentLayout := layoutName
-	}
-	
-	if (layout == "BlizzardGrid") {
-		layout_BlizzardGrid()
-		currentLayout := layoutName
-	}	
+    loaderFile := A_ScriptDir "\Modules\layoutLoader.ahk"
+    FileDelete, %loaderFile%  ; clear old loader
 
-	if (layout == "Dota1Grid") {
-		layout_Dota1Grid()
-		currentLayout := layoutName
-	}
+    ; loop through all layout_*.ahk files
+    Loop, Files, %A_ScriptDir%\Hotkey Layouts\layout_*.ahk
+    {
+        ; get the layout name from the file
+        RegExMatch(A_LoopFileName, "layout_([A-Za-z0-9_]+)\.ahk", match)
+        layoutName := match1
 
-	if (layout == "TheCore") {
-		layout_TheCore()
-		currentLayout := layoutName
-	}
+        ; get the function name - find first function
+        FileRead, layoutFileContents, %A_LoopFileFullPath%
+        RegExMatch(layoutFileContents, "([A-Za-z0-9_]+)\s*\(", match)
+        layoutFunc := match1
 
-	if (layout == "YourCustomGrid") {
-		layout_YourCustomGrid()
-		currentLayout := layoutName
-	}
-	
+        ; append #Include to load functions
+        FileAppend, #Include *i %A_LoopFileFullPath%`n, %loaderFile%
+
+        ; store names and function references
+        if (layoutName != "" && layoutFunc != "") {
+            a_Layouts.push(layoutName)  			; store just the layout's name
+            LayoutMap[layoutName] := layoutFunc		; store the function to call later to load keys
+        }
+    }
+
+    ; convert function names into callable Func objects
+    for index, name in a_Layouts {
+        funcName := LayoutMap[name]
+        if IsFunc(funcName)
+            LayoutMap[name] := Func(funcName)
+        else
+            LayoutMap[name] := ""
+    }
 }
+
+
+; call the selected layout
+loadLayout(layout) {
+    global LayoutMap, currentLayout
+
+    if !LayoutMap.HasKey(layout) || (LayoutMap[layout] = "") {
+        ;MsgBox, 16, Error, Layout "%layout%" not found!
+        UpdateEventLog("Layout " layout " not found!")
+        return
+    }
+
+    ; Call the function tied to this layout
+    LayoutMap[layout].Call()
+    currentLayout := layout
+}
+
 
 unloadLayout() {
 	SetHotkeys(0)
 }
 
+
+;----------------------------------------------------------------
+; UpdateWindowData 
+;----------------------------------------------------------------
 UpdateWindowData() {
 	WinGet, winID, ID, %winName%
 	WinGet, winPID, PID, %winClass%
@@ -249,7 +277,6 @@ UpdateWindowData() {
 		;--------------------------MsgBox % error_warcraftNotFound
 	}
 }
-
 
 ;----------------------------------------------------------------
 ; Player respect 
