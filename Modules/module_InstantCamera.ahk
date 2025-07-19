@@ -82,4 +82,3 @@ Control_m_InstantCamera(switchTo) {
 		UpdateEventLog("Instant Camera - " . switchTo)	
 	}
 }
-

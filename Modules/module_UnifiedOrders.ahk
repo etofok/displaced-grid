@@ -125,6 +125,11 @@ UnifiedOrders(objCommand) {
     	} else {
 	        Send % objCommand.ingameHotkey
 		}
+
+		; if the user has Quickcast=0 → send mouse left-click
+		if (m_AbilityQuickcast.enabled == 0) {
+			Send, {Click}
+		}
 	}
 }
 

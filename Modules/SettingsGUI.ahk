@@ -16,6 +16,9 @@ ReadSettingsFromIni() {
     IniRead, Hotkey_OpenSettings, %SettingsIniFile%, General, Hotkey_OpenSettings
 
     ; --- [Modules] ---
+    IniRead, temp, %SettingsIniFile%, Modules, m_AbilityQuickcast.enabled
+    m_AbilityQuickcast.enabled := temp
+
     IniRead, temp, %SettingsIniFile%, Modules, m_HealthbarsAlwaysStay.enabled
     m_HealthbarsAlwaysStay.enabled := temp
 
@@ -150,6 +153,9 @@ SettingsGUI() {
     ; --- Tab 1: Modules ---
 
     ; [Modules]
+    Global GUI_m_AbilityQuickcast_enabled       := m_AbilityQuickcast.enabled
+    Global GUI_m_AbilityQuickcastText           := 
+
     Global GUI_m_HealthbarsAlwaysStay_enabled   := m_HealthbarsAlwaysStay.enabled
     Global GUI_m_UnifiedOrders_enabled          := m_UnifiedOrders.enabled
     Global GUI_m_CastOnYourself_enabled         := m_CastOnYourself.enabled
@@ -183,7 +189,7 @@ SettingsGUI() {
     Gui, gui_Settings: Add, Checkbox, x340 y360 vGUI_m_InstantCamera_enabled Checked%GUI_m_InstantCamera_enabled%
 
     Gui, gui_Settings: Add, Text, x90 y390, %m_QuickCastItems_menuLabel%
-    Gui, gui_Settings: Add, Checkbox, x340 y390 vGUI_m_QuickCastItems_enabled Checked%GUI_m_QuickCastItems_enabled%
+    Gui, gui_Settings: Add, Checkbox, x340 y390 vGUI_m_QuickCastItems_enabled gOn_GUI_m_QuickcastItemsToggle Checked%GUI_m_QuickCastItems_enabled%
 
     Gui, gui_Settings: Add, Text, x90 y420, %m_QuickDropItems_menuLabel%
     Gui, gui_Settings: Add, Checkbox, x340 y420 vGUI_m_QuickDropItems_enabled Checked%GUI_m_QuickDropItems_enabled%
@@ -312,12 +318,23 @@ SettingsGUI() {
     Gui, gui_Settings: Add, Button, Default x125 y500 w200 h40 gButtonSave, Save and Restart
 
     ; ------------------------------------------------------------------
-    ; --- Tab 4 ItemQuickcast ---
+    ; --- Tab 4 ItemQuickcast ---    
     Gui, gui_Settings: Tab, 4
     Gui, gui_Settings: Add, Text,       x90     y80,    Ability Quickcast requires changes to War3Preferences.txt
     Gui, gui_Settings: Add, Button,     x90     y100    w270 h35 gButton_LocateWar3Preferences, Locate War3Preferences.txt
     Gui, gui_Settings: Add, Button,     x90     y140    w130 h35 gButton_EnableQuickcast, Write "Quickcast=1"
     Gui, gui_Settings: Add, Button,     x230    y140    w130 h35 gButton_DisableQuickcast, Write "Quickcast=0"
+
+    m_AbilityQuickcast_text := 
+    if (m_AbilityQuickcast.enabled == 0) {
+        m_AbilityQuickcast_text := "Ability Quickcast is Disabled"
+    } else {
+        m_AbilityQuickcast_text := "Ability Quickcast is Enabled"
+    }
+
+    Gui, gui_Settings: Add, Text,       x90     y180 vGUI_m_AbilityQuickcastText +0x200, % m_AbilityQuickcast_text
+    Gui, gui_Settings: Add, Checkbox,   x340    y180 vGUI_m_AbilityQuickcast_enabled Checked%GUI_m_AbilityQuickcast_enabled% Disabled
+
 
     Gui, gui_Settings: Add, Text,       x90     y230, Check Item Slots for Item Quickcast
     Gui, gui_Settings: Add, Text,       x90     y260, Experimental demo. Only supports 1920x1080 Classic.
@@ -348,7 +365,24 @@ SettingsGUI() {
     Gui, gui_Settings: Add, Text,       x90     y450, % "Item 6 [" Item6.physicalKey "]"
     Gui, gui_Settings: Add, Checkbox,   x340    y450 vGUI_Item6_quickcast Checked%GUI_Item6_quickcast%
 
+    ; crutch. don't cares
+    if (GUI_m_QuickCastItems_enabled == 0) {
+        GuiControl, gui_Settings: +Disabled, GUI_Item1_quickcast
+        GuiControl, gui_Settings: +Disabled, GUI_Item2_quickcast
+        GuiControl, gui_Settings: +Disabled, GUI_Item3_quickcast
+        GuiControl, gui_Settings: +Disabled, GUI_Item4_quickcast
+        GuiControl, gui_Settings: +Disabled, GUI_Item5_quickcast
+        GuiControl, gui_Settings: +Disabled, GUI_Item6_quickcast
+    }
 
+    if (GUI_m_QuickCastItems_enabled == 1) {
+        GuiControl, gui_Settings: -Disabled, GUI_Item1_quickcast
+        GuiControl, gui_Settings: -Disabled, GUI_Item2_quickcast
+        GuiControl, gui_Settings: -Disabled, GUI_Item3_quickcast
+        GuiControl, gui_Settings: -Disabled, GUI_Item4_quickcast
+        GuiControl, gui_Settings: -Disabled, GUI_Item5_quickcast
+        GuiControl, gui_Settings: -Disabled, GUI_Item6_quickcast
+    }
 
     ; --------------------
     ; button
@@ -435,6 +469,7 @@ ButtonSave() {
     
    ; -------------------------------------
   
+    Global GUI_m_AbilityQuickcast_enabled
     Global GUI_m_HealthbarsAlwaysStay_enabled
     Global GUI_m_UnifiedOrders_enabled
     Global GUI_m_CastOnYourself_enabled
@@ -446,6 +481,7 @@ ButtonSave() {
     Global GUI_m_InstantCamera_enabled
     Global GUI_m_ShiftQueueItems_enabled
 
+    Global m_AbilityQuickcast_enabled
     Global m_HealthbarsAlwaysStay_enabled
     Global m_UnifiedOrders_enabled
     Global m_CastOnYourself_enabled
@@ -457,6 +493,7 @@ ButtonSave() {
     Global m_InstantCamera_enabled
     Global m_ShiftQueueItems_enabled
 
+    m_AbilityQuickcast_enabled                          := GUI_m_AbilityQuickcast_enabled
     m_HealthbarsAlwaysStay_enabled                      := GUI_m_HealthbarsAlwaysStay_enabled
     m_UnifiedOrders_enabled                             := GUI_m_UnifiedOrders_enabled
     m_CastOnYourself_enabled                            := GUI_m_CastOnYourself_enabled
@@ -469,18 +506,20 @@ ButtonSave() {
     m_ShiftQueueItems_enabled                           := GUI_m_ShiftQueueItems_enabled
 
     ; write to Settings.ini
+    IniWrite, %GUI_m_AbilityQuickcast_enabled%,         %SettingsIniFile%, Modules, m_AbilityQuickcast.enabled
     IniWrite, %GUI_m_HealthbarsAlwaysStay_enabled%,     %SettingsIniFile%, Modules, m_HealthbarsAlwaysStay.enabled
     IniWrite, %GUI_m_UnifiedOrders_enabled%,            %SettingsIniFile%, Modules, m_UnifiedOrders.enabled
     IniWrite, %GUI_m_CastOnYourself_enabled%,           %SettingsIniFile%, Modules, m_CastOnYourself.enabled
     IniWrite, %GUI_m_SetSkillPoint_enabled%,            %SettingsIniFile%, Modules, m_SetSkillPoint.enabled
     IniWrite, %GUI_m_RapidFire_enabled%,                %SettingsIniFile%, Modules, m_RapidFire.enabled
-    IniWrite, %GUI_m_RepeatMouse_enabled%,                %SettingsIniFile%, Modules, m_RepeatMouse.enabled
+    IniWrite, %GUI_m_RepeatMouse_enabled%,              %SettingsIniFile%, Modules, m_RepeatMouse.enabled
     IniWrite, %GUI_m_QuickCastItems_enabled%,           %SettingsIniFile%, Modules, m_QuickCastItems.enabled
     IniWrite, %GUI_m_QuickDropItems_enabled%,           %SettingsIniFile%, Modules, m_QuickDropItems.enabled
     IniWrite, %GUI_m_InstantCamera_enabled%,            %SettingsIniFile%, Modules, m_InstantCamera.enabled
     IniWrite, %GUI_m_ShiftQueueItems_enabled%,          %SettingsIniFile%, Modules, m_ShiftQueueItems.enabled
 
     ; assign the actual value
+    m_AbilityQuickcast.enabled          := m_AbilityQuickcast_enabled
     m_HealthbarsAlwaysStay.enabled      := m_HealthbarsAlwaysStay_enabled
     m_UnifiedOrders.enabled             := m_UnifiedOrders_enabled
     m_CastOnYourself.enabled            := m_CastOnYourself_enabled
@@ -721,13 +760,13 @@ Button_DisableQuickcast() {
 
 
 Button_SetQuickcast(var) {
-    global locate_War3Preferences
+    global locate_War3Preferences, m_AbilityQuickcast_enabled, m_AbilityQuickcast, GUI_m_AbilityQuickcast_enabled, GUI_m_AbilityQuickcastText
 
     if FileExist(locate_War3Preferences) {
         FileRead, fileContent, %locate_War3Preferences%
 
         if ErrorLevel {
-            MsgBox, 48, Error, % "Failed to read War3Preferences.txt `n`nTry to run this app as Administrator or make changes by hand."
+            MsgBox, 48, Error, % "Failed to read War3Preferences.txt `n`n1. Try to run this app as Administrator`n2. Remove the Read-Only flag from War3Preferences. `n3. Open manually and changes by hand."
             return
         }
 
@@ -740,7 +779,7 @@ Button_SetQuickcast(var) {
         }
 
         if (newContent == fileContent) {
-            MsgBox, 64, Success, % "All good. `nNo changes made."
+            MsgBox, 64, Success, % "All good. `nNo changes made. `n`nQuickcast=" m_AbilityQuickcast.enabled
             return
         }
 
@@ -750,16 +789,31 @@ Button_SetQuickcast(var) {
         if ErrorLevel {
             MsgBox, 48, Error, % "Failed to write changes to file: " locate_War3Preferences
         } else {
-            if (var == 1) {
-                MsgBox, 64, Success, % "All instances of Quickcast=0 replaced with Quickcast=1 in:`n" locate_War3Preferences "`n`n(Restart Warcraft III to take effect)"
-            } else {
-                MsgBox, 64, Success, % "All instances of Quickcast=1 replaced with Quickcast=0 in:`n" locate_War3Preferences "`n`n(Restart Warcraft III to take effect)"
-            }
+                if (var == 1) {
+                    MsgBox, 64, Success, % "Replaced all Quickcast=0 -> Quickcast=1 in:`n" locate_War3Preferences "`n`n(Restart Warcraft III to take effect)"
+                    m_AbilityQuickcast.enabled := 1
+                    m_AbilityQuickcast_enabled := 1 ; I'm completely lost at this point
+                    m_AbilityQuickcastText := "Ability Quickcast is Enabled, please restart the game"
+                    GuiControl, gui_Settings:, GUI_m_AbilityQuickcastText, % m_AbilityQuickcastText
+                    GuiControl, gui_Settings:, GUI_m_AbilityQuickcast_enabled, 1
+                } else {
+                    MsgBox, 64, Success, % "Replaced all Quickcast=1 -> Quickcast=0 in:`n" locate_War3Preferences "`n`n(Restart Warcraft III to take effect)"
+                    m_AbilityQuickcast.enabled := 0
+                    m_AbilityQuickcast_enabled := 0
+                    m_AbilityQuickcastText := "Ability Quickcast is Disabled, please restart the game"
+                    GuiControl, gui_Settings:, GUI_m_AbilityQuickcastText, % m_AbilityQuickcastText
+                    GuiControl, gui_Settings:, GUI_m_AbilityQuickcast_enabled, 0
+                }
+
+            GuiControl, gui_Settings: +Disabled, GUI_m_AbilityQuickcast_enabled
+            IniWrite, %m_AbilityQuickcast_enabled%,     %SettingsIniFile%, Modules, m_AbilityQuickcast.enabled
         }
+
     } else {
         MsgBox, 48, Error, % "War3Preferences.txt was not found:`n`n " locate_War3Preferences
         Button_LocateWar3Preferences()
     }
+
 }
 
 Button_LocateWar3Preferences() {
@@ -774,6 +828,6 @@ Button_LocateWar3Preferences() {
         IniWrite, %locate_War3Preferences%, %SettingsIniFile%, Paths, path_War3Preferences
         MsgBox, 64, Path Saved, % "Successfully saved path to War3Preferences.txt"
     } else {
-        MsgBox, 48, Abort, You did not locate War3Preferences.txt!
+        MsgBox, 48, Abort, Failed to locate War3Preferences.txt!
     }
 }

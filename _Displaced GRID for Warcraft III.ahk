@@ -142,8 +142,7 @@ SplashTextOff
 
 ; load Overlay at the very end
 #Include *i %A_ScriptDir%\Modules\module_HotkeyOverlay.ahk
-
-
+#Include *i %A_ScriptDir%\Modules\SettingsGUI_labels.ahk
 
 ;--------------------
 ; --- E N D  O F  A U T O L A U N C H ---
@@ -151,6 +150,7 @@ SplashTextOff
 ;-----------------------------------------
 return ; this return is the most important line of code
 ; all modules are added in the autorun section above
+
 
 
 
@@ -398,66 +398,6 @@ Rand(min, max) {
 
 handler_blank() {
 }
-
-
-;-----------------------------------------
-; Labes that I can't include into modules, because modules are loaded in the autorun section
-; it's not elegant and I'm aware
-
-; this is to capture Press Any Key... for setting up user hotkeys
-; in AHK v1 SetTimer only works with labels, so this needs to be a label
-; and I can't put a label into SettingsGUI.ahk because it loads in the autolaunch section
-_WatchForKeyPress:
-    Loop {
-        KeyList := "A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|" ; letters
-                 . "0|1|2|3|4|5|6|7|8|9|"
-                 . "F1|F2|F3|F4|F5|F6|F7|F8|F9|F10|F11|F12|"
-                 . "Numpad0|Numpad1|Numpad2|Numpad3|Numpad4|Numpad5|Numpad6|Numpad7|Numpad8|Numpad9|"
-                 . "NumpadDot|NumpadEnter|NumpadAdd|NumpadSub|NumpadMult|NumpadDiv|"
-                 . "ScrollLock|CapsLock|Pause|Insert|Delete|Home|End|PgUp|PgDn|"
-                 . "Up|Down|Left|Right|Tab|Enter|Escape|Space|Backspace|PrintScreen"
-
-        Loop, Parse, KeyList, |
-        {
-            if GetKeyState(A_LoopField, "P") {
-                SetTimer, _WatchForKeyPress, Off
-                DynamicHotkey_Capture(A_LoopField)
-                return
-            }
-        }
-    }
-return
-
-RepeatHotkeyLoop:
-	if (!repeatTimerActive || !repeatDelayTimerFired)
-		return
-
-	if (!GetKeyState(repeatKey, "P")) {
-		SetTimer, RepeatHotkeyLoop, Off
-		repeatTimerActive := false
-		return
-	}
-
-	MouseGetPos, mx, my
-	if (mx >= InventoryStartX && mx <= InventoryEndX && my >= InventoryStartY && my <= InventoryEndY) {
-		SetTimer, RepeatHotkeyLoop, Off
-		repeatTimerActive := false
-		return
-	}
-
-	if (keyPressed_LShift)
-		Send {Blind}{Shift Down}%repeatHotkey%{Shift Up}
-	else
-		Send {Blind}%repeatHotkey%
-return
-
-
-StartRepeatLoop:
-	if (!repeatTimerActive)
-		return
-	repeatDelayTimerFired := true
-	SetTimer, RepeatHotkeyLoop, 100
-return
 
 
 #IfWinActive

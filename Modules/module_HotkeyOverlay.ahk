@@ -338,7 +338,7 @@ SetupHotkeyOverlay() {
     for index, Item in a_Items {
         ; differentiate between quickcast color and normalcast color
         colorToUse := fontColorNormal
-        if (Item.quickcast == 1 AND clientArea.height == 1080) {
+        if (m_QuickCastItems.enabled == 1 AND Item.quickcast == 1 AND clientArea.height == 1080) {
             colorToUse := fontColorQuickcast
         }
         displayKey := Item.physicalKey
