@@ -103,15 +103,25 @@ SetHotkeys(activateHotkeys) {
 
 	; -------------
 
-	set_object_Up								:= Func("Hotkey_Up")
-	set_object_Down								:= Func("Hotkey_Down")
-	set_object_Left								:= Func("Hotkey_Left")
-	set_object_Right							:= Func("Hotkey_Right")
+	set_object_Up									:= Func("Hotkey_Up").bind(1)
+	set_object_Down									:= Func("Hotkey_Down").bind(1)
+	set_object_Left									:= Func("Hotkey_Left").bind(1)
+	set_object_Right								:= Func("Hotkey_Right").bind(1)
 
 	Hotkey % "*"object_Up.physicalKey,				% set_object_Up, %activateHotkeys%
 	Hotkey % "*"object_Down.physicalKey,			% set_object_Down, %activateHotkeys%
 	Hotkey % "*"object_Left.physicalKey,			% set_object_Left, %activateHotkeys%
-	Hotkey % "*"object_Right.physicalKey,			% set_object_Right, %activateHotkeys%
+	Hotkey % "*"object_Right.physicalKey,			% set_object_Right, %activateHotkeys%	
+
+	set_object_Up_up								:= Func("Hotkey_Up").bind(0)
+	set_object_Down_up								:= Func("Hotkey_Down").bind(0)
+	set_object_Left_up								:= Func("Hotkey_Left").bind(0)
+	set_object_Right_up								:= Func("Hotkey_Right").bind(0)
+
+	Hotkey % "*"object_Up.physicalKey " Up",		% set_object_Up_up, %activateHotkeys%
+	Hotkey % "*"object_Down.physicalKey " Up",		% set_object_Down_up, %activateHotkeys%
+	Hotkey % "*"object_Left.physicalKey " Up",		% set_object_Left_up, %activateHotkeys%
+	Hotkey % "*"object_Right.physicalKey " Up",		% set_object_Right_up, %activateHotkeys%
 
 	; Since Items are on the same hotkeys as some of the Control Groups, we have to handle the logic inside the Hotkey_bind function.
 	; Otherwise if I do bind 2 functions to the same key it doesn't understand which one to use.

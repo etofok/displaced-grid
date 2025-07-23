@@ -293,78 +293,90 @@ Hotkey_NumpadEnter() {
 }
 
 
-Hotkey_Up() {
+Hotkey_Up(state) {
 
-	keyPressed_Up = 1
-	if (m_EventLog.active) {
-		UpdateEventLog("Up Pressed")
-	}
-	
-	Send {Blind}{Up Down}
+	if (state == 1) {
 
-	KeyWait, % object_Up.physicalKey
+		keyPressed_Up = 1
+		if (m_EventLog.active) {
+			UpdateEventLog("Up Pressed")
+		}
+		
+		Send {Blind}{Up Down}
 
-	Send {Blind}{Up Up}
+	} else {
+		Send {Blind}{Up Up}
 
-	keyPressed_Up = 0
-	if (m_EventLog.active) {
-		UpdateEventLog("Up Released")
-	}
-}
-
-Hotkey_Down() {
-
-	keyPressed_Down = 1
-	if (m_EventLog.active) {
-		UpdateEventLog("Down Pressed")
-	}
-	
-	Send {Blind}{Down Down}
-
-	KeyWait, % object_Down.physicalKey
-
-	Send {Blind}{Down Up}
-
-	keyPressed_Down = 0
-	if (m_EventLog.active) {
-		UpdateEventLog("Down Released")
+		keyPressed_Up = 0
+		if (m_EventLog.active) {
+			UpdateEventLog("Up Released")
+		}
 	}
 }
 
-Hotkey_Left() {
 
-	keyPressed_Left = 1
-	if (m_EventLog.active) {
-		UpdateEventLog("Left Pressed")
-	}
-	
-	Send {Blind}{Left Down}
+Hotkey_Down(state) {
 
-	KeyWait, % object_Left.physicalKey
+	if (state == 1) {
 
-	Send {Blind}{Left Up}
+		keyPressed_Down = 1
+		if (m_EventLog.active) {
+			UpdateEventLog("Down Pressed")
+		}
+		
+		Send {Blind}{Down Down}
 
-	keyPressed_Left = 0
-	if (m_EventLog.active) {
-		UpdateEventLog("Left Released")
+	} else {
+
+		Send {Blind}{Down Up}
+
+		keyPressed_Down = 0
+		if (m_EventLog.active) {
+			UpdateEventLog("Down Released")
+		}
+	}		
+}
+
+Hotkey_Left(state) {
+
+	if (state == 1) {
+
+		keyPressed_Left = 1
+		if (m_EventLog.active) {
+			UpdateEventLog("Left Pressed")
+		}
+		
+		Send {Blind}{Left Down}
+
+	} else {
+
+		Send {Blind}{Left Up}
+
+		keyPressed_Left = 0
+		if (m_EventLog.active) {
+			UpdateEventLog("Left Released")
+		}
 	}
 }
 
-Hotkey_Right() {
+Hotkey_Right(state) {
 
-	keyPressed_Right = 1
-	if (m_EventLog.active) {
-		UpdateEventLog("Right Pressed")
-	}
-	
-	Send {Blind}{Right Down}
+	if (state == 1) {
 
-	KeyWait, % object_Right.physicalKey
+		keyPressed_Right = 1
+		if (m_EventLog.active) {
+			UpdateEventLog("Right Pressed")
+		}
+		
+		Send {Blind}{Right Down}
 
-	Send {Blind}{Right Up}
+	} else {
 
-	keyPressed_Right = 0
-	if (m_EventLog.active) {
-		UpdateEventLog("Right Released")
+		Send {Blind}{Right Up}
+
+		keyPressed_Right = 0
+		if (m_EventLog.active) {
+			UpdateEventLog("Right Released")
+		}
 	}
 }
