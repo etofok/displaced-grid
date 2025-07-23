@@ -300,10 +300,71 @@ Hotkey_Up() {
 		UpdateEventLog("Up Pressed")
 	}
 	
+	Send {Blind}{Up Down}
+
 	KeyWait, % object_Up.physicalKey
+
+	Send {Blind}{Up Up}
 
 	keyPressed_Up = 0
 	if (m_EventLog.active) {
 		UpdateEventLog("Up Released")
+	}
+}
+
+Hotkey_Down() {
+
+	keyPressed_Down = 1
+	if (m_EventLog.active) {
+		UpdateEventLog("Down Pressed")
+	}
+	
+	Send {Blind}{Down Down}
+
+	KeyWait, % object_Down.physicalKey
+
+	Send {Blind}{Down Up}
+
+	keyPressed_Down = 0
+	if (m_EventLog.active) {
+		UpdateEventLog("Down Released")
+	}
+}
+
+Hotkey_Left() {
+
+	keyPressed_Left = 1
+	if (m_EventLog.active) {
+		UpdateEventLog("Left Pressed")
+	}
+	
+	Send {Blind}{Left Down}
+
+	KeyWait, % object_Left.physicalKey
+
+	Send {Blind}{Left Up}
+
+	keyPressed_Left = 0
+	if (m_EventLog.active) {
+		UpdateEventLog("Left Released")
+	}
+}
+
+Hotkey_Right() {
+
+	keyPressed_Right = 1
+	if (m_EventLog.active) {
+		UpdateEventLog("Right Pressed")
+	}
+	
+	Send {Blind}{Right Down}
+
+	KeyWait, % object_Right.physicalKey
+
+	Send {Blind}{Right Up}
+
+	keyPressed_Right = 0
+	if (m_EventLog.active) {
+		UpdateEventLog("Right Released")
 	}
 }

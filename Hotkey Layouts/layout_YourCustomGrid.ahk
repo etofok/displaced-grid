@@ -52,6 +52,13 @@ layout_YourCustomLayout123() {  	; function name can be anything
 
 	;-------------------------------------------
 
+	object_Up.physicalKey		:= 	"Up"
+	object_Down.physicalKey		:= 	"Down"
+	object_Left.physicalKey		:= 	"Left"
+	object_Right.physicalKey	:= 	"Right"
+
+	;-------------------------------------------
+
 	object_Capslock.physicalKey			:= 	"CapsLock"
 	object_RButton.physicalKey 			:= 	"Rbutton"
 	object_Tab.physicalKey 				:= 	"Tab"

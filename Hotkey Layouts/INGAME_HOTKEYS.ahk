@@ -86,6 +86,13 @@ Item6.ingameHotkey 				:=	"{numpad2}"
 
 ;-------------------------------------------
 
+object_Up.ingameHotkey				:= 	"{Up}"
+object_Down.ingameHotkey			:= 	"{Down}"
+object_Left.ingameHotkey			:= 	"{Left}"
+object_Right.ingameHotkey			:= 	"{Right}"
+
+;-------------------------------------------
+
 object_Capslock.ingameHotkey		:= 	"{CapsLock}"
 object_RButton.ingameHotkey 		:= 	"{Rbutton}"
 object_Tab.ingameHotkey 			:= 	"{Tab}"

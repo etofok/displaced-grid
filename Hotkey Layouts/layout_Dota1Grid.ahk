@@ -48,6 +48,14 @@ layout_Dota1Grid() {
 	Item6.physicalKey			:=	"C"
 	ItemsRequireAlt				:=	0 		; <--------- notice this
 
+
+	;-------------------------------------------
+
+	object_Up.physicalKey		:= 	"Up"
+	object_Down.physicalKey		:= 	"Down"
+	object_Left.physicalKey		:= 	"Left"
+	object_Right.physicalKey	:= 	"Right"
+
 	;-------------------------------------------
 
 	object_Capslock.physicalKey			:= 	"CapsLock"

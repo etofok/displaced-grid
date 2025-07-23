@@ -53,6 +53,15 @@ layout_DisplacedGrid() {
 
 	;-------------------------------------------
 
+	; example 
+	
+	object_Up.physicalKey		:= 	"I"
+	object_Down.physicalKey		:= 	"K"
+	object_Left.physicalKey		:= 	"J"
+	object_Right.physicalKey	:= 	"L"
+
+	;-------------------------------------------
+
 	object_Capslock.physicalKey			:= 	"CapsLock"
 	object_RButton.physicalKey 			:= 	"Rbutton"
 	object_Tab.physicalKey 				:= 	"Tab"

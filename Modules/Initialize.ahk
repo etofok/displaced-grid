@@ -1,4 +1,4 @@
-Global 	DisplacedGridVersion			:= "v2.0.3"
+Global 	DisplacedGridVersion			:= "v2.0.4"
 
 Global 	winName 						:= "Warcraft III"				; Warcraft III window name
 Global 	winClass 						:= "ahk_class OsWindow" 		; Warcraft III class name, as seen in WindowSpy of AutoHotkey
@@ -112,7 +112,11 @@ Global	object_Capslock			:= 	[]
 Global	object_Tab				:= 	[]
 Global	object_Enter			:= 	[]
 Global	object_NumpadEnter		:= 	[]
+
 Global	object_Up				:= 	[]
+Global	object_Down				:= 	[]
+Global	object_Left				:= 	[]
+Global	object_Right			:= 	[]
 
 ; --- overlay things ---
 Global 	clientArea			:= 	[]
@@ -137,6 +141,9 @@ Global 	keyPressed_Tab 				:= 0
 Global 	keyPressed_Enter 			:= 0
 Global 	keyPressed_NumpadEnter		:= 0
 Global 	keyPressed_Up				:= 0
+Global 	keyPressed_Down				:= 0
+Global 	keyPressed_Left				:= 0
+Global 	keyPressed_Right			:= 0
 Global 	keyPressed_LButton 			:= 0
 Global 	keyPressed_RButton 			:= 0
 

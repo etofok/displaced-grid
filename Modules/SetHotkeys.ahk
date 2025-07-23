@@ -101,6 +101,17 @@ SetHotkeys(activateHotkeys) {
 	Hotkey % "*"ControlGroup9.physicalKey,			% ControlGroup9_key, %activateHotkeys%
 	Hotkey % "*"ControlGroup0.physicalKey,			% ControlGroup0_key, %activateHotkeys%
 
+	; -------------
+
+	set_object_Up								:= Func("Hotkey_Up")
+	set_object_Down								:= Func("Hotkey_Down")
+	set_object_Left								:= Func("Hotkey_Left")
+	set_object_Right							:= Func("Hotkey_Right")
+
+	Hotkey % "*"object_Up.physicalKey,				% set_object_Up, %activateHotkeys%
+	Hotkey % "*"object_Down.physicalKey,			% set_object_Down, %activateHotkeys%
+	Hotkey % "*"object_Left.physicalKey,			% set_object_Left, %activateHotkeys%
+	Hotkey % "*"object_Right.physicalKey,			% set_object_Right, %activateHotkeys%
 
 	; Since Items are on the same hotkeys as some of the Control Groups, we have to handle the logic inside the Hotkey_bind function.
 	; Otherwise if I do bind 2 functions to the same key it doesn't understand which one to use.
