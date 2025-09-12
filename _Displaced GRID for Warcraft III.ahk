@@ -4,7 +4,7 @@
 ;	Download Latest: https://github.com/etofok/Displaced-Grid-for-Warcraft-III
 
 ;	Development: 
-;	Dec 10th, 2023 - July 23th, 2025
+;	Dec 10th, 2023 - Sept 13th, 2025
 
 #SingleInstance force
 #NoEnv

@@ -1,4 +1,4 @@
-Global 	DisplacedGridVersion			:= "v2.0.5"
+Global 	DisplacedGridVersion			:= "v2.0.4"
 
 Global 	winName 						:= "Warcraft III"				; Warcraft III window name
 Global 	winClass 						:= "ahk_class OsWindow" 		; Warcraft III class name, as seen in WindowSpy of AutoHotkey
