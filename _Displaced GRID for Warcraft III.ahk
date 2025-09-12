@@ -251,7 +251,10 @@ loadLayout(layout) {
 
     if !LayoutMap.HasKey(layout) || (LayoutMap[layout] = "") {
         ;MsgBox, 16, Error, Layout "%layout%" not found!
-        UpdateEventLog("Layout " layout " not found!")
+        if (m_EventLog.active) {
+        	UpdateEventLog("Layout " layout " not found!")
+        }
+
         return
     }
 

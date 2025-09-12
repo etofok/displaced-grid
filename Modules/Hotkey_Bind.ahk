@@ -44,8 +44,9 @@
 	}
 
 
-	; Item binds use ALT
-	; This is hardcoded.
+	; if Items use ALT as a modifier...
+	; we go there
+	;
 	; Maybe in future updates if/when I get to update this to a higher level of enlightment the layout will be more flexible.
 	; The reason the block is nested within the "Control Group" logic is because they share the same keys: qwaszx.
 	; So ALT is the differentiator between control groups and items.

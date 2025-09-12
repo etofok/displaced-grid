@@ -35,8 +35,9 @@ if (m_SetSkillPoint.enabled == True) {
 ; Set Skill Point with CTRL + Ability Key
 SetSkillPoint(objCommand) {
 
-	if (m_EventLog.enabled)
+	if (m_EventLog.enabled) {
 		UpdateEventLog("SetSkillPoint..." . objCommand.ingameHotkey)
+	}
 
 		;CTRL ability has to work for the bottom row and the top row
 	; Ability 1

@@ -13,7 +13,7 @@
 Global m_EventLog_menuLabel := "< EventLog >"
 
 ; Add this module to Tray only if it has been enabled in Settings
-if (m_EventLog.enabled == True) {
+if (m_EventLog.enabled) {
 
 	; turns out, in AHK v1.1 we can't use an object's property for Tray, so I have to hardcode another variable
 	;m_EventLog.menuLabel := m_EventLog_menuLabel ; but we can store it just in case

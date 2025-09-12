@@ -1,16 +1,54 @@
-﻿;--------------------------------
-
-;--------------------------------
-
-Hotkey_Item(objCommand) {
+﻿Hotkey_Item(objCommand) {
 
 	static LastKeyPressTime := 0
-	local currentTime := A_TickCount ; Get current time in milliseconds
+	local currentTime := A_TickCount ; time in milliseconds
 
 	 
 	if (m_EventLog.active) {
 		UpdateEventLog("--- Hotkey_Item ----")
 		UpdateEventLog("Physical Key:`t" A_ThisHotkey "`nLogical key:`t" objCommand.ingameHotkey)	
+	}
+
+	; QuickDrop spaghetti for item hotkeys that do not use ALT as a modifier
+	if (m_QuickDropItems.active) {
+
+		; ALT + CTRL pressed down...
+		if (keyPressed_LCtrl || keyPressed_RCtrl) {
+
+			if (m_EventLog.active) {
+				UpdateEventLog("QuickDrop...")
+			}
+
+			if (objCommand.physicalKey == Item1.physicalKey) {
+				QuickDrop(Item1)
+				return
+			}
+			if (objCommand.physicalKey == Item2.physicalKey) {
+				QuickDrop(Item2)
+				return
+			}
+			if (objCommand.physicalKey == Item3.physicalKey) {
+				QuickDrop(Item3)
+				return
+			}
+			if (objCommand.physicalKey == Item4.physicalKey) {
+				QuickDrop(Item4)
+				return
+			}
+			if (objCommand.physicalKey == Item5.physicalKey) {
+				QuickDrop(Item5)
+				return
+			}
+			if (objCommand.physicalKey == Item6.physicalKey) {
+				QuickDrop(Item6)
+				return
+			}
+		}
+	} else {
+
+		if (m_EventLog.active) {
+			UpdateEventLog("Quick Drop is OFF")	
+		}
 	}
 
 	; Shift-keyed Item Key Usage
@@ -40,9 +78,7 @@ Hotkey_Item(objCommand) {
 
 			; ONLY QUICK CAST IF THE MODULE IS ENABLED
 			if (m_QuickCastItems.active == 1) {
-				
 				QuickCastItem(objCommand)
-
 			}
 		}
 
@@ -57,7 +93,7 @@ Hotkey_Item(objCommand) {
 	; No "Shift" Item Usage
 	} else {
 
-		; redirect to CastOnYourself if the item hotkey has been double-tapped
+		; redirect to CastOnYourself if an ITEM hotkey has been double-tapped
 		if ((keyPressed_LAlt || keyPressed_RAlt) AND (currentTime - LastKeyPressTime < 500) && LastKeyPressTime != 0)  { ; Added LastKeyPressTime != 0 to prevent initial false positive
 	    	UpdateEventLog("---- Item Double Tap! ---")
 		    LastKeyPressTime := 0
@@ -66,7 +102,6 @@ Hotkey_Item(objCommand) {
 		}
 		
 		LastKeyPressTime := currentTime
-
 
 		Send % objCommand.ingameHotkey ; fire layout key to active item
 
