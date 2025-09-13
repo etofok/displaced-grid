@@ -34,12 +34,17 @@ Control_HotkeyOverlay(switchTo) {
 		} else {
 			;MsgBox, % error_warcraftNotFound
 		}
-
+        
 	} else {
         ; Hide overlay when we turn it off
 		Gui, gui_HotkeyOverlay:Hide
 	}
 
+    ; show top-right mini logo to indicate whether its on of off
+    if WinExist(winClass) {
+        ShowHotkeyOverlayIndicator(switchTo)
+    }
+    
 	b_HotkeyOverlay := switchTo
 
 	if (m_EventLog.active) {
@@ -299,6 +304,13 @@ SetupHotkeyOverlay() {
     ; figure out correct overlay coordinates from the client area size
     UpdateOverlayCoordinates()
 
+    ; set focus back to Warcraft III
+    WinActivate, %winName%
+
+    if (!EnableHotkeyOverlay) {
+        return
+    }
+
     ; dynamic font size depending on client height, from 10 at 600px to 22 at 1080px
     fontSize            := Floor(10 + ( ((clientArea.height - 600) / 40) ))
 
@@ -353,14 +365,34 @@ SetupHotkeyOverlay() {
         Gui, gui_HotkeyOverlay: Add, Text, % "x"Item.x+Coordinates_Items_offset_x " " "y"Item.y+Coordinates_Items_offset_y, % displayKey
     }
 
-    ; top-left DisplacedGrid logo
-    Gui, gui_HotkeyOverlay: Add, Picture, % "x"clientArea.width-24 " " "y"8 " " "w"16 " " "h"16, % DisplacedGrid_logoOn
-    
     ; finally show the overlay
     Gui, gui_HotkeyOverlay: Show, % "NA " "x"clientArea.x " " "y"clientArea.y " " "w"clientArea.width " " "h"clientArea.height
 
-    ; set focus back to Warcraft III
-    WinActivate, %winName%
+}
+
+; show top-right mini logo to indicate whether its on of off
+ShowHotkeyOverlayIndicator(switchTo) {
+    static hPic := 0, guiLogo := false
+
+    if (!guiLogo) {
+        Gui, gui_HotkeyOverlay_indicator: New, -Caption +LastFound -Border +Owner%winID%
+        Gui, gui_HotkeyOverlay_indicator: Color, 0x000002
+        WinSet, TransColor, 0x000002 255
+        WinSet, ExStyle, +0x20, % gui_HotkeyOverlay_indicator
+
+        ; Add the picture control once, store its HWND directly
+        Gui, gui_HotkeyOverlay_indicator: Add, Picture
+            , % "x" clientArea.width-24 " y8 w16 h16 hwndhPic"
+            , % (switchTo ? DisplacedGrid_logoOn : DisplacedGrid_logoOff)
+
+        Gui, gui_HotkeyOverlay_indicator: Show
+            , % "NA x" clientArea.x " y" clientArea.y " w" clientArea.width " h" clientArea.height
+
+        guiLogo := true
+    }
+
+    ;update the picture file
+    GuiControl,, %hPic%, % (switchTo ? DisplacedGrid_logoOn : DisplacedGrid_logoOff)
 }
 
 

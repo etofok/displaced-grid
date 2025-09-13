@@ -1,4 +1,4 @@
-Global 	DisplacedGridVersion			:= "v2.0.4"
+Global 	DisplacedGridVersion			:= "v2.0.5"
 
 Global 	winName 						:= "Warcraft III"				; Warcraft III window name
 Global 	winClass 						:= "ahk_class OsWindow" 		; Warcraft III class name, as seen in WindowSpy of AutoHotkey
@@ -25,6 +25,7 @@ DisplacedGrid_logoOff = %A_ScriptDir%\Modules\icons\icon_Hotkeys0.ico
 
 ; --- settings  ---
 Global 	ActivateHotkeysOnLaunch 		:=
+Global 	EnableHotkeyOverlay 			:=
 Global 	activateHotkeys 				:=
 Global 	Hotkey_Toggle_CurrentLayout		:=
 Global 	Hotkey_ScriptReload				:=

@@ -11,6 +11,7 @@ ReadSettingsFromIni() {
     ; --- [General] ---
     IniRead, currentLayout, %SettingsIniFile%, General, currentLayout
     IniRead, ActivateHotkeysOnLaunch, %SettingsIniFile%, General, ActivateHotkeysOnLaunch
+    IniRead, EnableHotkeyOverlay, %SettingsIniFile%, General, EnableHotkeyOverlay
     IniRead, Hotkey_Toggle_CurrentLayout, %SettingsIniFile%, General, Hotkey_Toggle_CurrentLayout
     IniRead, Hotkey_ScriptReload, %SettingsIniFile%, General, Hotkey_ScriptReload
     IniRead, Hotkey_OpenSettings, %SettingsIniFile%, General, Hotkey_OpenSettings
@@ -146,9 +147,13 @@ SettingsGUI() {
     GuiControl, gui_Settings: ChooseString, GUI_a_Layouts_list, % currentLayout
 
     Global GUI_ActivateHotkeysOnLaunch          := ActivateHotkeysOnLaunch
+    Global GUI_EnableHotkeyOverlay              := EnableHotkeyOverlay
 
-    Gui, gui_Settings: Add, Text, x90 y110, Activate Layout on Launch:
-    Gui, gui_Settings: Add, Checkbox, x340 y110 vGUI_ActivateHotkeysOnLaunch Checked%GUI_ActivateHotkeysOnLaunch%
+    Gui, gui_Settings: Add, Text, x90 y105, Activate Layout on Launch:
+    Gui, gui_Settings: Add, Checkbox, x340 y105 vGUI_ActivateHotkeysOnLaunch Checked%GUI_ActivateHotkeysOnLaunch%
+
+    Gui, gui_Settings: Add, Text, x90 y130, Enable Hotkey Overlay:
+    Gui, gui_Settings: Add, Checkbox, x340 y130 vGUI_EnableHotkeyOverlay Checked%GUI_EnableHotkeyOverlay%
 
     ; --- Tab 1: Modules ---
 
@@ -441,8 +446,8 @@ ButtonSave() {
     global SettingsIniFile
        
     ; ---
-    global currentLayout, ActivateHotkeysOnLaunch, Hotkey_Toggle_CurrentLayout, Hotkey_ScriptReload, Hotkey_OpenSettings
-    global GUI_currentLayout, GUI_a_Layouts_list, GUI_ActivateHotkeysOnLaunch, GUI_Hotkey_Toggle_CurrentLayout, GUI_Hotkey_ScriptReload, GUI_Hotkey_OpenSettings
+    global currentLayout, ActivateHotkeysOnLaunch, EnableHotkeyOverlay, Hotkey_Toggle_CurrentLayout, Hotkey_ScriptReload, Hotkey_OpenSettings
+    global GUI_currentLayout, GUI_a_Layouts_list, GUI_ActivateHotkeysOnLaunch, GUI_EnableHotkeyOverlay, GUI_Hotkey_Toggle_CurrentLayout, GUI_Hotkey_ScriptReload, GUI_Hotkey_OpenSettings
 
     ; -------------------------------------    
     currentLayout                                           := GUI_a_Layouts_list
@@ -451,6 +456,9 @@ ButtonSave() {
     ; -------------------------------------    
     ActivateHotkeysOnLaunch                                 := GUI_ActivateHotkeysOnLaunch
     IniWrite, %ActivateHotkeysOnLaunch%,                    %SettingsIniFile%, General, ActivateHotkeysOnLaunch
+    
+    EnableHotkeyOverlay                                 := GUI_EnableHotkeyOverlay
+    IniWrite, %EnableHotkeyOverlay%,                    %SettingsIniFile%, General, EnableHotkeyOverlay
     
     ; -------------------------------------
     Hotkey_Toggle_CurrentLayout                             := GUI_Hotkey_Toggle_CurrentLayout
