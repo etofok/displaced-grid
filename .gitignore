@@ -1,2 +1,6 @@
-/CustomKeys
-/testimonials
+/node_modules
+/src
+/work
+/gulpfile.js
+/package.json
+/package-lock.json

@@ -2,6 +2,9 @@
 * text=auto
 
 web export-ignore
+src export-ignore
+docs export-ignore
 README.md export-ignore
-DGRIDhero.png export-ignore
+atf-snapshot.jpg export-ignore
 .gitattributes export-ignore
+.gitignore export-ignore

@@ -1,0 +1,30 @@
+<link rel="stylesheet" href="css/section-modules.min.css">
+<div class="section section-modules">
+    <h2>Modules</h2>
+    <div class="subheader-container">
+        <p>Modules provide an unfair advantage</p>
+        <p>For entertainment purposes</p>
+        <p>Modules are macros</p>
+    </div>
+    <div class="modules-wrapper">
+        <div class="container-main-modules">
+            <video id="mainModuleVideo" autoplay muted loop playsinline class="main-modules-element">
+                <source src="" type="video/mp4">
+            </video>
+            <div class="moduleTooltipText" id="moduleTooltipText"></div>
+            <button class="nav-button prev" onclick="changeModule(-1)" aria-label="Previous">❮</button>
+            <button class="nav-button next" onclick="changeModule(1)" aria-label="Next">❯</button>
+        </div>
+    </div>
+    <div class="moduleText">
+        <div class="name-row">
+            <span class="moduleName" id="moduleName"></span>
+            <span class="moduleTooltip" id="moduleTooltip">[?]</span>
+        </div>
+        <div class="moduleDesc" id="moduleDesc"></div>
+    </div>
+    <div id="modulesDotsContainer" class="modules-dots-container"></div>
+
+    <button class="cta-button-one" data-action="download-app">Download Now</button>
+</div>
+<script src="js/section-modules.min.js"></script>
