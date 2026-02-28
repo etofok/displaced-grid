@@ -7,4 +7,4 @@ Advanced Hotkeys + 9 UX Modules
 
 [**GO TO WEBSITE**](https://etofok.github.io/displaced-grid)
 
-<img src="/atf-snapshot.jpg" alt="hero">
+<img src="/atf-snapshot.webp" alt="hero">

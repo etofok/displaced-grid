@@ -155,7 +155,6 @@ Toggle_m_EventLog() {
 			Control_m_EventLog(1)
 		} else {
 			Control_m_EventLog(0)
-			;MsgBox, % error_warcraftNotFound ;"`n`n (Attempt to activate Event Log)"
 		}
 	}
 } 

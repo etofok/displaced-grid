@@ -1,13 +1,13 @@
-Global 	DisplacedGridVersion			:= "v2.0.5"
+Global 	DisplacedGridVersion			:= "v2.1.0"
 
-Global 	winName 						:= "Warcraft III"				; Warcraft III window name
-Global 	winClass 						:= "ahk_class OsWindow" 		; Warcraft III class name, as seen in WindowSpy of AutoHotkey
+Global 	winName 						:= "" ; "Warcraft III"				; Warcraft III window name. Moved to settings.ini (v2.1.0)
+Global 	winClass 						:= "" ; "ahk_class OsWindow" 		; Warcraft III class name, as seen in WindowSpy of AutoHotkey. Moved to settings.ini (v2.1.0)
 Global 	winPID							:= ""
 Global 	winID							:= ""
 
 Global 	SettingsIniFile 				:= A_ScriptDir "\settings.ini"
 Global 	locate_War3Preferences 			:= A_MyDocuments "\Warcraft III\War3Preferences.txt"
-Global 	error_warcraftNotFound 			:= "Warcraft III NOT FOUND!"
+Global 	error_warcraftNotFound 			:= "Warcraft III not found!"
 
 ; ----------------------------------------------
 ; Initialize variables...

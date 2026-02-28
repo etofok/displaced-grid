@@ -1,10 +1,14 @@
 ;-----------------------------------------
-; 	Displaced Grid for Warcraft III:Reforged by etofok
-;	Website Presentation: https://etofok.github.io/Displaced-Grid-for-Warcraft-III/web/index
-;	Download Latest: https://github.com/etofok/Displaced-Grid-for-Warcraft-III
-
+; 	Displaced Grid for Warcraft III by etofok
+;
+;	Website: https://etofok.github.io/displaced-grid
+;	Download: https://github.com/etofok/displaced-grid
+;
 ;	Development: 
-;	Dec 10th, 2023 - Sept 13th, 2025
+;	Dec 10th, 2023 - Feb 28th, 2026
+;	
+;-----------------------------------------
+
 
 #SingleInstance force
 #NoEnv
@@ -92,15 +96,6 @@ Menu, Tray, Default, 	%menu_Toggle_CurrentLayout%,
 
 #Include *i %A_ScriptDir%\Modules\module_EventLog.ahk
 
-
-; activate hotkeys on app start?
-if (ActivateHotkeysOnLaunch == 1) {
-	loadLayout(currentLayout)
-	Switch_CurrentLayout(1)
-} else {
-	Switch_CurrentLayout(0)
-}
-
 Menu, Tray, Add, 	,
 
 Menu, Tray, Add, 		Modules in use:, handler_blank
@@ -131,18 +126,37 @@ Menu, Tray, Add, 		Exit, 														ScriptExit
 ; ----- L A U N C H -----
 ;-----------------------------------------
 
+Global hPic := ""
+global g_guiIcon := false
+
+; activate hotkeys on app start?
+if (ActivateHotkeysOnLaunch == 1) {
+	loadLayout(currentLayout)
+	Switch_CurrentLayout(1)
+} else {
+	Switch_CurrentLayout(0)
+}
+
+SplashNotify("Displaced Grid`nby etofok`n`nToggle Hotkey: `n" . Tooltip_Hotkey_Toggle_CurrentLayout, 3000)
+
+;-----------------------------------------
+
 if (false) {
 } ; this is actually an important line of code
 
 ; Greetings and Salutations
-displaySplash := "Displaced Grid`nby etofok`n`nTOGGLE HOTKEY: `n" . Tooltip_Hotkey_Toggle_CurrentLayout
-SplashTextOn, 300, 120, , %displaySplash%
-Sleep, 1000
-SplashTextOff
+
 
 ; load Overlay at the very end
 #Include *i %A_ScriptDir%\Modules\module_HotkeyOverlay.ahk
 #Include *i %A_ScriptDir%\Modules\SettingsGUI_labels.ahk
+
+;-----------------------------------------
+
+
+
+
+
 
 ;--------------------
 ; --- E N D  O F  A U T O L A U N C H ---
@@ -156,45 +170,39 @@ return ; this return is the most important line of code
 
 #IfWinActive
 
-
 ;--------------------------------
 ; 
 ;--------------------------------
+
 Switch_CurrentLayout(switchTo) {
 
-	if (switchTo == 1) {	
-
-		if !(WinExist(winClass)) {
-			MsgBox, 48, Displaced Grid %DisplacedGridVersion%, % error_warcraftNotFound
-			Switch_CurrentLayout(0)
-			return
-		}
-
-		loadLayout(currentLayout)
-		SetHotkeys(1)
-
-		Control_HotkeyOverlay(1)
-		if (m_RapidFire.enabled) {
-			Control_m_RapidFire(1)
-		}
-
-		ToggleCheckmark(menu_Toggle_CurrentLayout, 1)
-		Menu, Tray, Icon, %A_ScriptDir%\Modules\icons\icon_Hotkeys1.ico
+	if (winExist(winClass)) {
+		SetHooks()
+		UpdateAll()
+	} else {
+		; if the window no longer exists / has been closed
+		NoGame()
+		return
 	}
 
+	if (switchTo == 1) {	
+		loadLayout(currentLayout)
+		SetHotkeys(1)
+		SetupGUIHotkeys() ; main
+	}
 
 	if (switchTo == 0) {
+		SetHotkeys(0)
+		Gui, gui_Hotkeys:Hide
+	}
 
-		unloadLayout()
+	SetupGUIIcon(switchTo)
 
-		Control_HotkeyOverlay(0)
-		if (m_RapidFire.enabled) {
-			Control_m_RapidFire(0) ; This is a crutch to "link" "DisplacedGrid Off" to the RapidFire module. Otherwise you can't type, because RapidFire sends an ESCAPE command as you press buttons (i.e. when you type) which closes the chat
-		}
+	ToggleCheckmark(menu_Toggle_CurrentLayout, switchTo)
+	Menu, Tray, Icon, %A_ScriptDir%\Modules\icons\icon_Hotkeys%switchTo%.ico
 
-		ToggleCheckmark(menu_Toggle_CurrentLayout, 0)
-
-		Menu, Tray, Icon, %A_ScriptDir%\Modules\icons\icon_Hotkeys0.ico
+	if (m_RapidFire.enabled) {
+		Control_m_RapidFire(switchTo)
 	}
 }
 
@@ -202,6 +210,27 @@ Toggle_CurrentLayout() {
 	Switch_CurrentLayout(not hotkeysRemapped)
 }
 
+
+; a little spagetti
+NoGame() {
+	SplashNotify(error_warcraftNotFound, 1200)
+
+	SetHotkeys(0)
+	Gui, gui_Hotkeys:Hide
+
+	if (g_guiIcon) {
+		g_guiIcon := ""
+		Gui, gui_Icon: Destroy
+	}
+
+	ToggleCheckmark(menu_Toggle_CurrentLayout, 0)
+	Menu, Tray, Icon, %A_ScriptDir%\Modules\icons\icon_Hotkeys0.ico
+
+	if (m_RapidFire.enabled) {
+		Control_m_RapidFire(0)
+	}
+	return
+}
 
 ;--------------------------------
 ; Load all layouts dynamically
@@ -250,7 +279,9 @@ loadLayout(layout) {
     global LayoutMap, currentLayout
 
     if !LayoutMap.HasKey(layout) || (LayoutMap[layout] = "") {
-        ;MsgBox, 16, Error, Layout "%layout%" not found!
+        
+        ; SplashNotify("Layout " . layout . " not found!")
+        
         if (m_EventLog.active) {
         	UpdateEventLog("Layout " layout " not found!")
         }
@@ -367,7 +398,6 @@ ReplaceModifiers(str) {
 ;--------------------------------
 ToggleCheckmark(trayitem, onoff) {
 	if (trayitem) {
-		;MsgBox, % "trayitem: " trayitem
 		sub := (onoff == 1) ? "Check" : "Uncheck"
 		Menu, Tray, %sub%, %trayitem%
 	}
@@ -393,6 +423,26 @@ return
 Rand(min, max) {
     Random, output, min, max
     return output
+}
+
+SplashNotify(text, duration := 1000) {
+
+    duration := duration * -1 ; oh yeah
+
+    Gui, SplashNotify:New, +AlwaysOnTop -Caption +ToolWindow +LastFound
+    Gui, Color, 1d1d2d            
+    WinSet, Transparent, 200  
+    Gui, Font, s14 w600 cdedede, Inter
+    Gui, Add, Text, Center w350, % text 
+
+    Gui, Show, xCenter yCenter NoActivate
+
+    SetTimer, DestroySplashNotify, %duration%
+    return
+
+    DestroySplashNotify:
+    Gui, SplashNotify:Destroy
+    return
 }
 
 ;-----------------------------------------

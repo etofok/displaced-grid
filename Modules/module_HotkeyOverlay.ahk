@@ -22,35 +22,6 @@ b_HotkeyOverlay 										:= ActivateHotkeysOnLaunch
 
 ; overlay is switched off with the layout toggle in the main file
 
-;--------------------------------
-; HotkeyOverlay Control
-;--------------------------------
-Control_HotkeyOverlay(switchTo) {
-
-	if (switchTo == 1) {
-		if WinExist(winClass) {
-            SetHooks()
-			SetupHotkeyOverlay() ; main
-		} else {
-			;MsgBox, % error_warcraftNotFound
-		}
-        
-	} else {
-        ; Hide overlay when we turn it off
-		Gui, gui_HotkeyOverlay:Hide
-	}
-
-    ; show top-right mini logo to indicate whether its on of off
-    if WinExist(winClass) {
-        ShowHotkeyOverlayIndicator(switchTo)
-    }
-    
-	b_HotkeyOverlay := switchTo
-
-	if (m_EventLog.active) {
-		UpdateEventLog("Overlay - " . switchTo)	
-	}
-}
 
 ; ---------------------------------------------
 ; SetHooks
@@ -111,8 +82,6 @@ SetHooks() {
     if (hook_DESTROY) {
         hooks.Push(hook_DESTROY)
     }
-
-    ;MsgBox, % "Hooks installed: " hooks.MaxIndex()
 }
 
 ; ---------------------------------------------
@@ -160,7 +129,6 @@ UpdateOverlayCoordinates() {
 
     ; y is constant
     PortraitUI.y := clientArea.height * 0.90
-
 
 
     ; Command card coordinates
@@ -277,17 +245,23 @@ UpdateOverlayCoordinates() {
     InventoryEndX       := InventoryStartX + InventoryWidth
     InventoryEndY       := InventoryStartY + InventoryHeight
 
-/*
+    /*
     Gui, gui_tempBox: Destroy
     Gui, gui_tempBox: +AlwaysOnTop -Caption +ToolWindow +E0x20 +Owner%winID%
     Gui, gui_tempBox: Color, White
     Gui, gui_tempBox: Show, x%InventoryStartX% y%InventoryStartY% w%InventoryWidth% h%InventoryHeight%, InventoryBox
     WinSet, Transparent, 128, InventoryBox
     */
+
 }
 
+UpdateAll() {
+    UpdateWindowData() ; update winID in case the game was closed and reopened
+    UpdateClientArea() ; get client window x, y, width, height
+    UpdateOverlayCoordinates() ; figure out correct overlay coordinates from the client area size
+}
 
-SetupHotkeyOverlay() {
+SetupGUIHotkeys() {
     ; set up GUI
 
     ; don't update the overlay if hotkeys are not loaded
@@ -295,21 +269,12 @@ SetupHotkeyOverlay() {
         return
     }
 
-    ; update winID in case the game was closed and reopened
-    UpdateWindowData()
-
-    ; get client window x,y, width, height
-    UpdateClientArea()
-
-    ; figure out correct overlay coordinates from the client area size
-    UpdateOverlayCoordinates()
-
-    ; set focus back to Warcraft III
-    WinActivate, %winName%
-
     if (!EnableHotkeyOverlay) {
         return
     }
+
+    ; set focus back to Warcraft III
+    WinActivate, %winName%
 
     ; dynamic font size depending on client height, from 10 at 600px to 22 at 1080px
     fontSize            := Floor(10 + ( ((clientArea.height - 600) / 40) ))
@@ -320,15 +285,15 @@ SetupHotkeyOverlay() {
 
     ;------------------------------------
 
-    Gui, gui_HotkeyOverlay: Destroy
-    Gui, gui_HotkeyOverlay: -Caption +LastFound -Border +Owner%winID%
-    Gui, gui_HotkeyOverlay: Color, 0x000001 ; set GUI background to this color
+    Gui, gui_Hotkeys: Destroy
+    Gui, gui_Hotkeys: -Caption +LastFound -Border +Owner%winID%
+    Gui, gui_Hotkeys: Color, 0x000001 ; set GUI background to this color
 
     WinSet, TransColor, 0x000001 255 ; make that color transparent
-    WinSet, ExStyle, +0x20, % gui_HotkeyOverlay ; make the overlay click-through
+    WinSet, ExStyle, +0x20, % gui_Hotkeys ; make the overlay click-through
 
     GuiFont := "s" . fontSize . " c" . fontColorNormal . " bold"
-    Gui, gui_HotkeyOverlay: Font, %GuiFont%
+    Gui, gui_Hotkeys: Font, %GuiFont%
 
     ; gpt told me, and I quote: "AHK v1.1 can't read the regular dot notation in its Gui — you have to assign local variables"
     ; but I figured the syntaxic out on my own
@@ -343,7 +308,7 @@ SetupHotkeyOverlay() {
             displayKey := "n" . SubStr(gr.physicalKey, -0)
         }
 
-        Gui, gui_HotkeyOverlay: Add, Text, % "x"gr.x " " "y"gr.y, % displayKey
+        Gui, gui_Hotkeys: Add, Text, % "x"gr.x " " "y"gr.y, % displayKey
     }
 
     ; draw all items labels with their loaded key at their x,y
@@ -361,40 +326,38 @@ SetupHotkeyOverlay() {
         }
     
         GuiFont := "s" . fontSize . " c" . colorToUse . " bold"
-        Gui, gui_HotkeyOverlay: Font, %GuiFont%
-        Gui, gui_HotkeyOverlay: Add, Text, % "x"Item.x+Coordinates_Items_offset_x " " "y"Item.y+Coordinates_Items_offset_y, % displayKey
+        Gui, gui_Hotkeys: Font, %GuiFont%
+        Gui, gui_Hotkeys: Add, Text, % "x"Item.x+Coordinates_Items_offset_x " " "y"Item.y+Coordinates_Items_offset_y, % displayKey
     }
 
     ; finally show the overlay
-    Gui, gui_HotkeyOverlay: Show, % "NA " "x"clientArea.x " " "y"clientArea.y " " "w"clientArea.width " " "h"clientArea.height
+    Gui, gui_Hotkeys: Show, % "NA " "x"clientArea.x " " "y"clientArea.y " " "w"clientArea.width " " "h"clientArea.height
 
 }
 
 ; show top-right mini logo to indicate whether its on of off
-ShowHotkeyOverlayIndicator(switchTo) {
-    static hPic := 0, guiLogo := false
+SetupGUIIcon(switchTo) {
 
-    if (!guiLogo) {
-        Gui, gui_HotkeyOverlay_indicator: New, -Caption +LastFound -Border +Owner%winID%
-        Gui, gui_HotkeyOverlay_indicator: Color, 0x000002
+    if (!g_guiIcon) {
+        Gui, gui_Icon: New, -Caption +LastFound -Border +Owner%winID%
+        Gui, gui_Icon: Color, 0x000002
         WinSet, TransColor, 0x000002 255
-        WinSet, ExStyle, +0x20, % gui_HotkeyOverlay_indicator
+        WinSet, ExStyle, +0x20, % gui_Icon
 
         ; Add the picture control once, store its HWND directly
-        Gui, gui_HotkeyOverlay_indicator: Add, Picture
+        Gui, gui_Icon: Add, Picture
             , % "x" clientArea.width-24 " y8 w16 h16 hwndhPic"
             , % (switchTo ? DisplacedGrid_logoOn : DisplacedGrid_logoOff)
 
-        Gui, gui_HotkeyOverlay_indicator: Show
+        Gui, gui_Icon: Show
             , % "NA x" clientArea.x " y" clientArea.y " w" clientArea.width " h" clientArea.height
 
-        guiLogo := true
+        g_guiIcon := true
     }
 
     ;update the picture file
     GuiControl,, %hPic%, % (switchTo ? DisplacedGrid_logoOn : DisplacedGrid_logoOff)
 }
-
 
 
 ; after some time searching how to do this in v1.1 I found this post
@@ -427,10 +390,15 @@ ResizeCallback_MOVESIZEEND(hWinEventHook, event, hWnd, idObject, idChild, idThre
     if (idObject != 0)  
         return 0
 
-    SetupHotkeyOverlay()
+    UpdateAll()
+    SetupGUIHotkeys()
+    g_guiIcon := false ; this will force update the icon on next redraw
+    SetupGUIIcon(hotkeysRemapped)
 
     Return 0 ; always return 0 for callbacks
 }
+
+
 
 
 ResizeCallback_CHANGE(hWinEventHook, event, hWnd, idObject, idChild, idThread, dwmsEventTime) {
@@ -449,11 +417,14 @@ ResizeCallback_CHANGE(hWinEventHook, event, hWnd, idObject, idChild, idThread, d
     ; otherwise it attempts to redraw which maximizes it back
     if (state = -1) {
         return 0
-    }
+    }    
 
     isUpdating := 1
 
-    SetupHotkeyOverlay()
+    UpdateAll()
+    SetupGUIHotkeys()
+    g_guiIcon := false ; this will force update the icon on next redraw
+    SetupGUIIcon(hotkeysRemapped)
     
     ; I'm using a timer to block this event from firing every 0.0001 second
     ; this is unbelievably clunky because in AHK v1.1 we can't target a function within a timer
@@ -476,7 +447,7 @@ WindowDestoyedCallback(hWinEventHook, event, hWnd, idObject, idChild, idThread, 
     If (hWnd = winID) {
         isUpdating := 1
         ;MsgBox, % "HWND: " hWnd "`nwinID: " winID "`nidObject: " idObject "`nwinPID: " winPID
-        Switch_CurrentLayout(0)
+        NoGame()
         UnhookAllEvents()
         SetTimer, timerUpdateReset, 500
     }

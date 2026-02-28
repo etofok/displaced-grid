@@ -9,6 +9,10 @@ ReadSettingsFromIni() {
     global SettingsIniFile
 
     ; --- [General] ---
+    IniRead, winName, %SettingsIniFile%, Paths, winName
+    IniRead, winClass, %SettingsIniFile%, Paths, winClass
+    ; MsgBox, % "winName: " winName "`nwinClass: " winClass
+
     IniRead, currentLayout, %SettingsIniFile%, General, currentLayout
     IniRead, ActivateHotkeysOnLaunch, %SettingsIniFile%, General, ActivateHotkeysOnLaunch
     IniRead, EnableHotkeyOverlay, %SettingsIniFile%, General, EnableHotkeyOverlay
@@ -429,7 +433,7 @@ SettingsGUI() {
     Gui, gui_Settings: Tab, 6
     Gui, gui_Settings: Add, Text, x40 y80, Disclamer
 
-    Gui, gui_Settings: Add, Text, x40 y130 w370 Wrap, DisplacedGrid is a free, open-source application created purely for entertainment within the Warcraft III community. It serves as a technical demonstration to explore and highlight innovative user experience (UX) design possibilities for game interaction. `n`nNeither DisplacedGrid nor its developer, etofok, are affiliated with, endorsed by, or sponsored by Activision Blizzard, Inc. `n`nThis application is provided strictly "as is," without any warranties, express or implied. We make no guarantees regarding its performance, compatibility, or freedom from bugs. By using DisplacedGrid, you acknowledge and agree that the developer shall not be held liable for any direct, indirect, incidental, special, or consequential damages arising from its use or inability to use the application.
+    Gui, gui_Settings: Add, Text, x40 y130 w370 Wrap, Disclaimer: Displaced Grid is a free, open-source application created for entertainment purposes. Displaced Grid is a collection of proof-of-concept prototypes and tech-demos aimed to showcase potentially improved user experience (UX). Displaced Grid is not affiliated with, endorsed by, or sponsored by any company or brand. All relevant trademarks belong to their respective owners. This application is provided strictly "as is", without any warranties, express or implied. We make no guarantees regarding its performance, compatibility, or freedom from bugs. By using Displaced Grid, you acknowledge and agree that the developer shall not be held liable for any direct, indirect, incidental, special, or consequential damages arising from its use or inability to use the application.
 
     ; --------------------
     ; button
@@ -723,10 +727,6 @@ Button_Donate_DonationAlerts() {
     Run, https://www.donationalerts.com/r/etofok
 }
 
-Button_Donate_CloudTips() {
-    Run, https://pay.cloudtips.ru/p/bcb15a55
-}
-
 Button_Donate() {
 
     Gui, gui_Donate:Destroy
@@ -737,11 +737,10 @@ Button_Donate() {
     Gui, gui_Donate: +AlwaysOnTop +ToolWindow
     Gui, gui_Donate: Margin, 40, 40
 
-    Gui, gui_Donate: Add, Button, x90 y30 w270 h40 gButton_Donate_DonationAlerts, DonationAlerts
-    Gui, gui_Donate: Add, Picture, x125 y70 w200 h200, %A_ScriptDir%\modules\icons\QR-DonationAlerts-etofok.png
+    Gui, gui_Donate: Add, Button, x90 y130 w270 h40 gButton_Donate_DonationAlerts, DonationAlerts
+    Gui, gui_Donate: Add, Picture, x125 y170 w200 h200, %A_ScriptDir%\modules\icons\QR-DonationAlerts-etofok.png
 
-    Gui, gui_Donate: Add, Button, x90 y280 w270 h40 gButton_Donate_CloudTips, CloudTips (Ru)
-    Gui, gui_Donate: Add, Picture, x125 y320 w200 h200, %A_ScriptDir%\modules\icons\QR-CloudTips-etofok.png
+    Gui, gui_Donate: Add, Text, x30 y380, You will be redirected to https://www.donationalerts.com/r/etofok
 
     Gui, gui_Donate: Show, w450 h580, Displaced Grid %DisplacedGridVersion% by etofok
 }
@@ -755,7 +754,7 @@ Button_Discord() {
 }
 
 Button_Website() {
-    Run, https://etofok.github.io/Displaced-Grid-for-Warcraft-III/web/index.html
+    Run, https://etofok.github.io/displaced-grid
 }
 
 Button_EnableQuickcast() {
